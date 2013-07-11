@@ -239,7 +239,7 @@ YUI.add('littleware-littleUtil', function(Y) {
                 testLoadHandlebar: function() {
                     var test = this;
                     
-                    var promise = loadHandlebar( littleware.littleYUI.CONTEXT_ROOT + "/resources/templates/testcase.handlebars" );
+                    var promise = loadHandlebar( littleware.littleYUI.config.CONTEXT_ROOT + "/resources/templates/testcase.handlebars" );
                     promise.then( function( template ) {
                             var node = Y.Node.create( template( {name:"Reuben"} ) );
                             test.resume( function() {
@@ -279,5 +279,5 @@ YUI.add('littleware-littleUtil', function(Y) {
         };
     })();
 }, '0.1.1' /* module version */, {
-    requires: [ "array-extras", "handlebars", "io-base", "node", "promise", "querystring-stringify-simple", 'test' ]
+    requires: [ "array-extras", "handlebars", "io", "node", "promise", "querystring-stringify-simple", 'test' ]
 });

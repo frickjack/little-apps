@@ -42,7 +42,7 @@ littleware.littleYUI = (function() {
             modules:  { // one or more external modules that can be loaded along side of YUI
                 'littleware-littleUtil': {
                     path: "littleUtil.js",
-                    requires: [ "array-extras" ]
+                    requires: [ "array-extras", "handlebars", "io", "node", "promise", "querystring-stringify-simple", 'test' ]
                 },
                 'littleware-littleId': {
                     path: "littleId.js",

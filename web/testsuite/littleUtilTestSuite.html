@@ -58,13 +58,6 @@
 
         <script>
     
-            if ( typeof( window.callPhantom ) != 'undefined' ) {
-                console.log( "Phantomjs detected!" );
-            }
-            // global test runner for phantomjs to latch onto
-            TestRunner = null;
-            
-            if( false ) {
             //
             // Create a YUI sandbox on your page.
             // Loadup syncrhonously to play nice with phantomjs headless testing
@@ -78,11 +71,17 @@
                     var log = new util.Logger( "littleUtilTestSuite.html" );
                     var suite = util.buildTestSuite();
                     
-                    TestRunner = Y.Test.Runner;
                     Y.Test.Runner.add( suite );
+                    
+                    if ( typeof( window.callPhantom ) != 'undefined' ) {
+                        // phantomjs environment!
+                        console.log( "Phantomjs detected!" );
+                        Y.Test.Runner.subscribe( Y.Test.Runner.COMPLETE_EVENT, window.callPhantom );
+                    }
+
                     Y.Test.Runner.run();          
             });
-            }
+
         </script>
 
     </body>
