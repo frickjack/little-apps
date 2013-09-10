@@ -5,7 +5,10 @@
 *jpg
 *db
 *suo
-*/resources/img
+*png
+*gif
+*ico
+web/resources/img/glyphicons/
 build/
 dist/
 nbproject/private
