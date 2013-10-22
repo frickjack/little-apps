@@ -52,6 +52,10 @@ littleware.littleYUI = (function() {
                     path: "asset/testSuite.js",
                     requires: [ "littleware-asset-manager", "test" ]
                 },
+                'littleware-auth-authService': {
+                    path: "auth/authService.js",
+                    requires: [ "io", "promise", "littleware-littleUtil", "test" ]
+                },
                 'littleware-littleUtil': {
                     path: "littleUtil.js",
                     requires: [ "array-extras", "handlebars", "io", "node", "promise", "querystring-stringify-simple", 'test' ]
