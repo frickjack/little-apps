@@ -56,13 +56,13 @@ littleware.littleYUI = (function() {
                     path: "auth/authService.js",
                     requires: [ "io", "promise", "littleware-littleUtil", "test" ]
                 },
+                'littleware-littleId': {
+                    path: "auth/littleId.js",
+                    requires: ['anim', 'base', 'littleware-littleUtil', 'node-base', 'node']
+                },
                 'littleware-littleUtil': {
                     path: "littleUtil.js",
                     requires: [ "array-extras", "handlebars", "io", "node", "promise", "querystring-stringify-simple", 'test' ]
-                },
-                'littleware-littleId': {
-                    path: "littleId.js",
-                    requires: ['anim', 'base', 'node-base', 'node']
                 },
                 'littleware-littleTree': {
                     path: "littleTree.js",
