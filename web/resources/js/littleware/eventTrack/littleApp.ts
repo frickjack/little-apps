@@ -453,8 +453,10 @@ export module littleware.eventTrack.littleApp {
                         // TODO - load template from somewhere
                         var index = mgr.routeIndex;
                         index.sort();
-                        var content = "<ul class='little-menu pure-menu pure-menu-open'>\n";
+                        var content = "<ul class='little-menu pure-menu pure-menu-open'>\n",
+                            label = "";
                         for (var i = 0; i < index.length; ++i) {
+                            var label = index[i].replace(/^\/+/, "");
                             content += "<li><a class='little-route' href='" + index[i] + "'>" + index[i] + "</a></li>";
                         }
                         content += "</ul>";
