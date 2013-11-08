@@ -457,7 +457,7 @@ export module littleware.eventTrack.littleApp {
                             label = "";
                         for (var i = 0; i < index.length; ++i) {
                             var label = index[i].replace(/^\/+/, "");
-                            content += "<li><a class='little-route' href='" + index[i] + "'>" + index[i] + "</a></li>";
+                            content += "<li><a class='little-route' href='" + index[i] + "'>" + label + "</a></li>";
                         }
                         content += "</ul>";
                         log.log("Rendering index view: " + content);
