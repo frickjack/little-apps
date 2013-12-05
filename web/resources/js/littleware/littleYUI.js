@@ -48,9 +48,13 @@ littleware.littleYUI = (function() {
                     path: "asset/assetMgr.js",
                     requires: ["littleware-asset-base" ]
                 },
+                'littleware-asset-localmgr': {
+                    path: "asset/internal/localAssetMgr.js",
+                    requires: ["littleware-asset-manager"]
+                },
                 'littleware-asset-test': {
                     path: "asset/testSuite.js",
-                    requires: [ "littleware-asset-manager", "test" ]
+                    requires: [ "littleware-asset-localmgr", "test" ]
                 },
                 'littleware-auth-authService': {
                     path: "auth/authService.js",
@@ -104,7 +108,7 @@ littleware.littleYUI = (function() {
                 },
                 "littleware-eventTrack-toDoAPI": {
                     path: "eventTrack/toDoAPI.js",
-                    requires: ['littleware-asset-manager', 'littleware-littleUtil', 'test'
+                    requires: ['littleware-asset-localmgr', 'littleware-littleUtil', 'test'
                     ]
                 },
                 "littleware-eventTrack-toDoView": {
