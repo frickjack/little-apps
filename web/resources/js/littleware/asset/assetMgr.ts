@@ -219,6 +219,7 @@ export module littleware.asset.manager {
          * @return {Y.Promise[AssetRef]}
          */
         saveAsset(value: ax.Asset, updateComment: string): Y.Promise<AssetRef>;
+
         /**
          * @method deleteAsset
          * @return {Y.Promise[void]}
@@ -242,6 +243,21 @@ export module littleware.asset.manager {
          * @return {Y.Promise{AssetRef}}
          */
         loadChild(parentId: string, name: string): Y.Promise<AssetRef>;
+
+        /**
+         * List the children if any under the given parent node
+         * @method listChildren
+         * @param parentId {string}
+         * @return {Y.Promise{NameIdListRef}}
+         */
+        listChildren(parentId: string): Y.Promise<NameIdListRef>;
+
+        /**
+         * List the root (littleware.HOME-TYPE) nodes - shortcut for listChildren(null)
+         * @method listRoots
+         * @return {Y.Promise{NameIdListRef}}
+         */
+        listRoots(): Y.Promise<NameIdListRef>;
 
         /**
          * Load the asset at the given path if any - same as loadSubpath( null, path )
@@ -271,21 +287,6 @@ export module littleware.asset.manager {
          */
         buildBranch(rootId: string, branch: { name: string; builder: (parent: ax.Asset) => ax.AssetBuilder; }[]): Y.Promise<AssetRef[]>;
 
-
-        /**
-         * List the children if any under the given parent node
-         * @method listChildren
-         * @param parentId {string}
-         * @return {Y.Promise{NameIdListRef}}
-         */
-        listChildren(parentId: string): Y.Promise<NameIdListRef>;
-
-        /**
-         * List the root (littleware.HOME-TYPE) nodes - shortcut for listChildren(null)
-         * @method listRoots
-         * @return {Y.Promise{NameIdListRef}}
-         */
-        listRoots(): Y.Promise<NameIdListRef>;
     }
 
     /**

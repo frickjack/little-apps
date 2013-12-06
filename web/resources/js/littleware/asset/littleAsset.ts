@@ -251,8 +251,13 @@ export module littleware.asset {
      * @class IdFactories
      */
     export class IdFactories {
+        private static counter: number = 0;
+
         private static _idFactory: IdFactory = {
-            get: function () { return "" + (new Date()).getTime() + "-" + Math.floor( 100 * Math.random() ); }
+            get: function () {
+                IdFactories.counter += 1;
+                return "" + (new Date()).getTime() + "-" + Math.floor(100 * Math.random()) + "-" + IdFactories.counter;
+            }
         };
 
         /**

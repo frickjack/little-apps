@@ -40,15 +40,16 @@ export module littleware.asset.internal.localMgr {
     }
 
 
+
     /**
-     * Internal manager implementation extends AssetManager
+     * Internal interface extends AssetManager 
      * with a getFromCache() method for accessing AssetRefs that
      * have already been loaded into memory by the app for triggering
      * update events on listeners and that kind of thing.
      *
-     * @class InternalManager
+     * @class EventHelper
      */
-    export interface InternalManager extends axMgr.AssetManager {
+    export interface EventHelper {
         /**
          * For accessing AssetRefs that
          * have already been loaded into memory by the app for triggering
@@ -75,7 +76,7 @@ export module littleware.asset.internal.localMgr {
     export class InternalAssetRef implements axMgr.AssetRef {
         refCount = 1;
 
-        constructor(private asset: ax.Asset, private mgr: InternalManager) {
+        constructor(private asset: ax.Asset, private mgr: EventHelper) {
             if (null != asset) {
                 Y.assert(mgr && true, "Must provide manager reference for non-empty reference");
             }
@@ -159,11 +160,37 @@ export module littleware.asset.internal.localMgr {
     //-----------------------------------
 
     /**
-     * InternalManager implementation that stores its repository in the 
+     * Core AssetManager CRUD methods -
+     * the other methods build on these.
+     * SimpleManager delegates to a ManagerCore implementation.
+     * @class ManagerCore
+     */
+    export interface ManagerCore extends EventHelper {
+        addListener(listener: (ev: axMgr.RefEvent) => void): Y.EventHandle;
+
+        saveAsset(value: ax.Asset, updateComment: string): Y.Promise<axMgr.AssetRef>;
+        
+        deleteAsset(id: string, deleteComment: string): Y.Promise<void>;
+
+        loadAsset(id: string): Y.Promise<axMgr.AssetRef>;
+
+        loadChild(parentId: string, name: string): Y.Promise<axMgr.AssetRef>;
+
+        listChildren(parentId: string): Y.Promise<axMgr.NameIdListRef>;
+
+        listRoots(): Y.Promise<axMgr.NameIdListRef>;
+
+    }
+
+    //----------------------------------
+
+
+    /**
+     * Manager implementation that stores its repository in the 
      * HTML5 local cache.  Note - 5MB storage limit in most browsers.
      * @class LocalCacheManager
      */
-    class LocalCacheManager implements InternalManager {
+    class LocalCacheManager implements ManagerCore {
         //
         // TODO - eventually will need to eject old data from in-memory cache (check littleUtil.Cache),
         //  but just keep everything in memory for now - just building little toy apps
@@ -180,14 +207,14 @@ export module littleware.asset.internal.localMgr {
         // alias for localStorage - see constructor
         private storage = {
             getItem: function (key: string): string { return null; },
-            setItem: function ( key:string, value:string ):void { },
-            removeItem: function ( key:string ):void { }
+            setItem: function (key: string, value: string): void { },
+            removeItem: function (key: string): void { }
         };
 
         constructor() {
-            if ( typeof (localStorage) != 'undefined' ) {
+            if (typeof (localStorage) != 'undefined') {
                 this.storage = localStorage;
-                var tsEntry = this.storage.getItem( LocalCacheManager.confPrefix + "timestamp");
+                var tsEntry = this.storage.getItem(LocalCacheManager.confPrefix + "timestamp");
                 if (tsEntry) {
                     this.timestamp = parseInt(tsEntry);
                 }
@@ -203,7 +230,7 @@ export module littleware.asset.internal.localMgr {
             this.target.fire("assetRefEvent", <any> ev);
         }
 
-        addListener(listener: (ev: axMgr.RefEvent) => void ): Y.EventHandle {
+        addListener(listener: (ev: axMgr.RefEvent) => void): Y.EventHandle {
             return this.target.on("assetRefEvent", listener);
         }
 
@@ -248,91 +275,91 @@ export module littleware.asset.internal.localMgr {
             }
             var js = JSON.stringify(data);
             //log.log("Saving child info for " + parentId + ": " + js);
-            this.storage.setItem(LocalCacheManager.childPrefix + parentId, js );
+            this.storage.setItem(LocalCacheManager.childPrefix + parentId, js);
         }
 
-        
+
 
         saveAsset(value: ax.Asset, updateComment: string): Y.Promise<axMgr.AssetRef> {
-            return this.loadAsset(value.getId()).then((ref:InternalAssetRef) => {
-               this.timestamp++;
-               if (value.getTimestamp() > this.timestamp) {
+            return this.loadAsset(value.getId()).then((ref: InternalAssetRef) => {
+                this.timestamp++;
+                if (value.getTimestamp() > this.timestamp) {
                     this.timestamp = value.getTimestamp() + 1;
-               }
+                }
 
-               var copy = value.copy().withTimestamp(this.timestamp).withDateUpdated(new Date()).build();
+                var copy = value.copy().withTimestamp(this.timestamp).withDateUpdated(new Date()).build();
 
-               var oldParentId = null;
-               var oldName = null;
-               var newParentId = copy.getFromId();
+                var oldParentId = null;
+                var oldName = null;
+                var newParentId = copy.getFromId();
 
-               if (!ref.isEmpty()) {
-                   //log.log("save found old data for " + copy.getName() + ": " + JSON.stringify( ref.getAsset() ) );
-                   oldParentId = ref.getAsset().getFromId();
-                   oldName = ref.getAsset().getName();
-               }
-               if (copy.getAssetType().id === ax.HomeAsset.HOME_TYPE.id) {
-                   newParentId = "homeRoot";
-               } else if (newParentId == null) {
-                   throw new Error("Must specify asset's fromId unless it's a HOME-type asset");
-               } // TODO - verify an asset has a clean path to a root (is not a child of a descendent - ugh)
+                if (!ref.isEmpty()) {
+                    //log.log("save found old data for " + copy.getName() + ": " + JSON.stringify( ref.getAsset() ) );
+                    oldParentId = ref.getAsset().getFromId();
+                    oldName = ref.getAsset().getName();
+                }
+                if (copy.getAssetType().id === ax.HomeAsset.HOME_TYPE.id) {
+                    newParentId = "homeRoot";
+                } else if (newParentId == null) {
+                    throw new Error("Must specify asset's fromId unless it's a HOME-type asset");
+                } // TODO - verify an asset has a clean path to a root (is not a child of a descendent - ugh)
 
-               log.log("Saving asset " +copy.getName() + " (" + copy.getId() + ") under " + newParentId + ", old parent: " +oldParentId);
+                log.log("Saving asset " + copy.getName() + " (" + copy.getId() + ") under " + newParentId + ", old parent: " + oldParentId);
                 //
                 // update the child-lists on the old and new parent
                 //
                 if ((newParentId !== oldParentId) || (copy.getName() !== oldName))  // update children info
-               {
-                   // verify that the parent exist
-                   if (copy.getAssetType().id !== ax.HomeAsset.HOME_TYPE.id) {
-                       var parentRef = this._loadAsset(newParentId);
-                       Y.assert(parentRef.isDefined(), "Cannot save asset under parent that does not exist" );
-                   }
-                    
-                   // now verify that the new name or parent doesn't have a name collision with its children
-                   var newParentChildren: axMgr.NameIdPair[] = this._listChildren(newParentId).copy();
-                   log.log("new asset's siblings: " + Y.Array.map(newParentChildren, function (it: axMgr.NameIdPair) { return it.getName(); }).join(","));
-                   newParentChildren = Y.Array.reject(newParentChildren, function (item: axMgr.NameIdPair) { return item.getId() === copy.getId(); });
-                   var twin: axMgr.NameIdPair = Y.Array.find(newParentChildren, function (it: axMgr.NameIdPair) { return it.getName() === copy.getName(); });
-                   if (twin) {
-                       throw new Error("Asset already exists under new parent with name: " + copy.getName());
-                   }
-                   newParentChildren.push(new axMgr.NameIdPair(copy.getName(), copy.getId()));
-                   this._saveChildren( newParentId, newParentChildren );
+                {
+                    // verify that the parent exist
+                    if (copy.getAssetType().id !== ax.HomeAsset.HOME_TYPE.id) {
+                        var parentRef = this._loadAsset(newParentId);
+                        Y.assert(parentRef.isDefined(), "Cannot save asset under parent that does not exist");
+                    }
 
-                   // update old parent if any
-                   if (oldParentId && (oldParentId !== newParentId) ) {  
-                       var oldParentChildren: axMgr.NameIdPair[] = this._listChildren( oldParentId ).copy();
-                       if (oldParentChildren.length > 0) {
-                           oldParentChildren = Y.Array.reject(oldParentChildren, function (item:axMgr.NameIdPair) { return item.getId() == copy.getId(); });
-                           this._saveChildren( oldParentId, oldParentChildren );
-                       }
-                   }
+                    // now verify that the new name or parent doesn't have a name collision with its children
+                    var newParentChildren: axMgr.NameIdPair[] = this._listChildren(newParentId).copy();
+                    log.log("new asset's siblings: " + Y.Array.map(newParentChildren, function (it: axMgr.NameIdPair) { return it.getName(); }).join(","));
+                    newParentChildren = Y.Array.reject(newParentChildren, function (item: axMgr.NameIdPair) { return item.getId() === copy.getId(); });
+                    var twin: axMgr.NameIdPair = Y.Array.find(newParentChildren, function (it: axMgr.NameIdPair) { return it.getName() === copy.getName(); });
+                    if (twin) {
+                        throw new Error("Asset already exists under new parent with name: " + copy.getName());
+                    }
+                    newParentChildren.push(new axMgr.NameIdPair(copy.getName(), copy.getId()));
+                    this._saveChildren(newParentId, newParentChildren);
 
-               }
+                    // update old parent if any
+                    if (oldParentId && (oldParentId !== newParentId)) {
+                        var oldParentChildren: axMgr.NameIdPair[] = this._listChildren(oldParentId).copy();
+                        if (oldParentChildren.length > 0) {
+                            oldParentChildren = Y.Array.reject(oldParentChildren, function (item: axMgr.NameIdPair) { return item.getId() == copy.getId(); });
+                            this._saveChildren(oldParentId, oldParentChildren);
+                        }
+                    }
+
+                }
 
                 // if we made it this far, then the asset passed whatever validation we have
-               this.storage.setItem(LocalCacheManager.nodePrefix + copy.getId(), JSON.stringify(copy));
-               this.storage.setItem(LocalCacheManager.confPrefix + "timestamp", "" + this.timestamp);
+                this.storage.setItem(LocalCacheManager.nodePrefix + copy.getId(), JSON.stringify(copy));
+                this.storage.setItem(LocalCacheManager.confPrefix + "timestamp", "" + this.timestamp);
 
                 // finally - update the in-memory cache and reference
-               if ( ref.isEmpty()) {
-                   ref = new InternalAssetRef(null, this);
-                   this.cache[copy.getId()] = ref;
-               }
-               ref.updateAsset(copy);
-               return ref;
+                if (ref.isEmpty()) {
+                    ref = new InternalAssetRef(null, this);
+                    this.cache[copy.getId()] = ref;
+                }
+                ref.updateAsset(copy);
+                return ref;
             });
         }
 
-    
+
         listChildren(parentId: string): Y.Promise<axMgr.NameIdListRef> {
             var children: axMgr.NameIdListRef = this._listChildren(parentId);
-           return Y.when( children );
+            return Y.when(children);
         }
 
         listRoots(): Y.Promise<axMgr.NameIdListRef> {
-            return this.listChildren( null );
+            return this.listChildren(null);
         }
 
         _loadAsset(id: string): axMgr.AssetRef {
@@ -365,105 +392,14 @@ export module littleware.asset.internal.localMgr {
                         return it.getName() === name;
                     });
                     if (childInfo) {
-                        return this.loadAsset(childInfo.getId() );
+                        return this.loadAsset(childInfo.getId());
                     } else {
                         return Y.when(EmptyRef);
                     }
                 }
-            );
-        }
-
-        /*
-         * Internal helper - traverse path recursively
-         */
-        private _loadPath(parentId: string, partsLeft: string[]): Y.Promise<axMgr.AssetRef> {
-            var name = partsLeft.shift();
-            //log.log("_loadPath loading " + parentId + " child " + name);
-            var childPromise = this.loadChild(parentId, name);
-            if (partsLeft.length > 0) {
-                return childPromise.then(
-                    (ref: axMgr.AssetRef) => {
-                        if (ref.isEmpty() ) {
-                            //log.log("_loadPath EMPTY result for " + parentId + " child " + name + ", partsLeft: " + partsLeft.length );
-                            return Y.when(ref);
-                        } else {
-                            //log.log("_loadPath got result for " + parentId + " child " + name + ", partsLeft: " + partsLeft.length);
-                            return this._loadPath(ref.getAsset().getId(), partsLeft);
-                        }
-                    }
                 );
-            } else {
-                return childPromise;
-            }
         }
 
-        loadSubpath(rootId: string, path: string): Y.Promise<axMgr.AssetRef> {
-            var parts = Y.Array.filter(path.split(/\/+/), (it) => { return it && true; });
-            if (parts.length < 1) {
-                return new Y.Promise<axMgr.AssetRef>((resolve, reject) => {
-                    reject(new Error("failed to parse path: " + path));
-                });
-            }
-            if (parts.length > 0) {
-                return this._loadPath(rootId, parts);
-            } else {
-                return this.loadAsset(rootId);
-            }
-        }
-
-        loadPath(path: string): Y.Promise<axMgr.AssetRef> {
-            return this.loadSubpath(null, path);
-        }
-
-
-        buildBranch( rootId: string,
-                     branch: { name: string; builder: (parent:ax.Asset) => ax.AssetBuilder; }[]
-            ): Y.Promise<axMgr.AssetRef[]> {
-            log.log("buildBranch: " + Y.Array.map(branch, function (it) { return it.name; } ).join( "/" ) );
-            console.dir(branch);
-            Y.assert((rootId) || (branch.length > 0), "nothing to do with empty rootid and empty branch");
-            if (branch.length == 0) {
-                return this.loadAsset(rootId);
-            }
-            var childInfo = branch.shift();
-            return this.loadChild(rootId, childInfo.name).then(
-                // create child if necessary
-                (ref: axMgr.AssetRef) => {
-                    if ( ref.isEmpty() ) {
-                        // create child if it doesn't already exist
-                        var parent: ax.Asset = null;
-                        if (rootId) {
-                            var parentRef: axMgr.AssetRef = this._loadAsset(rootId);
-                            Y.assert(parentRef.isDefined(), "buildBranch root must exist");
-                            parent = parentRef.getAsset();
-                        }
-                        return this.saveAsset(childInfo.builder(parent).withFromId(rootId).withName( childInfo.name).build(), "build test branch" );
-                    } else {
-                        return Y.when(ref);
-                    }
-                }
-            ).then( 
-                // child exists (or not) ... move on to next generation
-            (ref: axMgr.AssetRef) => {
-                    if (ref.isDefined) {
-                        if (branch.length == 0) {
-                            return Y.when( [ref] );
-                        } else {
-                            return this.buildBranch(ref.getAsset().getId(), branch).then(
-                                (refs: axMgr.AssetRef[]) => {
-                                    refs.unshift(ref);
-                                    return refs;
-                                }
-                            );
-                        }
-                    } else {
-                        return Y.when([ref]);
-                    }
-                }
-
-            );
-
-        }
 
         getFromCache(id: string): axMgr.AssetRef {
             var ref = this.cache[id];
@@ -473,7 +409,7 @@ export module littleware.asset.internal.localMgr {
         deleteAsset(id: string, deleteComment: string): Y.Promise<void> {
             return Y.Promise.batch(
                 this.loadAsset(id), this.listChildren(id)
-             ).then(
+                ).then(
                 (dataVec) => {
                     var ref: axMgr.AssetRef = dataVec[0];
                     var childList: axMgr.NameIdPair[] = dataVec[1];
@@ -496,17 +432,168 @@ export module littleware.asset.internal.localMgr {
                         parentId = "homeRoot";
                     }
                     var siblings = this._listChildren(parentId).copy();
-                    siblings = Y.Array.reject(siblings, (it:axMgr.NameIdPair) => {
+                    siblings = Y.Array.reject(siblings, (it: axMgr.NameIdPair) => {
                         return it.getId() === asset.getId();
                     });
                     this._saveChildren(parentId, siblings);
                 }
-            )
+                )
         }
+
 
     }
 
-    var localMgr = new LocalCacheManager();
+        //---------------------
+
+
+    /**
+     * AssetManager implementation delegates most methods to an injected ManagerCore
+     * @class SimpleManager
+     */
+    class SimpleManager implements axMgr.AssetManager {
+
+        constructor(private core: ManagerCore) { }
+
+        saveAsset(value: ax.Asset, updateComment: string): Y.Promise<axMgr.AssetRef> {
+            return this.core.saveAsset(value, updateComment);
+        }
+
+        deleteAsset(id: string, deleteComment: string): Y.Promise<void> {
+            return this.core.deleteAsset(id, deleteComment);
+        }
+
+        loadAsset(id: string): Y.Promise<axMgr.AssetRef> {
+            return this.core.loadAsset(id);
+        }
+
+        loadChild(parentId: string, name: string): Y.Promise<axMgr.AssetRef> {
+            return this.core.loadChild(parentId, name);
+        }
+
+        listChildren(parentId: string): Y.Promise<axMgr.NameIdListRef> {
+            return this.core.listChildren(parentId);
+        }
+
+        listRoots(): Y.Promise<axMgr.NameIdListRef> {
+            return this.core.listRoots();
+        }
+
+        getFromCache(id: string): axMgr.AssetRef {
+            return this.core.getFromCache(id);
+        }
+
+        fire(ev: axMgr.RefEvent): void {
+            return this.core.fire(ev);
+        }
+
+        addListener( listener: (ev: axMgr.RefEvent) => void ): Y.EventHandle {
+            return this.core.addListener( listener );
+        }
+
+        /*
+         * Internal helper - traverse path recursively
+         */
+        private _loadPath(parentId: string, partsLeft: string[]): Y.Promise<axMgr.AssetRef> {
+            var name = partsLeft.shift();
+            //log.log("_loadPath loading " + parentId + " child " + name);
+            var childPromise = this.core.loadChild(parentId, name);
+            if (partsLeft.length > 0) {
+                return childPromise.then(
+                    (ref: axMgr.AssetRef) => {
+                        if (ref.isEmpty()) {
+                            //log.log("_loadPath EMPTY result for " + parentId + " child " + name + ", partsLeft: " + partsLeft.length );
+                            return Y.when(ref);
+                        } else {
+                            //log.log("_loadPath got result for " + parentId + " child " + name + ", partsLeft: " + partsLeft.length);
+                            return this._loadPath(ref.getAsset().getId(), partsLeft);
+                        }
+                    }
+                    );
+            } else {
+                return childPromise;
+            }
+        }
+
+
+        loadSubpath(rootId: string, path: string): Y.Promise<axMgr.AssetRef> {
+            var parts = Y.Array.filter(path.split(/\/+/), (it) => { return it && true; });
+            if (parts.length < 1) {
+                return new Y.Promise<axMgr.AssetRef>((resolve, reject) => {
+                    reject(new Error("failed to parse path: " + path));
+                });
+            }
+            if (parts.length > 0) {
+                return this._loadPath(rootId, parts);
+            } else {
+                return this.core.loadAsset(rootId);
+            }
+        }
+
+        loadPath(path: string): Y.Promise<axMgr.AssetRef> {
+            return this.loadSubpath(null, path);
+        }
+
+
+        buildBranch( rootId: string,
+                     branch: { name: string; builder: (parent:ax.Asset) => ax.AssetBuilder; }[]
+            ): Y.Promise<axMgr.AssetRef[]> {
+            log.log("buildBranch: " + Y.Array.map(branch, function (it) { return it.name; } ).join( "/" ) );
+            console.dir(branch);
+            Y.assert((rootId) || (branch.length > 0), "nothing to do with empty rootid and empty branch");
+            if (branch.length == 0) {
+                return this.core.loadAsset(rootId);
+            }
+            var childInfo = branch.shift();
+            return this.core.loadChild(rootId, childInfo.name).then(
+                // create child if necessary
+                (ref: axMgr.AssetRef) => {
+                    if ( ref.isEmpty() ) {
+                        // create child if it doesn't already exist
+                        var parentPromise: Y.Promise<ax.Asset> = Y.when(null);
+                        if (rootId) {
+                            parentPromise = this.loadAsset(rootId).then(
+                                (parentRef:axMgr.AssetRef) => {
+                                    Y.assert(parentRef.isDefined(), "buildBranch root must exist");
+                                    return parentRef.getAsset();
+                                }
+                             );
+                        }
+                        return parentPromise.then(
+                            (parent) => {
+                                return this.core.saveAsset(
+                                    childInfo.builder(parent).withFromId(rootId).withName(childInfo.name).build(),
+                                    "build test branch"
+                                    );
+                            }
+                         );
+                    } else {
+                        return Y.when(ref);
+                    }
+                }
+            ).then( 
+                // child exists (or not) ... move on to next generation
+                (ref: axMgr.AssetRef) => {
+                        if (ref.isDefined) {
+                            if (branch.length == 0) {
+                                return Y.when( [ref] );
+                            } else {
+                                return this.buildBranch(ref.getAsset().getId(), branch).then(
+                                    (refs: axMgr.AssetRef[]) => {
+                                        refs.unshift(ref);
+                                        return refs;
+                                    }
+                                );
+                            }
+                        } else {
+                            return Y.when([ref]);
+                        }
+                    }
+            );
+
+        }
+    }
+
+    var localMgr: axMgr.AssetManager = new SimpleManager(new LocalCacheManager());
 
 
 
