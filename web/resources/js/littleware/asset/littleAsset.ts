@@ -59,13 +59,24 @@ export module littleware.asset {
         }
 
         /**
-         * Lookup an asset type by id
+         * Lookup an asset type by id - auto-register new type if not found in index
          * @member lookup
          * @static
+         * @param id {string} UUID associated with type
+         * @param optName {string} name to associate with auto-register if
+         *             type not already registered
          * @return {AssetType} undefined if none present
          */
-        static lookup(id: string): AssetType {
-            return _typeIndex[id];
+        static lookup(id: string, optName?:string ): AssetType {
+            var cleanId = id.replace(/\W+/g, "").toUpperCase();
+            var lookup = _typeIndex[cleanId];
+            if (lookup) {
+                return lookup;
+            }
+            var name = optName ? optName : "unknown-" + cleanId;
+            lookup = new AssetType(cleanId, -1, name );
+            AssetType.register(lookup);
+            return lookup;
         }
 
         /**
@@ -121,6 +132,7 @@ export module littleware.asset {
         private dateUpdated: Date;
         private startDate: Date;
         private endDate: Date;
+        private homeId: string;
         private fromId: string;
         private toId: string;
         private aclId: string;
@@ -147,6 +159,7 @@ export module littleware.asset {
             this.dateUpdated = builder.dateUpdated;
             this.startDate = builder.startDate;
             this.endDate = builder.endDate;
+            this.homeId = builder.homeId;
             this.fromId = builder.fromId;
             this.toId = builder.toId;
             this.aclId = builder.aclId;
@@ -194,6 +207,7 @@ export module littleware.asset {
         getDateUpdated(): Date { return this.dateUpdated; }
         getStartDate(): Date { return this.startDate; }
         getEndDate(): Date { return this.endDate; }
+        getHomeId(): string { return this.homeId; }
         getFromId(): string { return this.fromId; }
         getToId(): string { return this.toId; }
         getAclId(): string { return this.aclId; }
@@ -282,6 +296,21 @@ export module littleware.asset {
          * @method getAssetType
          */
         getAssetType(): AssetType { return this.assetType; }
+
+        /**
+         * Id of the "home" asset that roots the tree this asset is under.
+         * Must be non-null for all non-home assets.
+         * @property homeId
+         */
+        homeId: string = null;
+        /** 
+         * Chainable homeId setter
+         * @method withHomeId
+         * @chainable
+         */
+        withHomeId(value: string): AssetBuilder {
+            this.homeId = value; return this;
+        }
 
         /**
          * Unique id - default value initialized via IdFactories.get().get()
@@ -375,7 +404,8 @@ export module littleware.asset {
         extractRaw(raw: any): AssetBuilder {
             this.withId( raw.id
                             ).withName( raw.name
-                            ).withTimestamp( typeof( raw.timestamp ) == 'number' ? raw.timestamp : -1
+                            ).withTimestamp(typeof (raw.timestamp) == 'number' ? raw.timestamp : -1
+                            ).withHomeId( this.homeId
                             ).withFromId(raw.fromId
                             ).withToId(raw.toId
                             ).withAclId(raw.aclId

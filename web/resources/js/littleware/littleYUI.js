@@ -54,7 +54,7 @@ littleware.littleYUI = (function() {
                 },
                 'littleware-asset-netmgr': {
                     path: "asset/internal/netAssetMgr.js",
-                    requires: ["littleware-asset-localmgr"]
+                    requires: ["littleware-asset-localmgr", "littleware-auth-authService"]
                 },
                 'littleware-asset-test': {
                     path: "asset/testSuite.js",

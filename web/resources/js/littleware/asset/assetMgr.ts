@@ -300,7 +300,7 @@ export module littleware.asset.manager {
         // slightly goofy implementation to avoid circular import with internal module -
         // might be better to just import the internal module, but whatever
         //
-        return lw.asset.internal.localMgr.getLocalManager();
+        return lw.asset.internal.netMgr.getNetManager();
     }
 
 

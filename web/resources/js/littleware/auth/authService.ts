@@ -87,7 +87,6 @@ export module littleware.auth.authService {
     export interface AuthManager {
         /**
          * Attributes delegate with "sessionInfo" attribute auto-updated by manager
-         *
          * @property attrs
          */
         attrs: Y.Base;
@@ -95,12 +94,20 @@ export module littleware.auth.authService {
         /**
          * Shortcut for attrs.get( "sessionInfo" )
          * @method getSessionInfo
+         * @return {SessionInfo}
          */
         getSessionInfo(): SessionInfo;
 
         /**
+         * Get the HTTP headers to attatch to a littleware XHR request for authentication -
+         * returns empty hash if current session is not authenticated
+         * @method getIOHeaders
+         */
+        getIOHeaders(): { [key: string]: string };
+
+
+        /**
          * Refresh the currently active session from the authentication service.
-         * May return cached credentials if optForceCheck is not set true.
          * @method getCreds
          * @return {Promise{SessionInfo}} promise delivers session info
          */
@@ -124,8 +131,8 @@ export module littleware.auth.authService {
     }
 
     // TODO - inject this at startup/configuration time
-    var authServiceRoot = "https://littleware.herokuapp.com/littleware_services";
-    //var authServiceRoot = "http://localhost:8080/littleware_services/";
+    //var authServiceRoot = "https://littleware.herokuapp.com/littleware_services/dispatch";
+    var authServiceRoot = "http://localhost:8080/littleware_services/dispatch";
 
     /**
      * Get the base url hosting the auth service
@@ -133,6 +140,7 @@ export module littleware.auth.authService {
      * @return {string}
      */
     export function getServiceRoot(): string { return authServiceRoot; }
+
     /**
      * Set the base url hosting the auth service
      * @method setServiceRoot
@@ -192,6 +200,17 @@ export module littleware.auth.authService {
 
         getSessionInfo(): SessionInfo {
             return <SessionInfo> this.attrs.get( "sessionInfo" );
+        }
+
+        getIOHeaders(): { [key: string]: string } {
+            var headers:{ [key: string]: string } = {};
+            var info = this.getSessionInfo();
+
+            if ( info.getCreds() ) {
+                headers = { "little-sessionId": info.getCreds().getToken() };
+            }
+
+            return headers;
         }
 
         refreshSessionInfo(): Y.Promise<SessionInfo> {

@@ -190,7 +190,7 @@ export module littleware.asset.internal.localMgr {
      * HTML5 local cache.  Note - 5MB storage limit in most browsers.
      * @class LocalCacheManager
      */
-    class LocalCacheManager implements ManagerCore {
+    export class LocalCacheManager implements ManagerCore {
         //
         // TODO - eventually will need to eject old data from in-memory cache (check littleUtil.Cache),
         //  but just keep everything in memory for now - just building little toy apps
@@ -450,7 +450,7 @@ export module littleware.asset.internal.localMgr {
      * AssetManager implementation delegates most methods to an injected ManagerCore
      * @class SimpleManager
      */
-    class SimpleManager implements axMgr.AssetManager {
+    export class SimpleManager implements axMgr.AssetManager {
 
         constructor(private core: ManagerCore) { }
 
@@ -594,7 +594,5 @@ export module littleware.asset.internal.localMgr {
     }
 
     var localMgr: axMgr.AssetManager = new SimpleManager(new LocalCacheManager());
-
-
 
 }
