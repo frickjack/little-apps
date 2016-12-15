@@ -1,0 +1,27 @@
+{
+  "name": "littlehtml5",
+  "version": "1.0.0",
+  "description": "littleware web clients",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "typescript": "^2.1.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "typescript": "^2.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frickjack/littleware-html5Client.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frickjack/littleware-html5Client/issues"
+  },
+  "homepage": "https://github.com/frickjack/littleware-html5Client#readme"
+}
