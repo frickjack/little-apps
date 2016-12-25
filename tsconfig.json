@@ -1,0 +1,9 @@
+{
+    "files": [
+        "web/resources/js/littleware/arrivalPie/arrivalPie.ts"
+    ],
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "target": "es5"
+    }
+}
