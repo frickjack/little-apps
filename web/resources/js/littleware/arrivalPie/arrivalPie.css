@@ -1,0 +1,9 @@
+lw-arrival-pie {
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+
+circle.arrpie-circle {
+    fill: magenta;
+}
