@@ -42,7 +42,7 @@ var tsConfig = {
 };
 
 gulp.task( 'compilets', [], function() {
-    return gulp.src( 'web/**/littleware/arrivalPie/*.ts')
+    return gulp.src( ['web/**/littleware/arrivalPie/*.ts', 'web/**/littleware/arrivalPie/**/*.ts'])
         .pipe(ts( tsConfig ))
         .js.pipe(gulp.dest("build/"));
 });

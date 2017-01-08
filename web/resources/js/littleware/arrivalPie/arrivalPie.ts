@@ -1,12 +1,29 @@
-module littleware.arrivalPie {
-
-export interface CustomeElements {
-    define( tagName:string, elementClass:any ):void;
+interface Arrival {
+  startAngle: number;
+  durationDegrees: number;
 }
 
-declare var customElements: CustomeElements;
+export function arrivalListToString( arrivalList:Array<Arrival> ):string {
+  return arrivalList.map(
+    (arr) => { return "" + arr.startAngle + "," + arr.durationDegrees + ";"; }
+  ).reduce(
+    (acc,s) => { return acc + s; }, ""
+  );
+}
 
-customElements.define( "lw-arrival-pie", 
+export function stringToArrivalList( arrivalListStr:string ):Array<Arrival> {
+  let clean = arrivalListStr.replace( /\s+/g, "" );
+  return clean.split( ";" ).map( (part) => {
+    return part.split( "," ).map( (s) => Number(s) );
+  }).filter( (tuple) => { 
+    return tuple.length === 2 && (! isNaN(tuple[0])) && (! isNaN(tuple[1])); 
+  }).map( (tuple) => {
+    return { startAngle: tuple[0], durationDegrees:tuple[1] }; 
+  });
+
+}
+
+window.customElements.define( "lw-arrival-pie", 
         
     /**
      * ArrivalPie custom element
@@ -37,7 +54,8 @@ customElements.define( "lw-arrival-pie",
           this.appendChild( clone );
         }
 
-        onnectedCallback(): void {
+        
+        connectedCallback(): void {
         }
 
         disconnectedCallback(): void {
@@ -57,41 +75,15 @@ customElements.define( "lw-arrival-pie",
         }
 
         
-        // A getter/setter for an open property.
-        get open() {
-          return this.hasAttribute('open');
+        get arrivalList():Array<Arrival> {
+          var result = [];
+          return stringToArrivalList( this.getAttribute( "arrivalList" ) );
         }
 
-        set open(val) {
-          // Reflect the value of the open property as an HTML attribute.
-          if (val) {
-            this.setAttribute('open', '');
-          } else {
-            this.removeAttribute('open');
-          }
-          this.toggleDrawer();
+        set arrivalList( val:Array<Arrival> ) {
+          this.setAttribute( "arrivalList", arrivalListToString( val ) );
         }
 
-        // A getter/setter for a disabled property.
-        get disabled() {
-          return this.hasAttribute('disabled');
-        }
-
-        set disabled(val) {
-          // Reflect the value of the disabled property as an HTML attribute.
-          if (val) {
-            this.setAttribute('disabled', '');
-          } else {
-            this.removeAttribute('disabled');
-          }
-        }
-
-        
-        toggleDrawer() {
-          //...
-        }
+       
     }
 );
-
-
-}
