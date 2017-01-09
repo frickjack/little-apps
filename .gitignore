@@ -8,6 +8,7 @@
 *png
 *gif
 *ico
+*log
 web/resources/img/glyphicons/
 build/
 dist/

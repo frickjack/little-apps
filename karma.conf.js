@@ -15,7 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'build/resources/*.js'
+      'build/resources/js/littleware/arrivalPie/*.js',
+      'build/resources/js/littleware/arrivalPie/**/*Spec.js'
     ],
 
 
