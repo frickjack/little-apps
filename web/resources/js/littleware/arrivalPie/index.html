@@ -6,7 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width" />
 
-<link rel="stylesheet" href="./arrivalPie.css" />
+<link rel="stylesheet" type="text/css" href="/bower_components/jasmine-core/lib/jasmine-core/jasmine.css">
+
+<link rel="stylesheet" href="arrivalPie.css" />
 <style>
     lw-arrival-pie {
       width: 100px;
@@ -28,6 +30,12 @@
 </ul>
 </header>
 
+<section id="README">
+  {% markdown %}
+     {% include "web/resources/js/littleware/arrivalPie/README.md" %}
+  {% endmarkdown %}
+</section>
+
 <section>
 
 <p> Here is the lw-arrival-pie custom element </p>
@@ -42,6 +50,11 @@ Next step - put this thing on the page as a custom element using an html templat
 </ul>
 </section>
 
-<script src="./arrivalPie.js"></script>
+<script src="arrivalPie.js"></script>
+
+<script type="text/javascript" src="/bower_components/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+<script type="text/javascript" src="/bower_components/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+<script type="text/javascript" src="/bower_components/jasmine-core/lib/jasmine-core/boot.js"></script>
+
 </body>
 </html>

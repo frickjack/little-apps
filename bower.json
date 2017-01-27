@@ -1,0 +1,21 @@
+{
+  "name": "littlehtml5",
+  "description": "littleware web clients",
+  "main": "server.js",
+  "authors": [
+    "Reuben Pasquini <reuben@frickjack.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/frickjack/littleware-html5Client",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jasmine-core": "jasmine#^2.5.2"
+  }
+}

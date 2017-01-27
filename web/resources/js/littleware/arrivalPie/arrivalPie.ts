@@ -65,16 +65,53 @@ namespace littleware {
             }
 
             attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
+              if ( attrName === "arrivalList" ) {
+                // for now - just go ahead and re-render - TODO implement undirectional arch with dirty/whatever
+                this._renderPie( newVal );
+              }
             }
 
             adoptedCallback(): void {
 
             }
 
-            addPath(): void {
-              let namespace = this.querySelector( "svg" ).namespaceURI;
-              let path = document.createElementNS( namespace, "path" );
-              // ...
+            /**
+             * Rebuild the path elements under the arrpie-pielist group
+             */
+            private _renderPie( arrivalListSpec:string ) {
+              let g = this.querySelector( "g.arrpie-pielist" );
+              // remove all current paths
+              while( g.hasChildNodes() ) {
+                g.removeChild( g.lastChild );
+              }
+              this.arrivalList.forEach(
+                (arr) => {
+                  g.appendChild( this._buildPath(arr) );
+                }
+              );
+            }
+
+
+            /**
+             * Build the SVGPath that visually represents the given arrival data
+             * 
+             * @param data
+             * @return SVGPathElement 
+             */
+            private _buildPath( data:Arrival ): SVGPathElement {
+              //let namespace = this.querySelector( "svg" ).namespaceURI;
+              //let path = document.createElementNS( namespace, "path" );
+              let path = new SVGPathElement();
+              //<path class="arrpie-pie" style="fill:green; stroke:red;stroke-width:2" d="M50,50 L50,5 A45,45 0 0,1 95,50 z"></path>
+              path.setAttribute( "class", "arrival-pie" );
+              if ( data.durationDegrees > 90 ) {
+                throw new Error( "Obtuse angles not yet supported" );
+              }
+              let x = 45 * Math.cos( data.durationDegrees ) + 50; // r * cos(theta)
+              let y = 45 * Math.sin( data.durationDegrees ) + 50; // r * sin( theta )
+              path.setAttribute( "d", "M50,50 L50,5 A45,45 0 0,1 " + x + "," + y + " z" );
+              path.setAttribute( "transform", "rotate( " + data.startAngle + " 50 50 )" );
+              return path;
             }
 
             

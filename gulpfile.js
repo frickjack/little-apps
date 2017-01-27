@@ -1,7 +1,18 @@
 var gulp = require('gulp');
 var clean = require('gulp-rimraf');
 var ts = require('gulp-typescript');
+var markdown = require('nunjucks-markdown'),
+    marked = require('marked');
+    //gulpnunjucks = require('gulp-nunjucks');
+
+// register markdown support with nunjucks
+var nunjucksManageEnv = function(env) {
+    // The second argument can be any function that renders markdown 
+    markdown.register(env, marked);
+};
+
 var nunjucksRender = require('gulp-nunjucks-render');
+
 //var tsProject = ts.createProject("tsconfig.json");
 //var watch = require( 'gulp-watch' );
 
@@ -16,10 +27,14 @@ gulp.task( 'compilejs', [], function() {
     gulp.src( "web/**/*.js" ).pipe( gulp.dest( "build/" ) );
 });
 
+//
 // Server side templating with nunjucks
+// see https://zellwk.com/blog/nunjucks-with-gulp/
+// Also incorporating markdown support with nunjucks-markdown.
+//
 gulp.task( 'compilenunjucks', [], function() {
     gulp.src( ["web/**/*.html", "!web/blog/gridDemo.html", "!web/eventTrack/events.html" ] )
-    .pipe( nunjucksRender( [ "build/templates" ] ) )
+    .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv } ) ) // path: [ "web/templates" ], 
     .on('error', console.log)
     .pipe( gulp.dest( "build/" ) );
 });
@@ -42,7 +57,7 @@ var tsConfig = {
 };
 
 gulp.task( 'compilets', [], function() {
-    return gulp.src( ['web/**/littleware/arrivalPie/*.ts', 'web/**/littleware/arrivalPie/**/*.ts'])
+    return gulp.src( ['web/**/littleware/arrivalPie/*.ts', 'web/**/littleware/arrivalPie/**/*.ts', 'web/*.ts'])
         .pipe(ts( tsConfig ))
         .js.pipe(gulp.dest("build/"));
 });

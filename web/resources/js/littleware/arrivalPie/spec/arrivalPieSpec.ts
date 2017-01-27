@@ -7,4 +7,9 @@ describe( "the littleware.arrivalPie custom element", function() {
         arrStr = arrivalPie.arrivalListToString( arrList );
         expect( arrStr ).toBe( arrivalPie.arrivalListToString( arrivalPie.stringToArrivalList( arrStr ) ) ); 
     });
+
+    it( "Can build an SVGPath from an Arrival", function(){
+        let arr = { startAngle: 10, durationDegrees: 30 };
+        
+    });
 });

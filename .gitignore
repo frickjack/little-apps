@@ -9,6 +9,7 @@
 *gif
 *ico
 *log
+bower_components/
 web/resources/img/glyphicons/
 build/
 dist/
