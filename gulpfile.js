@@ -50,6 +50,11 @@ gulp.task( 'compilecss', [], function() {
     gulp.src( "web/**/*.css" ).pipe( gulp.dest( "build/" ) );
 });
 
+gulp.task( 'compileimg', [], function() {
+    gulp.src( "web/resources/img/**/*" ).pipe( gulp.dest( "build/resources/img" ) );
+});
+
+
 var tsConfig = {
     //noImplicitAny: true,
     target: "es6"
@@ -63,7 +68,7 @@ gulp.task( 'compilets', [], function() {
 });
 
 
-gulp.task('compile', [ 'compilejs', 'compilets', 'compilehtml', 'compilecss' ], function() {
+gulp.task('compile', [ 'compilejs', 'compilets', 'compilehtml', 'compilecss', 'compileimg' ], function() {
   // place code for your default task here
   //console.log( "Hello, World!" );
   //gulp.src( "web/**/*" ).pipe( gulp.dest( "build/" ) );
