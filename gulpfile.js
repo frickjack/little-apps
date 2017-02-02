@@ -4,6 +4,7 @@ var ts = require('gulp-typescript');
 var markdown = require('nunjucks-markdown'),
     marked = require('marked');
     //gulpnunjucks = require('gulp-nunjucks');
+var sourcemaps = require('gulp-sourcemaps');
 
 // register markdown support with nunjucks
 var nunjucksManageEnv = function(env) {
@@ -54,6 +55,10 @@ gulp.task( 'compileimg', [], function() {
     gulp.src( "web/resources/img/**/*" ).pipe( gulp.dest( "build/resources/img" ) );
 });
 
+gulp.task( 'compilebower', [], function() {
+    gulp.src( "bower_components/**/*" ).pipe( gulp.dest( "build/bower_components" ) );
+});
+
 
 var tsConfig = {
     //noImplicitAny: true,
@@ -62,13 +67,16 @@ var tsConfig = {
 };
 
 gulp.task( 'compilets', [], function() {
-    return gulp.src( ['web/**/littleware/arrivalPie/*.ts', 'web/**/littleware/arrivalPie/**/*.ts', 'web/*.ts'])
+    return gulp.src( ['web/**/littleware/arrivalPie/**/*.ts', 'web/**/littleware/test/**/*.ts', 'web/*.ts'])
+        //.pipe( sourcemaps.init() )
         .pipe(ts( tsConfig ))
-        .js.pipe(gulp.dest("build/"));
+        .js
+        //.pipe( sourcemaps.write( "./maps" ) )
+        .pipe(gulp.dest("build/"));
 });
 
 
-gulp.task('compile', [ 'compilejs', 'compilets', 'compilehtml', 'compilecss', 'compileimg' ], function() {
+gulp.task('compile', [ 'compilejs', 'compilets', 'compilehtml', 'compilecss', 'compileimg', 'compilebower' ], function() {
   // place code for your default task here
   //console.log( "Hello, World!" );
   //gulp.src( "web/**/*" ).pipe( gulp.dest( "build/" ) );
