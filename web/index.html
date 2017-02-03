@@ -6,18 +6,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width" />
         
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-        <link rel="stylesheet" href="http://yui.yahooapis.com/3.13.0/build/cssfonts/cssfonts.css" type="text/css" />
+        <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
         <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
         
         <style>
             * {
                 box-sizing: border-box;
-                font-family: 'Oswald', arial, serif;
+                font-family: 'Oswald', Verdana, sans-serif;
             }
             
             body {
-                font-family: 'Oswald', arial, serif;
+                font-family: 'Oswald', Verdana, sans-serif;
             }
             
             h2 {
@@ -73,30 +72,34 @@
         </style>
     </head>
     <body>
-       <div class="pure-g">
-            <div id="header" class="pure-u-1">
-                <ul class="pure-menu pure-menu-horizontal">
-                    <li><a href="http://frickjack.com">frickjack.com</a></li>
-                    <li><a href="https://github.com/frickjack/">github</a></li>
-                    <li><a href="http://blog.frickjack.com/">blog.frickjack.com</a></li>
+        <header>
+            <div id="header" class="pure-menu pure-menu-horizontal">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a class="pure-menu-link" href="http://frickjack.com">home</a></li>
+                    <li class="pure-menu-item"><a class="pure-menu-link" href="https://github.com/frickjack/">github</a></li>
+                    <li class="pure-menu-item"><a class="pure-menu-link" href="http://blog.frickjack.com/">blog</a></li>
                 </ul>                
             </div>
+        </header>
+       <div class="pure-g">
+            
        </div>
         <div class="pure-g">
             <div id="content" class="pure-u-1">
                 <h2>apps and tests</h2>
 
-                <ul class="pure-menu" id="appmenu">
-                    <li><a href="./eventTrack/littleToDo.html"><img class="icon--57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
-                        little ToDo
-                        </a>
-                    </li>
-                    <li><a href="/btrack/babyTrack/en/511.html"><img src="./resources/img/appIcons/oo511.svg" alt="511 icon" />
-                            <br/>511 app</a>
-                    </li>
-                    <li><a href="./blog/gridDemo.html">Tree grid demo</a></li>
-                    <li><a href="/myrwa/">slide show</a></li>
-                </ul>
+                <div class="pure-menu">
+                    <ul class="pure-menu-list" id="appmenu">
+                        <li class="pure-menu-item"><a class="pure-menu-link" href="./eventTrack/littleToDo.html"><img class="icon--57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
+                            little ToDo
+                            </a>
+                        </li>
+                        <li class="pure-menu-item"><a class="pure-menu-link" href="/btrack/babyTrack/en/511.html"><img class="icon--57x57" src="./resources/img/511.svg" alt="511 icon" />
+                                <br/>511 app</a>
+                        </li>
+                        
+                    </ul>
+                </div>
             </div>
         </div>
 
