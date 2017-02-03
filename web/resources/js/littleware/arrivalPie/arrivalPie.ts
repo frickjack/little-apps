@@ -126,8 +126,9 @@ namespace littleware {
 
         /**
          * Rebuild the path elements under the arrpie-pielist group
+         * Note: only public to fascilitate testing
          */
-        private _renderPie( arrivalListSpec:string ) {
+        _renderPie( arrivalListSpec:string ):void {
           this._init();
           let g = this.querySelector( "g.arrpie-pielist" );
           // remove all current paths

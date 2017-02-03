@@ -6,4 +6,11 @@ lw-arrival-pie {
 
 circle.arrpie-circle {
     fill: magenta;
+    fill-opacity: 0.1;
+    stroke-width: 5;
+    stroke: green;
+}
+
+path.arrpie-slice {
+    fill: cornflowerblue;
 }

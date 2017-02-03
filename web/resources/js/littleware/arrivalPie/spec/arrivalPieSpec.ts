@@ -25,7 +25,7 @@ describe( "the littleware.arrivalPie custom element", function() {
         stage.appendChild( pie );
         spyOn( pie, "_renderPie" ).and.callThrough();
         pie.setAttribute( "arrival-list", "30,30;" );
-        expect( pie._renderPie.calls.any() ).toBe( true );
+        expect( (pie._renderPie as any).calls.any() ).toBe( true );
     });
 
     it ( "Can build a path from an arrival", function() {
