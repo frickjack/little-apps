@@ -1,0 +1,65 @@
+/* see https://www.smashingmagazine.com/2014/07/bem-methodology-for-small-projects/ */
+* {
+    box-sizing: border-box;
+    font-family: 'Oswald', Verdana, sans-serif;
+}
+
+body {
+    font-family: 'Oswald', Verdana, sans-serif;
+    color: #222222;
+    background-color: #eeeeee;
+}
+
+h1,h2,h3,h4 {
+    font-weight: normal;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+/*---------------------------------------*/
+
+.lw-icon__57x57 {
+    width: 57px;
+    height: 57px;
+}
+
+.lw-nav-header {    
+    min-height: 50px;
+    padding:10px;
+    background-color:#0BDAF7;
+}
+
+.lw-content {
+    padding: 10px;
+}
+
+.lw-colorswatch {
+    width: 100px;
+    height: 300px;
+    padding: 10px;
+    background-color:white;
+}
+
+
+
+.lw-colorswatch__box_fill_lwblue {
+    fill: #0BDAF7
+}
+
+.lw-colorswatch__box_fill_lwgreen {
+    fill: #474;
+}
+
+.lw-colorswatch__box_fill_lwwhite {
+    fill: #eeeeee;
+}
+
+.lw-colorswatch__box_fill_lwblack {
+    fill: #222222;
+}
+
+
+/*------------------------------------*/
+
+.pure-menu-link {
+    font-family: 'Noto Sans', sans-serif;
+}
