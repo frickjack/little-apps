@@ -7,73 +7,13 @@
         <meta name="viewport" content="width=device-width" />
         
         <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
-        <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
-        
-        <style>
-            * {
-                box-sizing: border-box;
-                font-family: 'Oswald', Verdana, sans-serif;
-            }
-            
-            body {
-                font-family: 'Oswald', Verdana, sans-serif;
-            }
-            
-            h2 {
-                font-weight: normal;
-            }
-            
-            ul.pure-menu {
-                font-size: 120%;
-            }
-            
-            li {
-                list-style-type: none;
-                padding: 5px;
-            }
-            
-            div#content {
-                padding:10px;
-                margin-left:auto;
-                margin-right:auto;
-            }
-            
-            div#header {
-                
-                min-height: 50px;
-                padding:10px;
-                background-color: rgba(11, 218, 247, 0.48);
-                /* color:rgb(240,240,20); */
-            }
-            
-            ul#appmenu {
-                border:0;
-            }
-
-            img.icon--57x57 {
-                width: 57px;
-                height: 57px;
-            }
-            
-            /*
-            ul.pure-menu.pure-menu-open {
-                background:rgb(63, 187, 39); 
-                padding: 0px;
-            }
-            
-            .pure-menu a {
-                 color:rgb(74, 83, 180); 
-            }
-            
-            .pure-menu li a:hover, .pure-menu li a:focus {
-                background-color: inherit;
-            }
-            */
-        </style>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Oswald" rel="stylesheet">
+        <link rel="stylesheet" href="3rdParty/font-awesome/css/font-awesome.min.css">
+        <link href="/resources/css/littleware/styleGuide/guide.css" rel="stylesheet">
     </head>
     <body>
-        <header>
-            <div id="header" class="pure-menu pure-menu-horizontal">
+        <header class="lw-nav-header">
+            <div class="pure-menu pure-menu-horizontal">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item"><a class="pure-menu-link" href="http://frickjack.com">home</a></li>
                     <li class="pure-menu-item"><a class="pure-menu-link" href="https://github.com/frickjack/">github</a></li>
@@ -85,16 +25,16 @@
             
        </div>
         <div class="pure-g">
-            <div id="content" class="pure-u-1">
+            <div class="lw-content pure-u-1">
                 <h2>apps and tests</h2>
 
                 <div class="pure-menu">
                     <ul class="pure-menu-list" id="appmenu">
-                        <li class="pure-menu-item"><a class="pure-menu-link" href="./eventTrack/littleToDo.html"><img class="icon--57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
+                        <li class="pure-menu-item"><a class="pure-menu-link" href="./eventTrack/littleToDo.html"><img class="lw-icon__57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
                             little ToDo
                             </a>
                         </li>
-                        <li class="pure-menu-item"><a class="pure-menu-link" href="/btrack/babyTrack/en/511.html"><img class="icon--57x57" src="./resources/img/511.svg" alt="511 icon" />
+                        <li class="pure-menu-item"><a class="pure-menu-link" href="/btrack/babyTrack/en/511.html"><img class="lw-icon__57x57" src="./resources/img/511.svg" alt="511 icon" />
                                 <br/>511 app</a>
                         </li>
                         
