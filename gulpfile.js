@@ -56,7 +56,7 @@ gulp.task( 'compileimg', [], function() {
 });
 
 gulp.task( 'compilebower', [], function() {
-    gulp.src( "bower_components/**/*" ).pipe( gulp.dest( "build/bower_components" ) );
+    gulp.src( ["node_modules/jasmine-core/**/*","node_modules/font-awesome/**/*"], { base:"node_modules" }  ).pipe( gulp.dest( "build/3rdParty" ) );
 });
 
 
