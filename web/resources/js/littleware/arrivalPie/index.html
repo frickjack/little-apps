@@ -3,12 +3,10 @@
 <head>
 <title>ClockView Canvas</title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width" />
-
-<link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/3rdParty/jasmine-core/lib/jasmine-core/jasmine.css">
-<link rel="stylesheet" href="arrivalPie.css" />
+
+ {% include "web/resources/css/littleware/styleGuide/styleGuide.template.html" %}
+ {% include "web/resources/js/littleware/arrivalPie/arrivalPie.template.html" %}
 
 <style>
     lw-arrival-pie {
@@ -18,9 +16,6 @@
 </style>
 </head>
 <body>
-<template id="lw-arrival-pie-top">
-  {% include "web/resources/js/littleware/arrivalPie/arrivalPie.html" %}
-</template>
 
 <header>
 <h2>ClockView Canvas</h2>
@@ -51,7 +46,6 @@ Next step - put this thing on the page as a custom element using an html templat
 </ul>
 </section>
 
-<script src="arrivalPie.js"></script>
 
 <script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/jasmine.js"></script>
 <script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>

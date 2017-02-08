@@ -22,10 +22,26 @@ h1,h2,h3,h4 {
     height: 57px;
 }
 
-.lw-nav-header {    
-    min-height: 50px;
-    padding:10px;
+.lw-header {    
+    padding:2px;
+    width: 100%;
     background-color:#0BDAF7;
+    font-family: 'Noto Sans'
+}
+
+.lw-header__nav {
+    width: 30%;
+    padding: 0px;
+}   
+
+.lw-header__link {
+    color:#777;
+    display: block;
+}   
+
+.lw-header__title {
+    width: 70%;
+    padding: 0px;
 }
 
 .lw-content {
@@ -57,6 +73,9 @@ h1,h2,h3,h4 {
     fill: #222222;
 }
 
+.lw-colorswatch__box_fill_lwgray {
+    fill: #777;
+}
 
 /*------------------------------------*/
 

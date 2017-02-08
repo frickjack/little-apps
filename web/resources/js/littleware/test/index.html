@@ -3,36 +3,23 @@
 <head>
 <title>littleware.test</title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width" />
+ {% include "web/resources/css/littleware/styleGuide/styleGuide.template.html" %}
+ {% include "web/resources/js/littleware/test/test.template.html" %}
 
-<link rel="stylesheet" type="text/css" href="/3rdParty/jasmine-core/lib/jasmine-core/jasmine.css">
-
-<style>
-    lw-arrival-pie {
-      width: 100px;
-      height: 100px;
-    }
-</style>
 </head>
 <body>
->
 
 <header>
 <h2>littleware.test</h2>
 </header>
 
 <section id="README">
+
   {% markdown %}
      {% include "web/resources/js/littleware/test/README.md" %}
   {% endmarkdown %}
 </section>
 
-<script src="util.js"></script>
-
-<script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/jasmine.js"></script>
-<script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
-<script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/boot.js"></script>
 
 <script src="spec/utilSpec.js"></script>
 </body>
