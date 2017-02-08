@@ -3,8 +3,9 @@ var clean = require('gulp-rimraf');
 var ts = require('gulp-typescript');
 var markdown = require('nunjucks-markdown'),
     marked = require('marked');
-    //gulpnunjucks = require('gulp-nunjucks');
+var nunjucksRender = require('gulp-nunjucks-render');
 var sourcemaps = require('gulp-sourcemaps');
+
 
 // register markdown support with nunjucks
 var nunjucksManageEnv = function(env) {
@@ -12,7 +13,8 @@ var nunjucksManageEnv = function(env) {
     markdown.register(env, marked);
 };
 
-var nunjucksRender = require('gulp-nunjucks-render');
+//var env = new nunjucks.Environment(new nunjucks.FileSystemLoader("."));
+//markdown.register(env, marked);
 
 //var tsProject = ts.createProject("tsconfig.json");
 //var watch = require( 'gulp-watch' );
@@ -35,7 +37,7 @@ gulp.task( 'compilejs', [], function() {
 //
 gulp.task( 'compilenunjucks', [], function() {
     gulp.src( ["web/**/*.html", "!web/blog/gridDemo.html", "!web/eventTrack/events.html" ] )
-    .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv } ) ) // path: [ "web/templates" ], 
+    .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv, envOptions:{autoescape:false} } ) ) // path: [ "web/templates" ], 
     .on('error', console.log)
     .pipe( gulp.dest( "build/" ) );
 });
