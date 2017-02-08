@@ -1,7 +1,7 @@
 /* see https://www.smashingmagazine.com/2014/07/bem-methodology-for-small-projects/ */
 * {
     box-sizing: border-box;
-    font-family: 'Oswald', Verdana, sans-serif;
+    /* font-family: 'Oswald', Verdana, sans-serif; */
 }
 
 body {
@@ -13,6 +13,8 @@ body {
 h1,h2,h3,h4 {
     font-weight: normal;
     font-family: 'Noto Sans', sans-serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /*---------------------------------------*/

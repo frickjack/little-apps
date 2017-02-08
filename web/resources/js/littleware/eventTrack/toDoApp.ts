@@ -6,10 +6,7 @@ if ( null == exports ) {
     throw "littleware-eventTrack-toDoApp";
 }
 
-import importY = require("../../libts/yui");
-importY; // workaround for typescript bug: https://typescript.codeplex.com/workitem/1531
-import Y = importY.Y;
-Y = exports;
+import * as Y from "../../libts/yui";
 
 import importLittleAsset = require("../asset/littleAsset");
 importLittleAsset;
@@ -298,7 +295,7 @@ export module littleware.eventTrack.toDoApp {
      */
     export class Config {
         public container: string = "div#app";
-        public root: string = "/littleware_apps/testsuite/littleToDoTestSuite.html";
+        public root: string = "/testsuite/littleToDoTestSuite.html";
     }
 
     // arbitrary limit on ToDo nesting for now
@@ -317,7 +314,7 @@ export module littleware.eventTrack.toDoApp {
             "<div id='app-info'><span class='app-title'>Little To Do</span><br/>" +
             "<ul><li><a href='http://blog.frickjack.com/2013/09/little-to-do.html' target='_blank'>Version 0.1.0 2013/11/06</a></li> " +
             "<li><a href='http://blog.frickjack.com/2013/09/little-to-do.html' target='_blank'>Version 0.0.2013.09.14</a></li > " +
-            "</ul><img src='/littleware_apps/resources/img/checkbox.svg' width='25' height='25' alt='checkbox icon' />" +
+            "</ul><img src='/resources/img/checkbox.svg' width='25' height='25' alt='checkbox icon' />" +
             "</div>"
             );
         var homePage:Y.View = new Y.View();

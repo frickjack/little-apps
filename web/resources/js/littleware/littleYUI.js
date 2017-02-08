@@ -1,11 +1,3 @@
-/*
- * Copyright 2011 catdogboy at yahoo.com
- *
- * The contents of this file are subject to the terms of the
- * Lesser GNU General Public License (LGPL) Version 2.1.
- * http://www.gnu.org/licenses/lgpl-2.1.html.
- */
-
 if( typeof( littleware ) == 'undefined' ) {
     littleware = {};
 } 
@@ -20,11 +12,11 @@ if( typeof( littleware ) == 'undefined' ) {
  *      littleware.littleYUI.bootstrap()... 
  *
  * @module littleware.littleYUI
- * @namespace auburn.library
+ * @namespace littleware.littleYUI
  */
 littleware.littleYUI = (function() {
     var config = {
-        CONTEXT_ROOT : "/littleware_apps"
+        CONTEXT_ROOT : ""
     };
     
     /**

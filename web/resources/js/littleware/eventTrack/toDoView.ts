@@ -6,10 +6,8 @@ if ( null == exports ) {
     throw "littleware-eventTrack-toDoView";
 }
 
-import importY = require("../../libts/yui");
-importY; // workaround for typescript bug: https://typescript.codeplex.com/workitem/1531
-import Y = importY.Y;
-Y = exports;
+import * as Y from "../../libts/yui";
+
 
 import importLittleAsset = require("../asset/littleAsset");
 importLittleAsset;
@@ -90,7 +88,7 @@ export module littleware.eventTrack.toDoView {
     }
 
     
-    var templatePath = "/littleware_apps/resources/templates/littleware/eventTrack/toDoView/toDoPanel.handlebars"
+    var templatePath = "/resources/templates/littleware/eventTrack/toDoView/toDoPanel.handlebars"
     log.log("Loading template: " + templatePath );
     var templatePromise:Y.Promise<(any) => string> = lw.littleUtil.loadHandlebar( templatePath
         ).then(

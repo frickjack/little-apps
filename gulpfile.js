@@ -36,15 +36,15 @@ gulp.task( 'compilejs', [], function() {
 // Also incorporating markdown support with nunjucks-markdown.
 //
 gulp.task( 'compilenunjucks', [], function() {
-    gulp.src( ["web/**/*.html", "!web/blog/gridDemo.html", "!web/eventTrack/events.html" ] )
+    gulp.src( ["web/**/*.html", "!web/eventTrack/events.html" ] )
     .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv, envOptions:{autoescape:false} } ) ) // path: [ "web/templates" ], 
     .on('error', console.log)
     .pipe( gulp.dest( "build/" ) );
 });
 
 gulp.task( 'compilehtml', [ 'compilenunjucks'], function() {
-    gulp.src( "web/blog/*.html" )
-    .pipe( gulp.dest( "build/blog/" ) );
+    gulp.src( ["web/blog/*.*", "web/babyTrack/*.*"], { base:"web" } )
+    .pipe( gulp.dest( "build/" ) );
 });
 
 

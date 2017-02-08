@@ -290,7 +290,7 @@ YUI.add('littleware-auth-littleId', function(Y) {
         //------------ module export stuff ----------------------------
 
         // template for provider-submission form
-        var templatePath = "/littleware_apps/resources/templates/littleware/auth/providerForm.handlebars";
+        var templatePath = "/resources/templates/littleware/auth/providerForm.handlebars";
         log("Loading template: " + templatePath);
         var templatePromise = util.loadHandlebar(templatePath
             ).then(

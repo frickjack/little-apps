@@ -7,12 +7,9 @@ if ( null == exports ) {
 }
 
 
-import importY = require("../../libts/yui");
-importY; // workaround for typescript bug: https://typescript.codeplex.com/workitem/1531
-import Y = importY.Y;
-Y = exports;
+import * as Y from "../../libts/yui";
 
-import importLittleAsset = require("../asset/littleAsset");
+import * as importLittleAsset from "../asset/littleAsset";
 importLittleAsset;
 import ax = importLittleAsset.littleware.asset;
 

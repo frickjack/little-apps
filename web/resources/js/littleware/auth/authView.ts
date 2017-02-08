@@ -51,7 +51,7 @@ export module littleware.auth.authView {
     }
 
     
-    var templatePath = "/littleware_apps/resources/templates/littleware/auth/authPanel.handlebars"
+    var templatePath = "/resources/templates/littleware/auth/authPanel.handlebars"
     log.log("Loading template: " + templatePath );
     var templatePromise:Y.Promise<(any) => string> = lw.littleUtil.loadHandlebar( templatePath
         ).then(
@@ -149,7 +149,7 @@ export module littleware.auth.authView {
             if (command == "logout") {
                 this.authHelper.logout();
             } else {
-                window.open("/littleware_apps/auth/openIdPop.html", "openid_popup");
+                window.open("/auth/openIdPop.html", "openid_popup");
             }
         }
 

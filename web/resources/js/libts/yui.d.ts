@@ -78,7 +78,7 @@ export declare module Y {
             
         }
     
-        interface App extends App_Base, App_Content, App_Transitions, PjaxContent { 
+        interface App extends App_Base, App_Content, PjaxContent { 
             (config?: any);
             
             
@@ -170,7 +170,7 @@ export declare module Y {
             (config: any);
             
             
-            destroy(): Base;
+            destroy(): any;
             init(config: any): Base;
         }
     
@@ -293,7 +293,7 @@ export declare module Y {
             after(fn: Function, context: any, arg: any): EventHandle;
             applyConfig(o: any, force: boolean): any;
             detachAll(): number;
-            fire(...arguments: Object[]): boolean;
+            //fire(...arguments: Object[]): boolean;
             detach(fn: Function, context: any): number;
             hasSubs(): any;
             monitor(what: string): EventHandle;
@@ -2848,9 +2848,6 @@ export declare module Y {
 
     
         interface App_Content {
-            
-            route: any[];
-            
             showContent(content: HTMLElement, options?: any, callback?: (view: View) => any): any;
             showContent(content: Node, options?: any, callback?: (view: View) => any): any;
             showContent(content: string, options?: any, callback?: (view: View) => any): any;
@@ -2902,7 +2899,7 @@ export declare module Y {
             get(name: string): any;
             getAttrs(attrs: any[]): any;
             getAttrs(attrs: boolean): any;
-            set(name: string, value: any): any;
+            set(name: string, value: any, opts?: any): any;
             _set(name: string, value: any): any;
             setAttrs(attrs: any): any;
         }
@@ -2910,7 +2907,7 @@ export declare module Y {
         interface AttributeEvents {
             
             
-            set(name: string, value: any, opts: any): any;
+            set(name: string, value: any, opts?: any): any;
             setAttrs(attrs: any, opts: any): any;
         }
     
@@ -3715,8 +3712,8 @@ export declare module Y {
             after(type: string, fn: Function, context?: any, ...arg: any[]): EventHandle;
             bubble(evt: CustomEvent): boolean;
             addTarget(o: EventTarget): any;
-            fire(type: string, ...arguments: Object[]): EventTarget;
-            fire(type: any, ...arguments: Object[]): EventTarget;
+            //fire(type: string, ...arguments: Object[]): EventTarget;
+            //fire(type: any, ...arguments: Object[]): EventTarget;
             detachAll(type: string): any;
             detach(type: string, fn: Function, context: any): EventTarget;
             detach(type: any, fn: Function, context: any): EventTarget;
@@ -5198,7 +5195,7 @@ export declare module Y {
             constructor(lambda: ( resolve:(T) => void, reject:(any) => void ) => any );
             then(fulfilled: (T) => any, rejected?: (T) => any): Promise<any>;
             getStatus(): string;
-            static batch(...proms: Promise[]): Promise<any[]>;
+            static batch(...proms: Promise<any>[]): Promise<any[]>;
         }
 }
 

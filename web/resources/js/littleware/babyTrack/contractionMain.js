@@ -1,12 +1,3 @@
-/* 
- * Copyright 2012 http://code.google.com/p/littleware
- * 
- * The contents of this file are available subject to the terms of the
- * Lesser GNU General Public License (LGPL) Version 2.1.
- * http://www.gnu.org/licenses/lgpl-2.1.html.
- */
-
-
 YUI.namespace( "littleware.babyTrack" );
 
 
@@ -23,7 +14,7 @@ YUI.namespace( "littleware.babyTrack" );
  */
 YUI.littleware.babyTrack.contractionMain = (function() {
 
-    var CONTEXT_ROOT = "/littleware_apps";
+    var CONTEXT_ROOT = "";
     
     /*
      * The YUI.config groups entry that registers the littleware javascript

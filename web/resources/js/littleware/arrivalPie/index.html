@@ -3,10 +3,9 @@
 <head>
 <title>ClockView Canvas</title>
 
-<link rel="stylesheet" type="text/css" href="/3rdParty/jasmine-core/lib/jasmine-core/jasmine.css">
-
  {% include "web/resources/css/littleware/styleGuide/styleGuide.template.html" %}
  {% include "web/resources/js/littleware/arrivalPie/arrivalPie.template.html" %}
+ {% include "web/resources/js/littleware/test/test.template.html" %}
 
 <style>
     lw-arrival-pie {
@@ -15,16 +14,7 @@
     }
 </style>
 </head>
-<body>
-
-<header>
-<h2>ClockView Canvas</h2>
-
-<ul>
-   <li><a href="https://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands">https://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands</a></li>
-   <li><a href="https://danielpataki.com/svg-pie-chart-javascript/">https://danielpataki.com/svg-pie-chart-javascript/</a></li>
-</ul>
-</header>
+<body class="lw-content">
 
 <section id="README">
   {% markdown %}
@@ -35,7 +25,7 @@
 <section>
 
 <p> Here is the lw-arrival-pie custom element </p>
-<lw-arrival-pie>
+<lw-arrival-pie arrival-list="30,30;">
 </lw-arrival-pie>
 
 <p>
@@ -46,12 +36,6 @@ Next step - put this thing on the page as a custom element using an html templat
 </ul>
 </section>
 
-
-<script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/jasmine.js"></script>
-<script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
-<script type="text/javascript" src="/3rdParty/jasmine-core/lib/jasmine-core/boot.js"></script>
-
-<script src="../test/util.js"></script>
 <script src="spec/arrivalPieSpec.js"></script>
 </body>
 </html>
