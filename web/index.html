@@ -19,7 +19,7 @@
                         <a href="/" class="pure-menu-link"><i class="fa fa-home fa-2x"></i></a>
                     </td>
                     <td class="lw-header__title">
-                        <span>Home</span>
+                        Home
                     </td>
                 </tr>
             </table>
@@ -32,20 +32,46 @@
        </div>
         <div class="pure-g">
             <div class="lw-content pure-u-1">
-                <h2>apps and tests</h2>
+                <header>
+                    <p>apps.frickjack.com - a place for a frickjack (Reuben Pasquini) to experiment online</p>
+                </header>
+                <section id="apps">
+                    <h2>Apps</h2>
 
-                <div class="pure-menu">
+                    <p>I am in the process of migrating some old YUI-based apps to Vanilla-JS (actually Typescript) -
+                        for now I just have this little 511 app (<a href="http://bellyupbaby.blogspot.com/2011/07/is-it-time-to-go-to-hospital.html?m=1">5-1-1 rule</a>) running.</p>
+                    <div class="pure-menu">
+                        <ul class="pure-menu-list" id="appmenu">
+                            <!-- li class="pure-menu-item"><a class="pure-menu-link" href="./eventTrack/littleToDo.html"><img class="lw-icon__57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
+                                little ToDo
+                                </a>
+                            </li -->
+                            <li class="pure-menu-item"><a class="pure-menu-link" href="/babyTrack/511.html"><img class="lw-icon__57x57" src="./resources/img/511.svg" alt="511 icon" />
+                                    <br/>511 app</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </section>
+                <section id="connect">
+                    <h2>Connect</h2>
                     <ul class="pure-menu-list" id="appmenu">
-                        <li class="pure-menu-item"><a class="pure-menu-link" href="./eventTrack/littleToDo.html"><img class="lw-icon__57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
-                            little ToDo
-                            </a>
-                        </li>
-                        <li class="pure-menu-item"><a class="pure-menu-link" href="/btrack/babyTrack/en/511.html"><img class="lw-icon__57x57" src="./resources/img/511.svg" alt="511 icon" />
-                                <br/>511 app</a>
-                        </li>
-                        
+                        <li class="pure-menu-item"><a href="https://blog.frickjack.com" class="pure-menu-link" title="Twitter">bLog</a></li>
+                        <li class="pure-menu-item"><a href="https://twitter.com/catdogboy" class="pure-menu-link" title="Twitter"><i class="fa fa-twitter fa-2x"></i></a></li>
+                        <li class="pure-menu-item"><a href="https://www.github.com/frickjack" class="pure-menu-link" title="Github"><i class="fa fa-github fa-2x"></i></a></li>
+                        <li class="pure-menu-item"><a href="https://www.linkedin.com/in/reuben-pasquini-a16b6721" class="pure-menu-link" title="Linked In"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                        <li class="pure-menu-item"><a href="http://stackoverflow.com/users/story/1704760?view=Timeline" class="pure-menu-link" title="Stack Overflow"><i class="fa fa-stack-overflow fa-2x"></i></a></li>
                     </ul>
-                </div>
+                </section>
+                <section id="random">
+                    <h2>littleware</h2>
+                    <p> Test suites for some of the code in littleware (the namespace I stuff all my code under).
+                    <ul class="pure-menu-list" id="appmenu">
+                        <li class="pure-menu-item"><a href="/resources/js/littleware/test/" class="pure-menu-link" title="test">test support</a></li>
+                        <li class="pure-menu-item"><a href="/resources/js/littleware/arrivalPie/" class="pure-menu-link" title="arrival-pie custom element">lw-arrival-pie custom element</a></li>
+                        <li class="pure-menu-item"><a href="/resources/css/littleware/styleGuide/" class="pure-menu-link" title="littleware style guide">style guide</a></li>
+                    </ul>
+                </section>
             </div>
         </div>
 
