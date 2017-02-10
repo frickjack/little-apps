@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ClockView Canvas</title>
+
+ {% include "web/resources/css/littleware/styleGuide/styleGuide.template.html" %}
+ {% include "web/resources/js/littleware/headerSimple/headerSimple.template.html" %}
+ {% include "web/resources/js/littleware/test/test.template.html" %}
+
+<style>
+    lw-arrival-pie {
+      width: 100px;
+      height: 100px;
+    }
+</style>
+</head>
+<body class="lw-content">
+
+<section id="README">
+  {% markdown %}
+     {% include "web/resources/js/littleware/headerSimple/README.md" %}
+  {% endmarkdown %}
+</section>
+
+<script src="spec/headerSimpleSpec.js"></script>
+</body>
+</html>

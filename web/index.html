@@ -1,79 +1,71 @@
 ﻿
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>apps and tests</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width" />
-        
-        <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Oswald" rel="stylesheet">
-        <link rel="stylesheet" href="3rdParty/font-awesome/css/font-awesome.min.css">
-        <link href="/resources/css/littleware/styleGuide/guide.css" rel="stylesheet">
-    </head>
-    <body>
-        <header class="lw-header">
-            <table class="lw-header">
-                <tr>
-                    <td class="lw-header__nav">
-                        <a href="/" class="pure-menu-link"><i class="fa fa-home fa-2x"></i></a>
-                    </td>
-                    <td class="lw-header__title">
-                        Home
-                    </td>
-                </tr>
-            </table>
-            
-        </header>
+<head>
+    <title>apps and tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    
+    {% include "web/resources/css/littleware/styleGuide/styleGuide.template.html" %}
+    {% include "web/resources/js/littleware/headerSimple/headerSimple.template.html" %}
 
-        
-       <div class="pure-g">
-            
-       </div>
-        <div class="pure-g">
-            <div class="lw-content pure-u-1">
-                <header>
-                    <p>apps.frickjack.com - a place for a frickjack (Reuben Pasquini) to experiment online</p>
-                </header>
-                <section id="apps">
-                    <h2>Apps</h2>
+</head>
+<body>
+    <lw-header-simple title="Home">
+    </lw-header-simple>
 
-                    <p>I am in the process of migrating some old YUI-based apps to Vanilla-JS (actually Typescript) -
-                        for now I just have this little 511 app (<a href="http://bellyupbaby.blogspot.com/2011/07/is-it-time-to-go-to-hospital.html?m=1">5-1-1 rule</a>) running.</p>
-                    <div class="pure-menu">
-                        <ul class="pure-menu-list" id="appmenu">
-                            <!-- li class="pure-menu-item"><a class="pure-menu-link" href="./eventTrack/littleToDo.html"><img class="lw-icon__57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
-                                little ToDo
-                                </a>
-                            </li -->
-                            <li class="pure-menu-item"><a class="pure-menu-link" href="/babyTrack/511.html"><img class="lw-icon__57x57" src="./resources/img/511.svg" alt="511 icon" />
-                                    <br/>511 app</a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </section>
-                <section id="connect">
-                    <h2>Connect</h2>
+    <div class="pure-g">
+        <div class="lw-content pure-u-1">
+            <header>
+                <p>apps.frickjack.com - a place for a frickjack (Reuben Pasquini) to experiment online</p>
+            </header>
+            <section id="apps">
+                <h2>Apps</h2>
+
+                <div class="pure-menu">
                     <ul class="pure-menu-list" id="appmenu">
-                        <li class="pure-menu-item"><a href="https://blog.frickjack.com" class="pure-menu-link" title="Twitter">bLog</a></li>
+                        <!-- li class="pure-menu-item"><a class="pure-menu-link" href="./eventTrack/littleToDo.html"><img class="lw-icon__57x57" src="./resources/img/checkbox.svg" alt="little ToDo icon" /><br />
+                            little ToDo
+                            </a>
+                        </li -->
+                        <li class="pure-menu-item"><a class="pure-menu-link" href="/babyTrack/511.html"><img class="lw-icon__57x57" src="./resources/img/511.svg" alt="511 icon" />
+                                <br/>511 app</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <p>I am in the process of migrating some old YUI-based apps to Vanilla-JS (actually Typescript) -
+                    for now I just have this little 511 app (<a href="http://bellyupbaby.blogspot.com/2011/07/is-it-time-to-go-to-hospital.html?m=1">5-1-1 rule</a>) running.</p>
+                
+            </section>
+            <section id="connect">
+                <h2>Connect</h2>
+
+                <div class="pure-menu pure-menu-horizontal">
+                    <ul class="pure-menu-list" id="appmenu">
+                        <li class="pure-menu-item"><a href="http://blog.frickjack.com" class="pure-menu-link" title="Twitter">bLog</a></li>
                         <li class="pure-menu-item"><a href="https://twitter.com/catdogboy" class="pure-menu-link" title="Twitter"><i class="fa fa-twitter fa-2x"></i></a></li>
                         <li class="pure-menu-item"><a href="https://www.github.com/frickjack" class="pure-menu-link" title="Github"><i class="fa fa-github fa-2x"></i></a></li>
                         <li class="pure-menu-item"><a href="https://www.linkedin.com/in/reuben-pasquini-a16b6721" class="pure-menu-link" title="Linked In"><i class="fa fa-linkedin fa-2x"></i></a></li>
                         <li class="pure-menu-item"><a href="http://stackoverflow.com/users/story/1704760?view=Timeline" class="pure-menu-link" title="Stack Overflow"><i class="fa fa-stack-overflow fa-2x"></i></a></li>
                     </ul>
-                </section>
-                <section id="random">
-                    <h2>littleware</h2>
-                    <p> Test suites for some of the code in littleware (the namespace I stuff all my code under).
+                </div>
+            </section>
+            <section id="random">
+                <h2>littleware</h2>
+
+                <div class="pure-menu">
                     <ul class="pure-menu-list" id="appmenu">
                         <li class="pure-menu-item"><a href="/resources/js/littleware/test/" class="pure-menu-link" title="test">test support</a></li>
                         <li class="pure-menu-item"><a href="/resources/js/littleware/arrivalPie/" class="pure-menu-link" title="arrival-pie custom element">lw-arrival-pie custom element</a></li>
+                        <li class="pure-menu-item"><a href="/resources/js/littleware/headerSimple/" class="pure-menu-link" title="header-simple custom element">lw-header-simple custom element</a></li>
                         <li class="pure-menu-item"><a href="/resources/css/littleware/styleGuide/" class="pure-menu-link" title="littleware style guide">style guide</a></li>
                     </ul>
-                </section>
-            </div>
+                </div>
+                <p> Test suites for some of the code in littleware (the namespace I stuff all my code under).
+            </section>
         </div>
+    </div>
 
 <script>
     // report in to Google Analytics if running under apps.frickjack.com domain
@@ -90,5 +82,5 @@
     }
 </script>
 
-    </body>
+</body>
 </html>

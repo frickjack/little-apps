@@ -1,4 +1,4 @@
-arrivalPie Custom Element
+lw-arrival-pie Custom Element
 ================
 
 A custom element that manages an SVG pie chart for visualizing periodically arriving events of 

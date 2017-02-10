@@ -21,6 +21,7 @@ namespace littleware {
      * Utility helper function - exported for testing
      */
     export function stringToArrivalList( arrivalListStr:string ):Array<Arrival> {
+      if ( ! arrivalListStr ) { return []; }
       let clean = arrivalListStr.replace( /\s+/g, "" );
       return clean.split( ";" ).map( (part) => {
         return part.split( "," ).map( (s) => Number(s) );
@@ -81,19 +82,16 @@ namespace littleware {
         static get observedAttributes():Array<string> { return ['arrival-list']; }
 
         connectedCallback(): void {
-          console.log( "Connected!" );
+          this._init();
         }
 
         disconnectedCallback(): void {
-          console.log( "Disconnected!" );
+          //console.log( "Disconnected!" );
         }
 
         attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
-          console.log( "Attribute change! " + attrName );
-          if ( attrName === "arrival-list" ) {
-            // for now - just go ahead and re-render - TODO implement undirectional arch with dirty/whatever
-            this._renderPie( newVal );
-          }
+          //console.log( "Attribute change! " + attrName );
+          this._render();
         }
 
         adoptedCallback(): void {
@@ -128,8 +126,12 @@ namespace littleware {
          * Rebuild the path elements under the arrpie-pielist group
          * Note: only public to fascilitate testing
          */
-        _renderPie( arrivalListSpec:string ):void {
+        _render():void {
           this._init();
+          this._renderPie( this.getAttribute( "arrival-list" ) );
+        }
+
+        private _renderPie( arrivalListSpec:string ):void {
           let g = this.querySelector( "g.arrpie-pielist" );
           // remove all current paths
           while( g.hasChildNodes() ) {

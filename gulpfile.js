@@ -69,7 +69,11 @@ var tsConfig = {
 };
 
 gulp.task( 'compilets', [], function() {
-    return gulp.src( ['web/**/littleware/arrivalPie/**/*.ts', 'web/**/littleware/test/**/*.ts', 'web/*.ts'])
+    return gulp.src( ['web/resources/js/littleware/arrivalPie/**/*.ts', 
+            'web/resources/js/littleware/test/**/*.ts',
+            'web/resources/js/littleware/headerSimple/**/*.ts', 
+            'web/*.ts'], 
+            { base:"web" })
         //.pipe( sourcemaps.init() )
         .pipe(ts( tsConfig ))
         .js
