@@ -72,6 +72,7 @@ gulp.task( 'compilets', [], function() {
     return gulp.src( ['web/resources/js/littleware/arrivalPie/**/*.ts', 
             'web/resources/js/littleware/test/**/*.ts',
             'web/resources/js/littleware/headerSimple/**/*.ts', 
+            'web/babyTrack/*.ts',
             'web/*.ts'], 
             { base:"web" })
         //.pipe( sourcemaps.init() )

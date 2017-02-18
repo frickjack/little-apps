@@ -1,0 +1,37 @@
+th {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: normal;
+}
+
+
+.lw-data-table {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+lw-arrival-pie {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+/*.......... start/stop button ............ */
+
+.lw-button {
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-height: 50px;
+    font-size: large;
+}
+
+.lw-button_start {
+    background-color:#00DD66;
+}
+
+.lw-button_stop {
+    background-color:#DD4400;
+}
+

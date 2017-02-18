@@ -1,104 +1,88 @@
-﻿<!--
-Copyright 2012 http://code.google.com/p/littleware
-
-The contents of this file are available subject to the terms of the
-Lesser GNU General Public License (LGPL) Version 2.1.
-http://www.gnu.org/licenses/lgpl-2.1.html.
-
-html manifest="511.manifest"
--->
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>5-1-1</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        
+ 
+    {% include "web/resources/css/littleware/styleGuide/styleGuide.template.html" %}
+    {% include "web/resources/js/littleware/headerSimple/headerSimple.template.html" %}
+    {% include "web/resources/js/littleware/arrivalPie/arrivalPie.template.html" %}
 
+        
         <link rel="apple-touch-icon" href="/resources/img/appIcons/oo511.57x57.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="/resources/img/appIcons/oo511.72x72.png" />
         <link rel="apple-touch-icon" sizes="114x114" href="/resources/img/appIcons/oo511.114x114.png" />
         <link rel="apple-touch-icon" sizes="144x144" href="/resources/img/appIcons/oo511.144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/resources/img/appIcons/oo511.152x152.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/resources/img/appIcons/oo511.167x167.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/resources/img/appIcons/oo511.180x180.png" />
 
-        <link rel="stylesheet" href="http://yui.yahooapis.com/3.13.0/build/cssreset/cssreset.css" type="text/css" />
-        <link rel="stylesheet" href="http://yui.yahooapis.com/3.13.0/build/cssbase/cssbase.css"  type="text/css" />
-        <link rel="stylesheet" href="http://yui.yahooapis.com/3.13.0/build/cssfonts/cssfonts.css" type="text/css" />
-        <link rel="stylesheet" href="http://yui.yahooapis.com/3.13.0/build/cssgrids/cssgrids.css" type="text/css" />         
-        <link href='http://fonts.googleapis.com/css?family=Orienta|EB+Garamond' rel='stylesheet' type='text/css' />
-        
-        <style id="yuiInsertBeforeMe" type="text/css"></style>
-        <link rel="stylesheet" href="/resources/css/littleware/babyTrack/main.css" type="text/css" />         
+        <link rel="stylesheet" href="511.css" type="text/css" />         
     </head>
-    <body class="yui3-skin-sam">
+    <body class="lw-content">
 
-        <div class="yui3-g">
+        <div class="pure-g">
         
-          <div id="app" class="yui3-u-1">
-              <h2>5-1-1 Contraction Timer <span id="clock">3:33:33</span></h2>
+          <div id="app" class="pure-u-1">
+              <lw-header-simple title="5-1-1 Contraction Timer"></lw-header-simple>
+
+              <lw-arrival-pie arrival-list=""></lw-arrival-pie>
               
-              <figure id="graph">
-              </figure>
-              <!-- .......................................... -->
+                   <button autofocus="true" type="button" class="pure-button pure-button-primary lw-button lw-button_start">start contraction</button>
+
+              <table id="history" class="lw-data-table pure-table">
+                  <thead>
+                      <tr><th>Start</th><th>End</th><th>Duration</th></tr>
+                  </thead>
+                  <tbody>
+                      <tr><td>-</td><td>-</td><td>-</td></tr>
+                  </tbody>
+              </table>
+
               
-              <div id="table" class="dataTable">
-              </div>
               
-              <div id="button">
-              </div>
-              
-              <div id="stats">
-              </div>
-              
-              <div id="footer">
-          <a  href="http://blog.frickjack.com/2013/04/511-labor-contraction-counter-app.html">info</a>            
-              </div>
-                   
-          </div>
-          
-            
+              <table id="stats" class="lw-data-table pure-table">
+                  <thead>
+                      <tr><th>Ave. Period</th><th>Ave Duration</th><th>Time Covered</th></tr>
+                  </thead>
+                  <tbody>
+                      <tr><td>0</td><td>0</td><td>-</td></tr>
+                  </tbody>
+              </table>
+
+              <p>
+                  The 5-1-1 rule: when labor progresses normally (pain is not excessive, water does not break, etc)
+                  go to the hospital when contractions occur every <em>5</em> minutes each lasting <em>1</em> minute 
+                  for a period of <em>1</em> hour.
+              </p>              
             
         </div>
         
-        
-        <script src="http://yui.yahooapis.com/3.13.0/build/yui/yui-min.js"></script> 
-        
-        <script type="text/x-handlebars-template" id="dataGraphTemplate">
-            <div class="fbTask">
-                <div class="fbBar" style="width:0%;">0%</div>
-                <div class="fbContent">
-                (Running ...)
-                </div>
-            </div>            
-        </script>  
 
-        <script src="/resources/js/littleware/babyTrack/contractionMain.js"></script>
-        
-<script>
-    YUI.littleware.babyTrack.contractionMain.main();
-// Create a YUI sandbox on your page.
-//YUI().use('node', 'event', function (Y) {
-    // The Node and Event modules are loaded and ready to use.
-    // Your code goes here!
-//});
-</script>
+        <script src="511.js"></script>
+        <script>
+            littleware.app511.attachController(
+                document.body.querySelector( "lw-arrival-pie" ),
+                document.body.querySelector( "table#app" ),
+                document.body.querySelector( "table#stats" ),
+                document.body.querySelector( "button" )
+            );
+        </script>        
+        <script>
+            // report in to Google Analytics if running under apps.frickjack.com domain
+            if (/apps.frickjack.com/.exec(window.location.href)) {
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-<script>
-    // report in to Google Analytics if running under apps.frickjack.com domain
-    if (/apps.frickjack.com/.exec(window.location.href)) {
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+                ga('create', 'UA-15960292-3', 'frickjack.com');
+                ga('send', 'pageview');
+            }
 
-        ga('create', 'UA-15960292-3', 'frickjack.com');
-        ga('send', 'pageview');
-    }
-
-</script>
+        </script>
 
     </body>
 </html>
