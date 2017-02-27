@@ -17,7 +17,9 @@
         <link rel="apple-touch-icon" sizes="167x167" href="/resources/img/appIcons/oo511.167x167.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/resources/img/appIcons/oo511.180x180.png" />
 
-        <link rel="stylesheet" href="511.css" type="text/css" />         
+        <link rel="stylesheet" href="511.css" type="text/css" />    
+
+        {% block headBottom %}{% endblock %}     
     </head>
     <body class="lw-content">
 
@@ -28,25 +30,22 @@
 
               <lw-arrival-pie arrival-list=""></lw-arrival-pie>
               
-                   <button autofocus="true" type="button" class="pure-button pure-button-primary lw-button lw-button_start">start contraction</button>
-
-              <table id="history" class="lw-data-table pure-table">
-                  <thead>
-                      <tr><th>Start</th><th>End</th><th>Duration</th></tr>
-                  </thead>
-                  <tbody>
-                      <tr><td>-</td><td>-</td><td>-</td></tr>
-                  </tbody>
-              </table>
-
-              
-              
+              <button autofocus="true" type="button" class="pure-button pure-button-primary lw-button lw-button_start">start contraction</button>
+     
               <table id="stats" class="lw-data-table pure-table">
                   <thead>
                       <tr><th>Ave. Period</th><th>Ave Duration</th><th>Time Covered</th></tr>
                   </thead>
                   <tbody>
                       <tr><td>0</td><td>0</td><td>-</td></tr>
+                  </tbody>
+              </table>
+              <table id="history" class="lw-data-table pure-table">
+                  <thead>
+                      <tr><th>Start</th><th>End</th><th>Duration</th></tr>
+                  </thead>
+                  <tbody>
+                      <tr><td>-</td><td>-</td><td>-</td></tr>
                   </tbody>
               </table>
 
@@ -83,6 +82,8 @@
             }
 
         </script>
+
+        {% block bodyBottom %}{% endblock %}     
 
     </body>
 </html>
