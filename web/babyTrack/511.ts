@@ -18,7 +18,7 @@ namespace littleware {
          * Compute statistics over the given history of contractions -
          * assumes contractions are sorted in time-ascending order.
          */
-        function computeStats( history:Contraction[] ):Stats {
+        export function computeStats( history:Contraction[] ):Stats {
             let count = history.length;
             let result = {
                 avePeriodSecs: 0,
@@ -46,7 +46,7 @@ namespace littleware {
         /**
          * Manager for the 511 view
          */
-        class Controller511 {
+        export class Controller511 {
             private _timerInterval:any;
             contractionList:Contraction[];
 
@@ -117,6 +117,7 @@ namespace littleware {
                     controller.startTimer();
                 }
             });
+            return controller;
         }
 
     }

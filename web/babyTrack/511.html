@@ -60,12 +60,15 @@
 
         <script src="511.js"></script>
         <script>
-            littleware.app511.attachController(
-                document.body.querySelector( "lw-arrival-pie" ),
-                document.body.querySelector( "table#app" ),
-                document.body.querySelector( "table#stats" ),
-                document.body.querySelector( "button" )
-            );
+           document.addEventListener("DOMContentLoaded", function(event) {
+                littleware.app511.testController = littleware.app511.attachController(
+                    document.body.querySelector( "lw-arrival-pie" ),
+                    document.body.querySelector( "table#app" ),
+                    document.body.querySelector( "table#stats" ),
+                    document.body.querySelector( "button" )
+                );
+            });
+            
         </script>        
         <script>
             // report in to Google Analytics if running under apps.frickjack.com domain

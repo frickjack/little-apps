@@ -43,7 +43,7 @@ gulp.task( 'compilenunjucks', [], function() {
 });
 
 gulp.task( 'compilehtml', [ 'compilenunjucks'], function() {
-    gulp.src( ["web/blog/*.*", "web/babyTrack/*.*"], { base:"web" } )
+    gulp.src( ["web/blog/*.*"], { base:"web" } )
     .pipe( gulp.dest( "build/" ) );
 });
 
@@ -72,7 +72,7 @@ gulp.task( 'compilets', [], function() {
     return gulp.src( ['web/resources/js/littleware/arrivalPie/**/*.ts', 
             'web/resources/js/littleware/test/**/*.ts',
             'web/resources/js/littleware/headerSimple/**/*.ts', 
-            'web/babyTrack/*.ts',
+            'web/babyTrack/**/*.ts',
             'web/*.ts'], 
             { base:"web" })
         //.pipe( sourcemaps.init() )
