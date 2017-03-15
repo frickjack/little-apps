@@ -15,11 +15,12 @@ namespace littleware {
 
             it( "Can compute stats", function() {
                 let sampleData:Array<Contraction> = [ 
-                    { startTime: new Date( 100 ), endTime: new Date( 61100 ) } 
+                    { startTime: new Date( 100 ), endTime: new Date( 61100 ) },
+                    { startTime: new Date( 300000 ), endTime: new Date( 360000 ) }
                     ];
                 let stats = computeStats( sampleData );
-                expect( stats.avePeriodSecs ).toBe( 0 );
-                expect( stats.aveDurationSecs ).toBe( 61 );
+                expect( stats.avePeriodSecs ).toBe( Math.round( 300 - 0.100 ) );
+                expect( stats.aveDurationSecs ).toBe( Math.round( (61 + 60) / 2 ) );
             });
         });
     }

@@ -13,6 +13,13 @@ namespace littleware {
             numSamples:number;
         }
 
+        /**
+         * Little utility converts a date to the degrees represnting
+         * the position of the minute-hand on a clock for the given date
+         */
+        export function date2Degrees( dt:Date ):number {
+            return (dt.getMinutes()*60 + dt.getSeconds()) / 10;
+        }
 
         /**
          * Compute statistics over the given history of contractions -
@@ -28,15 +35,17 @@ namespace littleware {
             };
             if ( count > 1 ) {
                 let copy:Contraction[] = [].concat( history );
-                result.avePeriodSecs = history.slice(1).map( 
+                result.avePeriodSecs = Math.round(
+                    history.slice(1).map( 
                         (it) => { return it.startTime.getTime() - copy.shift().startTime.getTime(); } 
-                    ).reduce( (acc,it) => { return acc+it; }, 0 ) / (1000 * (count-1));
+                    ).reduce( (acc,it) => { return acc+it; }, 0 ) / (1000 * (count-1))
+                );
             }
             if ( count > 0 ) {
                 result.aveDurationSecs = Math.round(
                     history.map( 
                         (it) => { return it.endTime.getTime() - it.startTime.getTime(); }
-                    ).reduce( (acc,it) => { return acc + it; } ) / (1000 * count)
+                    ).reduce( (acc,it) => { return acc + it; }, 0 ) / (1000 * count)
                 );
                 result.timeCoveredSecs = Math.round( (history[0].startTime.getTime() - history[count-1].endTime.getTime())/1000);
             }
@@ -68,7 +77,22 @@ namespace littleware {
              * Update the UX to match the current state of the controller
              */
             render():void {
-                console.log( "Render!" );
+                let timeToDegrees
+                let arrivalListStr = this.contractionList.map(
+                    (cxn) => {
+                        return {
+                            startDegrees: date2Degrees( cxn.startTime ),
+                            endDegrees: date2Degrees( cxn.endTime )
+                        }
+                    }
+                ).map(
+                    (deg) => {
+                        return "" + deg.startDegrees + "," + ((360 + deg.endDegrees - deg.startDegrees) % 360);
+                    }
+                ).reduce(
+                    (acc,s) => { return acc + s + ";" }, ""
+                );
+                this.pie.setAttribute( "arrival-list", arrivalListStr + (new Date().getSeconds() * 6) + ",1" );
             }
 
             get isTimerRunning() {
@@ -113,8 +137,14 @@ namespace littleware {
             button.addEventListener( "click", function() {
                 if ( controller.isTimerRunning ) {
                     controller.endTimer();
+                    button.classList.remove( "lw-button_stop" );
+                    button.classList.add( "lw-button_start");
+                    button.textContent = button.textContent.replace( "stop", "start" );
                 } else {
                     controller.startTimer();
+                    button.classList.remove( "lw-button_start" );
+                    button.classList.add( "lw-button_stop");
+                    button.textContent = button.textContent.replace( "start", "stop" );
                 }
             });
             return controller;
