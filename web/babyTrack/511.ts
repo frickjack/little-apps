@@ -47,7 +47,7 @@ namespace littleware {
                         (it) => { return it.endTime.getTime() - it.startTime.getTime(); }
                     ).reduce( (acc,it) => { return acc + it; }, 0 ) / (1000 * count)
                 );
-                result.timeCoveredSecs = Math.round( (history[0].startTime.getTime() - history[count-1].endTime.getTime())/1000);
+                result.timeCoveredSecs = Math.round( (history[count-1].endTime.getTime() - history[0].startTime.getTime())/1000);
             }
             return result;
         }
@@ -75,10 +75,20 @@ namespace littleware {
 
             /**
              * Update the UX to match the current state of the controller
+             * 
+             * @param includeSecondHand whether or not to render a clock hand at the current second
              */
-            render():void {
-                let timeToDegrees
-                let arrivalListStr = this.contractionList.map(
+            render( includeSecondHand:boolean ):void {
+                //
+                // First - update the pie widget - pie only shows
+                // data for contractions that occurred over the last hour
+                //
+                let nowMs = Date.now();
+                let oneHourMs = 60*60*1000;
+                let oneHourHistory = this.contractionList.filter(
+                    (cxn) => { return nowMs - cxn.startTime.getTime() < oneHourMs }
+                );
+                let arrivalListStr = oneHourHistory.map(
                     (cxn) => {
                         return {
                             startDegrees: date2Degrees( cxn.startTime ),
@@ -92,24 +102,88 @@ namespace littleware {
                 ).reduce(
                     (acc,s) => { return acc + s + ";" }, ""
                 );
-                this.pie.setAttribute( "arrival-list", arrivalListStr + (new Date().getSeconds() * 6) + ",1" );
+                if ( includeSecondHand ) {
+                    arrivalListStr += (new Date().getSeconds() * 6) + ",1";
+                }
+                this.pie.setAttribute( "arrival-list", arrivalListStr );
+
+                // update the stats table
+                let stats = computeStats( oneHourHistory );
+                let statCells = this.statsTable.querySelectorAll( 'td' );
+                if ( statCells.length > 2 ) {
+                    statCells[0].textContent = "" + Math.round( stats.avePeriodSecs ) + " secs";
+                    statCells[1].textContent = "" + Math.round( stats.aveDurationSecs ) + " secs";
+                    statCells[2].textContent = "" + (Math.round( stats.timeCoveredSecs / 0.6 )/100) + " mins";
+                } else {
+                    console.log( "ERROR: malformed stats table" );
+                }
             }
 
             get isTimerRunning() {
                 return !! this._timerInterval;
             }
 
+            /**
+             * Internal helper updates the endTime on the most recent
+             * contraction to now - unless that update would give the latest contraction
+             * a duration over 10mins - in which case we auto-add a new Contraction.
+             * Also - limits the list to 100 entries.
+             * These rules have to do with limitations on our view (pie only supports
+             * accute angle slices, and table is only useful up to 100 entries) 
+             * 
+             * @return the most recent contraction
+             */
+            _updateLatestContraction():Contraction {
+                let now = new Date();
+
+                if( this.contractionList.length < 1 ) {
+                    this.contractionList.push(
+                        { startTime: now, endTime: now }
+                    );
+                }
+                let cxn = this.contractionList[ this.contractionList.length - 1 ];
+                let durationMins = (now.getTime() - cxn.startTime.getTime()) / 60000;
+                if ( durationMins < 10 ) {
+                    cxn.endTime = new Date();
+                } else {
+                    // start a new contraction if last duration would be over 10 mins
+                    cxn = { startTime:now, endTime:now };
+                    this.contractionList.push( cxn );
+                }
+                // 
+                // Limit the contraction list to 100 entries
+                //
+                if ( this.contractionList.length > 100 ) {
+                    this.contractionList.splice( 0, this.contractionList.length - 100 );
+                }
+
+                return cxn;
+            }
+
+
+            /**
+             * Add a new contraction to the contractionList, and
+             * setup an interval to update that contraction's endTime,
+             * and re-render the view.
+             */
             startTimer():void {
                 if ( ! this._timerInterval ) {
-                    let contraction = {
+                    let cxn = {
                         startTime: new Date(),
                         endTime: new Date()
                     };
-                    this.contractionList.push( contraction );
+                    this.contractionList.push( cxn );
                     this._timerInterval = setInterval(
                         () => {
-                            contraction.endTime = new Date();
-                            this.render();
+                            var nowMs = Date.now();
+                            
+                            let latest = this._updateLatestContraction();
+                            if ( latest !== cxn ) {
+                                // assume the user has gone away after 10 mins - need to get to hostpital anyway!
+                                this.endTimer();
+                            } else {
+                                this.render(true);
+                            }
                         },
                         500
                     );
@@ -122,6 +196,7 @@ namespace littleware {
                 if ( this._timerInterval ) {
                     clearInterval( this._timerInterval );
                     this._timerInterval = null;
+                    this.render(false);
                 } else {
                     console.log( "ignoring endTimer call - no active interval" );
                 }

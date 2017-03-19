@@ -1,4 +1,5 @@
 /// <reference path="../511.ts" />
+/// <reference path="../../resources/js/littleware/arrivalPie/arrivalPie.ts" />
 /// <reference path="../../resources/js/littleware/test/util.ts" />
 
 namespace littleware {
@@ -10,6 +11,7 @@ namespace littleware {
 
         describe( "The 511 app controller", function() {
             it( "Exists", function() {
+                // testController is iniialized in 511.html ...
                 expect( testController ).toBeDefined();
             });
 
@@ -21,6 +23,14 @@ namespace littleware {
                 let stats = computeStats( sampleData );
                 expect( stats.avePeriodSecs ).toBe( Math.round( 300 - 0.100 ) );
                 expect( stats.aveDurationSecs ).toBe( Math.round( (61 + 60) / 2 ) );
+                expect( stats.timeCoveredSecs ).toBe( 360 );
+            });
+
+            it( "Can update info on an ongoing contraction", function() {
+                testController.contractionList = [
+
+                ];
+                expect( false ).toBe( true );
             });
         });
     }
