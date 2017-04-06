@@ -64,7 +64,8 @@ gulp.task( 'compilebower', [], function() {
 
 var tsConfig = {
     //noImplicitAny: true,
-    target: "es6"
+    target: "es6",
+    sourceMap: true
     // declaration: true
 };
 

@@ -117,6 +117,16 @@ namespace littleware {
                 } else {
                     console.log( "ERROR: malformed stats table" );
                 }
+
+                if ( this.isTimerRunning ) {
+                    this.button.classList.remove( "lw-button_start" );
+                    this.button.classList.add( "lw-button_stop");
+                    this.button.textContent = this.button.textContent.replace( "start", "stop" );
+                } else {
+                    this.button.classList.remove( "lw-button_stop" );
+                    this.button.classList.add( "lw-button_start");
+                    this.button.textContent = this.button.textContent.replace( "stop", "start" );
+                }
             }
 
             get isTimerRunning() {
@@ -212,14 +222,8 @@ namespace littleware {
             button.addEventListener( "click", function() {
                 if ( controller.isTimerRunning ) {
                     controller.endTimer();
-                    button.classList.remove( "lw-button_stop" );
-                    button.classList.add( "lw-button_start");
-                    button.textContent = button.textContent.replace( "stop", "start" );
                 } else {
                     controller.startTimer();
-                    button.classList.remove( "lw-button_start" );
-                    button.classList.add( "lw-button_stop");
-                    button.textContent = button.textContent.replace( "start", "stop" );
                 }
             });
             return controller;

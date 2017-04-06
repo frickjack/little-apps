@@ -26,12 +26,27 @@ namespace littleware {
                 expect( stats.timeCoveredSecs ).toBe( 360 );
             });
 
-            it( "Can update info on an ongoing contraction", function() {
+            it( "Can update info on an ongoing contraction", function(done) {
+                const nowMs = Date.now();
                 testController.contractionList = [
-
+                    { startTime: new Date( nowMs - 15*60*1000 ), endTime:new Date( nowMs - 14*60*1000 )},
+                    { startTime: new Date( nowMs - 10*60*1000 ), endTime:new Date( nowMs - 9*60*1000 )},
+                    { startTime: new Date( nowMs - 5*60*1000 ), endTime:new Date( nowMs - 4*60*1000 )},
+                    { startTime: new Date( nowMs - 2*60*1000 ), endTime:new Date( nowMs - 1*60*1000 )}
                 ];
-                expect( false ).toBe( true );
-            });
+                testController.startTimer();
+                setTimeout( function() {
+                    expect( testController.contractionList.length ).toBe( 5 );
+                    expect( testController.contractionList[4].startTime.getTime() + 1 ).toBeGreaterThan( nowMs );
+                    const check1Ms = Date.now();
+                    setTimeout( function() {
+                        expect( testController.contractionList.length ).toBe( 5 );
+                        expect( testController.contractionList[4].endTime.getTime() + 1 ).toBeGreaterThan( check1Ms );
+                        testController.endTimer();
+                        done();
+                    }, 1000 );
+                }, 2000 );
+            }, 30000 );
         });
     }
 }
