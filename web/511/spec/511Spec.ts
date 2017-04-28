@@ -37,6 +37,7 @@ namespace littleware {
                 testController.startTimer();
                 setTimeout( function() {
                     expect( testController.contractionList.length ).toBe( 5 );
+                    expect( testController.dataTable.querySelectorAll( 'tbody > tr' ).length ).toBe( 5 );
                     expect( testController.contractionList[4].startTime.getTime() + 1 ).toBeGreaterThan( nowMs );
                     const check1Ms = Date.now();
                     setTimeout( function() {
@@ -48,5 +49,10 @@ namespace littleware {
                 }, 2000 );
             }, 30000 );
         });
+
+        it( "Can format dates", function() {
+            expect( date2Str( new Date( "2/3/2011 3:33:22") )).toBe( "3:33:22 AM" );
+            expect( date2Str( new Date( "2/3/2011 0:03:02"))).toBe( "12:03:02 AM")
+        })
     }
 }

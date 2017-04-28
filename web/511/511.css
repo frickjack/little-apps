@@ -10,6 +10,14 @@ th {
     margin-bottom: 20px;
 }
 
+.lw-scroll-container {
+    overflow:auto;
+}
+
+.lw-scroll-container_history-table {
+    height: 200px;
+}
+
 lw-arrival-pie {
     width: 200px;
     height: 200px;

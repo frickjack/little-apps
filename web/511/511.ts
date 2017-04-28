@@ -21,6 +21,12 @@ namespace littleware {
             return (dt.getMinutes()*60 + dt.getSeconds()) / 10;
         }
 
+        export function date2Str( dt:Date ):string {
+            const hrs = dt.getHours();
+            const amPm = (hrs < 12) ? "AM" : "PM";
+            return ("" + (hrs === 0 ? 12 : hrs) + ":0" + dt.getMinutes() + ":0" + dt.getSeconds() + " " + amPm).replace( /:0+(\d\d+)/g, ":$1" );
+        }
+
         /**
          * Compute statistics over the given history of contractions -
          * assumes contractions are sorted in time-ascending order.
@@ -118,6 +124,26 @@ namespace littleware {
                     console.log( "ERROR: malformed stats table" );
                 }
 
+                // update the history table
+                let dataBody = this.dataTable.querySelector( 'tbody' );
+                while( dataBody.hasChildNodes() ) {
+                    dataBody.removeChild( dataBody.childNodes[0] );
+                }
+                oneHourHistory.reverse().forEach(
+                    (cxn, index) => {
+                        let tr = document.createElement( "TR" );
+                        let tdStart = document.createElement( "TD" );
+                        tdStart.innerText = date2Str( cxn.startTime );
+                        let tdEnd = document.createElement( "TD" );
+                        tdEnd.innerText = date2Str( cxn.endTime );
+                        let tdDuration = document.createElement( "TD" );
+                        tdDuration.innerText = "" + Math.round((cxn.endTime.getTime() - cxn.startTime.getTime()) / 1000) + " secs";
+                        [tdStart,tdEnd,tdDuration].forEach( (td) => { tr.appendChild(td); });
+                        dataBody.appendChild(tr);
+                    }
+                );
+
+                // update the button
                 if ( this.isTimerRunning ) {
                     this.button.classList.remove( "lw-button_start" );
                     this.button.classList.add( "lw-button_stop");

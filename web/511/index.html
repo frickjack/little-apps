@@ -41,7 +41,8 @@
                       <tr><td>0</td><td>0</td><td>-</td></tr>
                   </tbody>
               </table>
-              <table id="history" class="lw-data-table pure-table">
+              <div class="lw-scroll-container lw-scroll-container_history-table">
+              <table id="history" class="lw-data-table pure-table pure-table-striped">
                   <thead>
                       <tr><th>Start</th><th>End</th><th>Duration</th></tr>
                   </thead>
@@ -49,6 +50,7 @@
                       <tr><td>-</td><td>-</td><td>-</td></tr>
                   </tbody>
               </table>
+              </div>
             </div>
             <div class="pure-u-1-1">
               <p>
@@ -65,7 +67,7 @@
            document.addEventListener("DOMContentLoaded", function(event) {
                 littleware.app511.testController = littleware.app511.attachController(
                     document.body.querySelector( "lw-arrival-pie" ),
-                    document.body.querySelector( "table#app" ),
+                    document.body.querySelector( "table#history" ),
                     document.body.querySelector( "table#stats" ),
                     document.body.querySelector( "button" )
                 );
