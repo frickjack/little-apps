@@ -27,7 +27,7 @@ gulp.task('clean', [], function() {
 });
 
 gulp.task( 'compilejs', [], function() {
-    gulp.src( "web/**/*.js" ).pipe( gulp.dest( "build/" ) );
+    gulp.src( "src/**/*.js" ).pipe( gulp.dest( "build/" ) );
 });
 
 //
@@ -36,25 +36,25 @@ gulp.task( 'compilejs', [], function() {
 // Also incorporating markdown support with nunjucks-markdown.
 //
 gulp.task( 'compilenunjucks', [], function() {
-    gulp.src( ["web/**/*.html", "!web/eventTrack/events.html" ] )
-    .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv, envOptions:{autoescape:false} } ) ) // path: [ "web/templates" ], 
+    gulp.src( ["src/**/*.html", "!src/eventTrack/events.html" ] )
+    .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv, envOptions:{autoescape:false}, path: [ "src" ] } ) ) // path: [ "src/templates" ], 
     .on('error', console.log)
     .pipe( gulp.dest( "build/" ) );
 });
 
 gulp.task( 'compilehtml', [ 'compilenunjucks'], function() {
-    gulp.src( ["web/blog/*.*"], { base:"web" } )
+    gulp.src( ["src/blog/*.*"], { base:"src" } )
     .pipe( gulp.dest( "build/" ) );
 });
 
 
 
 gulp.task( 'compilecss', [], function() {
-    gulp.src( "web/**/*.css" ).pipe( gulp.dest( "build/" ) );
+    gulp.src( "src/**/*.css" ).pipe( gulp.dest( "build/" ) );
 });
 
 gulp.task( 'compileimg', [], function() {
-    gulp.src( "web/resources/img/**/*" ).pipe( gulp.dest( "build/resources/img" ) );
+    gulp.src( "src/resources/img/**/*" ).pipe( gulp.dest( "build/resources/img" ) );
 });
 
 gulp.task( 'compilebower', [], function() {
@@ -70,12 +70,12 @@ var tsConfig = {
 };
 
 gulp.task( 'compilets', [], function() {
-    return gulp.src( ['web/resources/js/littleware/arrivalPie/**/*.ts', 
-            'web/resources/js/littleware/test/**/*.ts',
-            'web/resources/js/littleware/headerSimple/**/*.ts', 
-            'web/511/**/*.ts',
-            'web/*.ts'], 
-            { base:"web" })
+    return gulp.src( ['src/resources/js/littleware/arrivalPie/**/*.ts', 
+            'src/resources/js/littleware/test/**/*.ts',
+            'src/resources/js/littleware/headerSimple/**/*.ts', 
+            'src/511/**/*.ts',
+            'src/*.ts'], 
+            { base:"src" })
         //.pipe( sourcemaps.init() )
         .pipe(ts( tsConfig ))
         .js
@@ -87,26 +87,26 @@ gulp.task( 'compilets', [], function() {
 gulp.task('compile', [ 'compilejs', 'compilets', 'compilehtml', 'compilecss', 'compileimg', 'compilebower' ], function() {
   // place code for your default task here
   //console.log( "Hello, World!" );
-  //gulp.src( "web/**/*" ).pipe( gulp.dest( "build/" ) );
+  //gulp.src( "src/**/*" ).pipe( gulp.dest( "build/" ) );
 });
 
 gulp.task('default', [ 'compile' ], function() {
   // place code for your default task here
   //console.log( "Hello, World!" );
-  //gulp.src( "web/**/*" ).pipe( gulp.dest( "build/" ) );
+  //gulp.src( "src/**/*" ).pipe( gulp.dest( "build/" ) );
 });
 
 gulp.task('watchts', function () {
     // Endless stream mode 
-    return gulp.watch('web/**/*.ts', [ 'compilets' ] );
+    return gulp.watch('src/**/*.ts', [ 'compilets' ] );
 });
 
 gulp.task( 'watchhtml', function () {
-   return gulp.watch( 'web/**/*.html', [ 'compilehtml' ] );     
+   return gulp.watch( 'src/**/*.html', [ 'compilehtml' ] );     
 });
 
 gulp.task( 'watchcss', function () {
-   return gulp.watch( 'web/**/*.css', [ 'compilecss' ] );     
+   return gulp.watch( 'src/**/*.css', [ 'compilecss' ] );     
 });
 
 gulp.task( 'watch', [ 'watchts', 'watchhtml', 'watchcss' ], function() {

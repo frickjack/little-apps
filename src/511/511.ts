@@ -27,6 +27,10 @@ namespace littleware {
             return ("" + (hrs === 0 ? 12 : hrs) + ":0" + dt.getMinutes() + ":0" + dt.getSeconds() + " " + amPm).replace( /:0+(\d\d+)/g, ":$1" );
         }
 
+        export function secs2Str( numSecs:number ):string {
+            return "" + Math.floor( numSecs / 60 ) + ":" + ( "00" + (numSecs % 60)).substr(-2);
+        }
+
         /**
          * Compute statistics over the given history of contractions -
          * assumes contractions are sorted in time-ascending order.
@@ -79,7 +83,7 @@ namespace littleware {
             view:View511;
             
             constructor( view:View511, contractionList:Contraction[] ) {
-                this.contractionList = [];
+                this.contractionList = contractionList;
                 this._timerInterval = null;
                 this.view = view;
             }
@@ -124,9 +128,9 @@ namespace littleware {
                 if ( statCells.length > 2 ) {
                     const durMins = Math.floor( stats.avePeriodSecs / 60 );
                     const remainingSecs = stats.avePeriodSecs % 60;
-                    statCells[0].textContent = "" + durMins + " mins : " + remainingSecs + " secs";
-                    statCells[1].textContent = "" + Math.round( stats.aveDurationSecs ) + " secs";
-                    statCells[2].textContent = "" + (Math.round( stats.timeCoveredSecs / 0.6 )/100) + " mins";
+                    statCells[0].textContent = secs2Str( stats.avePeriodSecs );
+                    statCells[1].textContent = secs2Str( stats.aveDurationSecs );
+                    statCells[2].textContent = secs2Str( stats.timeCoveredSecs );
                 } else {
                     console.log( "ERROR: malformed stats table" );
                 }
@@ -288,7 +292,14 @@ namespace littleware {
             let contractionList = [];
             try {
                 let data = JSON.parse( localStorage.getItem( storageKey ) );
-                contractionList = data.contractionList || [];
+                contractionList = (data.contractionList || []).map(
+                    function(js) {
+                        return {
+                            startTime: new Date( js.startTime ),
+                            endTime: new Date( js.endTime )
+                        }
+                    }
+                );
             } catch ( err ) {
                 console.log( "Failed parsing 511 local storage", err );
             }
@@ -321,6 +332,7 @@ namespace littleware {
             } else {
                 console.log( "WARNING - no 'ok' button found in clearHistory modal" );
             }
+            controller.render( false );
             return controller;
         }
 
