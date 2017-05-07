@@ -30,7 +30,7 @@
           </div>
           <div class="pure-u-1-1 pure-u-md-1-2">
               <lw-arrival-pie arrival-list=""></lw-arrival-pie>
-             <button autofocus="true" type="button" class="pure-button pure-button-primary lw-button lw-button_start">start contraction</button>
+             <button id="startStop" autofocus="true" type="button" class="pure-button pure-button-primary lw-button lw-button_start">start contraction</button>
           </div>
           <div class="pure-u-1-1 pure-u-md-1-2">
               <table id="stats" class="lw-data-table pure-table">
@@ -51,25 +51,39 @@
                   </tbody>
               </table>
               </div>
+              <button id="clearHistory" type="button" class="pure-button lw-button">Clear History</button>
             </div>
             <div class="pure-u-1-1">
               <p>
                   The 5-1-1 rule: when labor progresses normally (pain is not excessive, water does not break, etc)
                   go to the hospital when contractions occur every <em>5</em> minutes each lasting <em>1</em> minute 
                   for a period of <em>1</em> hour.
-              </p>              
+              </p>
             </div>
         </div>
         
+        <div id="clearHistoryModal" class="lw-modalDialog">
+            <div class="lw-modalDialog__content">
+                <a href="#app" class="lw-modalDialog__closeX">X</a>
+                <p>
+                   Clear the history of contractions ?
+                </p>
+                <button id="clearHistoryOk" type="button" class="pure-button pure-button-primary lw-button">Do it!</button>
+            </div>
+        </div>
 
         <script src="511.js"></script>
         <script>
            document.addEventListener("DOMContentLoaded", function(event) {
                 littleware.app511.testController = littleware.app511.attachController(
-                    document.body.querySelector( "lw-arrival-pie" ),
-                    document.body.querySelector( "table#history" ),
-                    document.body.querySelector( "table#stats" ),
-                    document.body.querySelector( "button" )
+                    {
+                        pie: document.body.querySelector( "lw-arrival-pie" ),
+                        historyTable: document.body.querySelector( "table#history" ),
+                        statsTable: document.body.querySelector( "table#stats" ),
+                        startStopButton: document.body.querySelector( "button#startStop" ),
+                        clearHistoryButton: document.body.querySelector( "button#clearHistory" ),
+                        clearHistoryModal: document.body.querySelector( "div#clearHistoryModal" )
+                    }
                 );
             });
             

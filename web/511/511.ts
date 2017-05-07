@@ -60,6 +60,15 @@ namespace littleware {
 
         export const storageKey = "511Data";
 
+        export interface View511 {
+            pie:HTMLElement;
+            historyTable:HTMLElement;
+            statsTable:HTMLElement;
+            startStopButton:HTMLElement,
+            clearHistoryButton:HTMLElement,
+            clearHistoryModal:HTMLElement
+        };
+
         /**
          * Manager for the 511 view
          */
@@ -67,18 +76,12 @@ namespace littleware {
             private _timerInterval:any;
             contractionList:Contraction[];
 
-            pie:HTMLElement;
-            dataTable:HTMLElement;
-            statsTable:HTMLElement;
-            button:HTMLElement;
-
-            constructor( pie:HTMLElement, dataTable:HTMLElement, statsTable:HTMLElement, button:HTMLElement, contractionList:Contraction[] ) {
+            view:View511;
+            
+            constructor( view:View511, contractionList:Contraction[] ) {
                 this.contractionList = [];
                 this._timerInterval = null;
-                this.pie = pie;
-                this.statsTable = statsTable;
-                this.dataTable = dataTable;
-                this.button = button;
+                this.view = view;
             }
 
             /**
@@ -113,11 +116,11 @@ namespace littleware {
                 if ( includeSecondHand ) {
                     arrivalListStr += (new Date().getSeconds() * 6) + ",1";
                 }
-                this.pie.setAttribute( "arrival-list", arrivalListStr );
+                this.view.pie.setAttribute( "arrival-list", arrivalListStr );
 
                 // update the stats table
                 let stats = computeStats( oneHourHistory );
-                let statCells = this.statsTable.querySelectorAll( 'td' );
+                let statCells = this.view.statsTable.querySelectorAll( 'td' );
                 if ( statCells.length > 2 ) {
                     const durMins = Math.floor( stats.avePeriodSecs / 60 );
                     const remainingSecs = stats.avePeriodSecs % 60;
@@ -129,7 +132,7 @@ namespace littleware {
                 }
 
                 // update the history table
-                let dataBody = this.dataTable.querySelector( 'tbody' );
+                let dataBody = this.view.historyTable.querySelector( 'tbody' );
                 while( dataBody.hasChildNodes() ) {
                     dataBody.removeChild( dataBody.childNodes[0] );
                 }
@@ -149,13 +152,13 @@ namespace littleware {
 
                 // update the button
                 if ( this.isTimerRunning ) {
-                    this.button.classList.remove( "lw-button_start" );
-                    this.button.classList.add( "lw-button_stop");
-                    this.button.textContent = this.button.textContent.replace( "start", "stop" );
+                    this.view.startStopButton.classList.remove( "lw-button_start" );
+                    this.view.startStopButton.classList.add( "lw-button_stop");
+                    this.view.startStopButton.textContent = this.view.startStopButton.textContent.replace( "start", "stop" );
                 } else {
-                    this.button.classList.remove( "lw-button_stop" );
-                    this.button.classList.add( "lw-button_start");
-                    this.button.textContent = this.button.textContent.replace( "stop", "start" );
+                    this.view.startStopButton.classList.remove( "lw-button_stop" );
+                    this.view.startStopButton.classList.add( "lw-button_start");
+                    this.view.startStopButton.textContent = this.view.startStopButton.textContent.replace( "stop", "start" );
                 }
             }
 
@@ -235,14 +238,43 @@ namespace littleware {
                 }
             }
 
-            endTimer():void {
+            /**
+             * End the timer started by startTimer, and re-render
+             * 
+             * @return true if timer cleared and render called, false if NOOP
+             *          since timer was not running
+             */
+            endTimer():boolean {
                 if ( this._timerInterval ) {
                     clearInterval( this._timerInterval );
                     this._timerInterval = null;
                     this.render(false);
+                    return true;
                 } else {
                     console.log( "ignoring endTimer call - no active interval" );
+                    return false;
                 }
+            }
+
+            /**
+             * Clear the history contraction list, clear the start-timer interval if any,
+             * and re-render
+             */
+            clearHistory():void {
+                localStorage.removeItem( storageKey );
+                this.contractionList = [];
+                this.closeClearHistoryModal();
+                if ( ! this.endTimer() ) {
+                    this.render( false );
+                }
+            }
+
+            openClearHistoryModal():void {
+                this.view.clearHistoryModal.classList.add( "lw-modalDialog_open" );
+            }
+
+            closeClearHistoryModal():void {
+                this.view.clearHistoryModal.classList.remove( "lw-modalDialog_open" );
             }
         }
     
@@ -250,7 +282,9 @@ namespace littleware {
         /**
          * Attach a controller to the DOM elements that make up the 511 UX
          */
-        export function attachController( pie:HTMLElement, dataTable:HTMLElement, statsTable:HTMLElement, button:HTMLElement ):any {
+        export function attachController( 
+            view:View511
+            ):any {
             let contractionList = [];
             try {
                 let data = JSON.parse( localStorage.getItem( storageKey ) );
@@ -259,14 +293,34 @@ namespace littleware {
                 console.log( "Failed parsing 511 local storage", err );
             }
             
-            let controller = new Controller511( pie, dataTable, statsTable, button, contractionList );
-            button.addEventListener( "click", function() {
+            let controller = new Controller511( view, contractionList );
+            view.startStopButton.addEventListener( "click", function(ev) {
                 if ( controller.isTimerRunning ) {
                     controller.endTimer();
                 } else {
                     controller.startTimer();
                 }
             });
+
+            view.clearHistoryButton.addEventListener( "click", function(ev) {
+                controller.openClearHistoryModal();
+            });
+            const closeX = view.clearHistoryModal.querySelector( "a.lw-modalDialog__closeX" );
+            if ( closeX ) {
+                closeX.addEventListener( "click", function(ev) {
+                    controller.closeClearHistoryModal();
+                });
+            } else {
+                console.log( "WARNING - no 'closeX' link found in clearHistory modal" );
+            }
+            const okButton = view.clearHistoryModal.querySelector( "button" );
+            if ( okButton ) {
+                okButton.addEventListener( "click", function(ev) {
+                    controller.clearHistory();
+                });
+            } else {
+                console.log( "WARNING - no 'ok' button found in clearHistory modal" );
+            }
             return controller;
         }
 
