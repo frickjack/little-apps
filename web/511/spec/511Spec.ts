@@ -2,6 +2,9 @@
 /// <reference path="../../resources/js/littleware/arrivalPie/arrivalPie.ts" />
 /// <reference path="../../resources/js/littleware/test/util.ts" />
 
+/**
+ * Jasmine test suite ran directly in the 511 UX
+ */
 namespace littleware {
     export namespace app511 {
         import arrivalPie = littleware.arrivalPie;
@@ -48,11 +51,21 @@ namespace littleware {
                     }, 1000 );
                 }, 2000 );
             }, 30000 );
+
+            it( "saves contraction info in localStorage", function() {
+                const dataStr = localStorage.getItem( storageKey );
+                expect( !! dataStr ).toBe( true );
+                const data = JSON.parse( dataStr );
+                expect( typeof data.contractionList ).toBe( "object" );
+                expect( data.contractionList.length ).toBeGreaterThan( 0 );
+            });
+
+            it( "Can format dates", function() {
+                expect( date2Str( new Date( "2/3/2011 3:33:22") )).toBe( "3:33:22 AM" );
+                expect( date2Str( new Date( "2/3/2011 0:03:02"))).toBe( "12:03:02 AM")
+            });
+            
         });
 
-        it( "Can format dates", function() {
-            expect( date2Str( new Date( "2/3/2011 3:33:22") )).toBe( "3:33:22 AM" );
-            expect( date2Str( new Date( "2/3/2011 0:03:02"))).toBe( "12:03:02 AM")
-        })
     }
 }

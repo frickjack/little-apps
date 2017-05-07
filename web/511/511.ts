@@ -58,6 +58,8 @@ namespace littleware {
             return result;
         }
 
+        export const storageKey = "511Data";
+
         /**
          * Manager for the 511 view
          */
@@ -117,7 +119,9 @@ namespace littleware {
                 let stats = computeStats( oneHourHistory );
                 let statCells = this.statsTable.querySelectorAll( 'td' );
                 if ( statCells.length > 2 ) {
-                    statCells[0].textContent = "" + Math.round( stats.avePeriodSecs ) + " secs";
+                    const durMins = Math.floor( stats.avePeriodSecs / 60 );
+                    const remainingSecs = stats.avePeriodSecs % 60;
+                    statCells[0].textContent = "" + durMins + " mins : " + remainingSecs + " secs";
                     statCells[1].textContent = "" + Math.round( stats.aveDurationSecs ) + " secs";
                     statCells[2].textContent = "" + (Math.round( stats.timeCoveredSecs / 0.6 )/100) + " mins";
                 } else {
@@ -192,7 +196,10 @@ namespace littleware {
                 if ( this.contractionList.length > 100 ) {
                     this.contractionList.splice( 0, this.contractionList.length - 100 );
                 }
-
+                //
+                // Persist to local storage
+                //
+                localStorage.setItem( storageKey, JSON.stringify( { contractionList: this.contractionList } ));
                 return cxn;
             }
 
@@ -244,7 +251,15 @@ namespace littleware {
          * Attach a controller to the DOM elements that make up the 511 UX
          */
         export function attachController( pie:HTMLElement, dataTable:HTMLElement, statsTable:HTMLElement, button:HTMLElement ):any {
-            let controller = new Controller511( pie, dataTable, statsTable, button, [] );
+            let contractionList = [];
+            try {
+                let data = JSON.parse( localStorage.getItem( storageKey ) );
+                contractionList = data.contractionList || [];
+            } catch ( err ) {
+                console.log( "Failed parsing 511 local storage", err );
+            }
+            
+            let controller = new Controller511( pie, dataTable, statsTable, button, contractionList );
             button.addEventListener( "click", function() {
                 if ( controller.isTimerRunning ) {
                     controller.endTimer();
