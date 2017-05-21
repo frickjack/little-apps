@@ -6,12 +6,15 @@ if ( null == exports ) {
     throw "littleware-asset-base";
 }
 
-import importY = require("../../libts/yui");
-importY; // workaround for typescript bug: https://typescript.codeplex.com/workitem/1531
-import Y = importY.Y;
-Y = exports;
+
 
 var lw: any = exports.littleware;
+
+function assert( check:boolean, msg:string ):void {
+    if ( ! check ) {
+        throw new Error( msg );
+    }
+}
 
 /**
  * @module littleware-asset-base
@@ -170,7 +173,7 @@ export module littleware.asset {
             this.state = Math.floor(builder.state);
             this.value = builder.value;
 
-            Y.assert( 
+            assert( 
                 this.id && this.assetType && this.name && 
                 ((this.assetType.id == HomeAsset.HOME_TYPE.id) || (this.fromId && (this.id != this.fromId))), 
                 "asset passes basic validation"

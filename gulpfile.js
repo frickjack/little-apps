@@ -5,7 +5,60 @@ var markdown = require('nunjucks-markdown'),
     marked = require('marked');
 var nunjucksRender = require('gulp-nunjucks-render');
 var sourcemaps = require('gulp-sourcemaps');
-
+var exec = require('child_process').exec;
+var mkdirp = require( 'mkdirp' );
+ 
+gulp.task('makeico', function (cb) {
+    new Promise( function(resolve, reject) {
+        const path = "build/resources/img/appIcons"; 
+        mkdirp( path, function(err) {
+                if (err) {
+                    console.log( err );
+                    reject( err );
+                } else {
+                    resolve( path );
+                }
+        });
+    }).then( (folderStr) => {
+        const promiseList = [ '57', '72', '114', '144', '152', '167', '180'
+            ].map( 
+                (rez) => {
+                    return {
+                        pngPath: folderStr + "/oo511." + rez + "x" + rez + ".png",
+                        rez:rez
+                    };
+                }
+            ).map(
+                (info) => {
+                    return new Promise( function(resolve,reject) {
+                        const commandStr = 'inkscape src/resources/img/511.svg --export-png ' + info.pngPath + " -w" + info.rez + " -h" + info.rez;
+                        console.log( "makeico running command: " + commandStr );
+                        exec( commandStr, 
+                            function (err, stdout, stderr) {
+                                console.log(stdout);
+                                console.log(stderr);
+                                if ( err ) {
+                                    reject( err );
+                                } else {
+                                    resolve( info.pngPath );
+                                }
+                            }
+                        );
+                    });
+                }
+            );
+        return Promise.all( promiseList );
+    }).then(
+        (pngList) => {
+            cb();
+        }
+    ).catch(
+        (err) => {
+            console.log( "PNG creation failed", err );
+        }
+    );
+});
+  
 
 // register markdown support with nunjucks
 var nunjucksManageEnv = function(env) {
