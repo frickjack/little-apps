@@ -36,6 +36,9 @@
                 <rect class="lw-colorswatch__box_fill_lwgray" width="100" height="100" x="0" y="400"/>
             </svg>
         </section>
+        <section id="smiley">
+            <p>Smiley emoticon: <span class="lw-smiley">&#x1F603</span></p>
+        </section>
         <section id="modalDialog">
             <p>
                 Simple CSS3 modal dialog - see <a href="https://www.webdesignerdepot.com/2012/10/creating-a-modal-window-with-html5-and-css3/">this bLog</a>.
@@ -51,20 +54,8 @@
                 </div>
             </div>
 
-            <script>
-                (function(){
-                    const div = document.querySelector( "div#modalDemo" );
-                    const button = document.querySelector( "button#modalDemoOpen" );
-                    const closeX = div.querySelector( "a.lw-modalDialog__closeX" );
-                    button.addEventListener( "click", function(ev) {
-                        div.classList.add( "lw-modalDialog_open" );
-                    });
-                    closeX.addEventListener( "click", function(ev) {
-                        ev.preventDefault();
-                        div.classList.remove( "lw-modalDialog_open" );
-                    });
-                })();
-            </script>
+            <script src="demo.js"></script>
+                
         </section>
     </body>
 </html>

@@ -65,12 +65,12 @@ namespace littleware {
         export const storageKey = "511Data";
 
         export interface View511 {
-            pie:HTMLElement;
-            historyTable:HTMLElement;
-            statsTable:HTMLElement;
-            startStopButton:HTMLElement,
-            clearHistoryButton:HTMLElement,
-            clearHistoryModal:HTMLElement
+            pie:Element;
+            historyTable:Element;
+            statsTable:Element;
+            startStopButton:Element,
+            clearHistoryButton:Element,
+            clearHistoryModal:Element
         };
 
         /**

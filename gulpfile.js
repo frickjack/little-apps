@@ -127,7 +127,8 @@ gulp.task( 'compilets', [], function() {
             'src/resources/js/littleware/test/**/*.ts',
             'src/resources/js/littleware/headerSimple/**/*.ts', 
             'src/511/**/*.ts',
-            'src/*.ts'], 
+            'src/*.ts',
+            'src/resources/css/**/*.ts'], 
             { base:"src" })
         //.pipe( sourcemaps.init() )
         .pipe(ts( tsConfig ))

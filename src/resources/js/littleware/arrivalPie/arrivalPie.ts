@@ -44,7 +44,7 @@ namespace littleware {
       let path = document.createElementNS( namespace, "path" ) as SVGPathElement;
       //let path = new SVGPathElement();
       //<path class="arrpie-pie" style="fill:green; stroke:red;stroke-width:2" d="M50,50 L50,5 A45,45 0 0,1 95,50 z"></path>
-      path.setAttribute( "class", "arrpie-slice" );
+      path.setAttribute( "class", "lw-arrpie__slice" );
       if ( data.durationDegrees > 90 ) {
         throw new Error( "Obtuse angles not yet supported" );
       }
@@ -132,7 +132,7 @@ namespace littleware {
         }
 
         private _renderPie( arrivalListSpec:string ):void {
-          let g = this.querySelector( "g.arrpie-pielist" );
+          let g = this.querySelector( "g.lw-arrpie__pielist" );
           // remove all current paths
           while( g.hasChildNodes() ) {
             g.removeChild( g.lastChild );
