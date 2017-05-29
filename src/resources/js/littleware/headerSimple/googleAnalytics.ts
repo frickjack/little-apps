@@ -16,7 +16,7 @@ if (/apps.frickjack.com/.exec(window.location.href)) {
             (i[r].q = i[r].q || []).push(arguments)
         }, i[r].l = new Date().getTime(); a = s.createElement(o),
         m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-15960292-3', 'frickjack.com');
     ga('send', 'pageview');
