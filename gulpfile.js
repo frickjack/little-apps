@@ -1,13 +1,18 @@
-var gulp = require('gulp');
-var clean = require('gulp-rimraf');
-var ts = require('gulp-typescript');
-var markdown = require('nunjucks-markdown'),
-    marked = require('marked');
-var nunjucksRender = require('gulp-nunjucks-render');
-var sourcemaps = require('gulp-sourcemaps');
-var exec = require('child_process').exec;
-var mkdirp = require( 'mkdirp' );
+const gulp = require('gulp');
+const debug = require( 'gulp-debug' );
+const rev = require('gulp-rev');
+const revReplace = require('gulp-rev-replace');
+const revManifestPath = "rev-manifest.json";
+const clean = require('gulp-rimraf');
+const ts = require('gulp-typescript');
+const markdown = require('nunjucks-markdown');
+const marked = require('marked');
+const nunjucksRender = require('gulp-nunjucks-render');
+const sourcemaps = require('gulp-sourcemaps');
+const exec = require('child_process').exec;
+const mkdirp = require( 'mkdirp' );
  
+
 gulp.task('makeico', function (cb) {
     new Promise( function(resolve, reject) {
         const path = "build/resources/img/appIcons"; 
@@ -80,7 +85,14 @@ gulp.task('clean', [], function() {
 });
 
 gulp.task( 'compilejs', [], function() {
-    gulp.src( "src/**/*.js" ).pipe( gulp.dest( "build/" ) );
+    gulp.src( "src/**/*.js" )
+        .pipe(rev())
+        .pipe( gulp.dest( "build/" ) )
+        .pipe( rev.manifest( "build/rev-manifest.json", {
+            base: "./build/",
+            merge: true
+        }  ))
+        .pipe( gulp.dest( "build/" ) );
 });
 
 //
@@ -88,22 +100,42 @@ gulp.task( 'compilejs', [], function() {
 // see https://zellwk.com/blog/nunjucks-with-gulp/
 // Also incorporating markdown support with nunjucks-markdown.
 //
-gulp.task( 'compilenunjucks', [], function() {
+gulp.task( 'compilenunjucks', [ "compilejs", "compilets", "compilecss" ], function() {
+    const manifest = gulp.src( "./build/" + revManifestPath);
     gulp.src( ["src/**/*.html", "!src/eventTrack/events.html" ] )
     .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv, envOptions:{autoescape:false}, path: [ "src" ] } ) ) // path: [ "src/templates" ], 
     .on('error', console.log)
+    .pipe(revReplace({manifest: manifest} ))
     .pipe( gulp.dest( "build/" ) );
 });
 
+/*
+gulp.task("revreplace", ["revision"], function(){
+  var manifest = gulp.src("./" + opt.distFolder + "/rev-manifest.json");
+
+  return gulp.src(opt.srcFolder + "/index.html")
+    .pipe(revReplace({manifest: manifest}))
+    .pipe(gulp.dest(opt.distFolder));
+});
+*/
+
 gulp.task( 'compilehtml', [ 'compilenunjucks'], function() {
-    gulp.src( ["src/blog/*.*"], { base:"src" } )
-    .pipe( gulp.dest( "build/" ) );
+    gulp.src( ["src/**/*.json" ] ).pipe( gulp.dest( "build/" ) );
 });
 
 
 
 gulp.task( 'compilecss', [], function() {
-    gulp.src( "src/**/*.css" ).pipe( gulp.dest( "build/" ) );
+    gulp.src( "src/**/*.css" )
+        .pipe( gulp.dest( "build/" ) )
+        .pipe(rev())
+        .pipe( gulp.dest( "build/" ) )
+        //.pipe( debug({title:'compilecss'}))
+        .pipe( rev.manifest( "build/rev-manifest.json", {
+            base: "build",
+            merge: true
+        }))
+        .pipe( gulp.dest( "build/" ) );
 });
 
 gulp.task( 'compileimg', [], function() {
@@ -111,8 +143,12 @@ gulp.task( 'compileimg', [], function() {
 });
 
 gulp.task( 'compilebower', [], function() {
-    gulp.src( ["node_modules/jasmine-core/**/*","node_modules/font-awesome/**/*"], { base:"node_modules" }  ).pipe( gulp.dest( "build/3rdParty" ) );
+    gulp.src( ["node_modules/jasmine-core/**/*", "node_modules/font-awesome/**/*", "node_modules/webcomponentsjs/**/*"], 
+            { base:"node_modules" }  ).pipe( gulp.dest( "build/3rdParty" ) 
+            );
 });
+
+// add revision-hash to js and css file names
 
 
 var tsConfig = {
@@ -134,11 +170,19 @@ gulp.task( 'compilets', [], function() {
         .pipe(ts( tsConfig ))
         .js
         //.pipe( sourcemaps.write( "./maps" ) )
-        .pipe(gulp.dest("build/"));
+        .pipe(gulp.dest("build/"))
+        .pipe( rev() )
+        .pipe(gulp.dest("build/"))
+        //.pipe( debug({title:'compilets'}))
+        .pipe( rev.manifest( "build/rev-manifest.json", {
+            base: "build",
+            merge: true
+        }  ))
+        .pipe( gulp.dest( "build/" ) );
 });
 
 
-gulp.task('compile', [ 'compilejs', 'compilets', 'compilehtml', 'compilecss', 'compileimg', 'compilebower' ], function() {
+gulp.task('compile', [ 'compilehtml', 'compileimg', 'compilebower' ], function() {
   // place code for your default task here
   //console.log( "Hello, World!" );
   //gulp.src( "src/**/*" ).pipe( gulp.dest( "build/" ) );
@@ -152,7 +196,7 @@ gulp.task('default', [ 'compile' ], function() {
 
 gulp.task('watchts', function () {
     // Endless stream mode 
-    return gulp.watch('src/**/*.ts', [ 'compilets' ] );
+    return gulp.watch('src/**/*.ts', [ 'compilehtml' ] );
 });
 
 gulp.task( 'watchhtml', function () {
@@ -160,7 +204,7 @@ gulp.task( 'watchhtml', function () {
 });
 
 gulp.task( 'watchcss', function () {
-   return gulp.watch( 'src/**/*.css', [ 'compilecss' ] );     
+   return gulp.watch( 'src/**/*.css', [ 'compilehtml' ] );     
 });
 
 gulp.task( 'watch', [ 'watchts', 'watchhtml', 'watchcss' ], function() {

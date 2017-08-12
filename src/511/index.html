@@ -3,7 +3,8 @@
     <head>
         <title>5-1-1</title>
         <meta name="apple-mobile-web-app-capable" content="yes" />
- 
+        <link rel="manifest" href="./manifest.json">
+
     {% include "resources/css/littleware/styleGuide/styleGuide.template.html" %}
     {% include "resources/js/littleware/headerSimple/headerSimple.template.html" %}
     {% include "resources/js/littleware/arrivalPie/arrivalPie.template.html" %}
@@ -17,7 +18,7 @@
         <link rel="apple-touch-icon" sizes="167x167" href="/resources/img/appIcons/oo511.167x167.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/resources/img/appIcons/oo511.180x180.png" />
 
-        <link rel="stylesheet" href="511.css" type="text/css" />    
+        <link rel="stylesheet" href="/511/511.css" type="text/css" />    
 
         {% block headBottom %}{% endblock %}     
     </head>
@@ -72,8 +73,8 @@
             </div>
         </div>
 
-        <script src="511.js"></script>
-        <script src="main.js"></script>
+        <script src="/511/511.js"></script>
+        <script src="/511/main.js"></script>
            
 
         {% block bodyBottom %}{% endblock %}     
