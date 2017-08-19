@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const gulpSequence = require('gulp-sequence');
 const debug = require( 'gulp-debug' );
 const rev = require('gulp-rev');
 const revReplace = require('gulp-rev-replace');
@@ -208,4 +209,29 @@ gulp.task( 'watchcss', function () {
 });
 
 gulp.task( 'watch', [ 'watchts', 'watchhtml', 'watchcss' ], function() {
+});
+
+gulp.task( 'compileclean', function(cb) {
+    return gulpSequence( 'clean', 'compile', 'makeico' )(cb);
+});
+
+gulp.task( 'deploy', [ 'compileclean' ], function(cb) {
+    const pwdPath = process.cwd();
+    const imageName = "frickjack/s3cp:1.0.0";
+    const commandStr = "yes | docker run --rm --name s3gulp -v littleware:/root/.littleware -v '" +
+        pwdPath + ":/mnt/workspace' " + imageName + " -copy /mnt/workspace/build/ s3://apps.frickjack.com/";
+
+    console.log( "Running: " + commandStr );
+
+    exec( commandStr, 
+        function (err, stdout, stderr) {
+            console.log(stdout);
+            console.log(stderr);
+            if ( err ) {
+                //reject( err );
+            } else {
+                cb();
+            }
+        }
+    );
 });
