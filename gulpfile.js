@@ -144,7 +144,11 @@ gulp.task( 'compileimg', [], function() {
 });
 
 gulp.task( 'compilebower', [], function() {
-    gulp.src( ["node_modules/jasmine-core/**/*", "node_modules/font-awesome/**/*", "node_modules/webcomponentsjs/**/*"], 
+    gulp.src( ["node_modules/jasmine-core/**/*", "node_modules/font-awesome/**/*",
+                "node_modules/webcomponentsjs/**/*", 
+                "node_modules/@littleware/little-elements/build/**/*",
+                "!node_modules/@littleware/little-elements/build/3rdParty/**/*",
+             ], 
             { base:"node_modules" }  ).pipe( gulp.dest( "build/3rdParty" ) 
             );
 });
@@ -160,26 +164,15 @@ var tsConfig = {
 };
 
 gulp.task( 'compilets', [], function() {
-    return gulp.src( ['src/resources/js/littleware/arrivalPie/**/*.ts', 
-            'src/resources/js/littleware/test/**/*.ts',
-            'src/resources/js/littleware/headerSimple/**/*.ts', 
-            'src/511/**/*.ts',
+    return gulp.src( ['src/**/*.ts', 
             'src/*.ts',
-            'src/resources/css/**/*.ts'], 
+            ], 
             { base:"src" })
         //.pipe( sourcemaps.init() )
         .pipe(ts( tsConfig ))
         .js
         //.pipe( sourcemaps.write( "./maps" ) )
-        .pipe(gulp.dest("build/"))
-        .pipe( rev() )
-        .pipe(gulp.dest("build/"))
-        //.pipe( debug({title:'compilets'}))
-        .pipe( rev.manifest( "build/rev-manifest.json", {
-            base: "build",
-            merge: true
-        }  ))
-        .pipe( gulp.dest( "build/" ) );
+        .pipe(gulp.dest("build/"));
 });
 
 
