@@ -1,3 +1,7 @@
+import { html, render, TemplateResult } from '../../../../lit-html/lit-html.js';
+
+export const css = html`
+<style id="lw-headerSimple">
 lw-header-simple {
     width: 100%;
 }
@@ -23,3 +27,5 @@ lw-header-simple {
     width: 70%;
     padding: 0px;
 }
+</style>
+`;

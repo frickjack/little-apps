@@ -1,11 +1,5 @@
 var analyticsEnabled = false;
 
-const LittleAnalytics = {
-    get isEnabled():boolean {
-        return analyticsEnabled;
-    }
-}
-
 declare function ga( a:string, b:string, c?:string );
 
 // report in to Google Analytics if running under apps.frickjack.com domain
@@ -20,4 +14,16 @@ if (/apps.frickjack.com/.exec(window.location.href)) {
 
     ga('create', 'UA-15960292-3', 'frickjack.com');
     ga('send', 'pageview');
+} else {
+    window["ga"] = function() {};
+}
+
+export const LittleAnalytics = {
+    get isEnabled():boolean {
+        return analyticsEnabled;
+    },
+
+    get ga():any {
+        return window["ga"];
+    }
 }

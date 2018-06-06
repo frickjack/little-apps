@@ -1,4 +1,4 @@
-/// <reference path="./511.ts" />
+import {attachController} from '/modules/@littleware/little-apps/lib/511/511.js';
 
 document.addEventListener("DOMContentLoaded", function(event) {
     littleware.app511.testController = littleware.app511.attachController(

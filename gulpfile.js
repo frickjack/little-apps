@@ -153,26 +153,37 @@ gulp.task( 'compilebower', [], function() {
             );
 });
 
-// add revision-hash to js and css file names
-
 
 var tsConfig = {
     //noImplicitAny: true,
     target: "es6",
-    sourceMap: true
+    module: "es2015",
+    //moduleResolution: "Node",
+    sourceMap: true,
+    declaration: true,
+    baseUrl: "src", // This must be specified if "paths" is.
+    //paths: {
+    //    "*.mjs": ["*", "*.ts"]
+    //},
+    rootDirs: [
+        "src",
+        "node_modules"
+    ]
     // declaration: true
 };
 
 gulp.task( 'compilets', [], function() {
-    return gulp.src( ['src/**/*.ts', 
-            'src/*.ts',
-            ], 
-            { base:"src" })
+    const tsResult = gulp.src( 
+            ['src/@littleware/little-apps/lib/**/*.ts'], 
+            { base:"src/@littleware/little-apps/lib" }
+        )
         //.pipe( sourcemaps.init() )
-        .pipe(ts( tsConfig ))
-        .js
-        //.pipe( sourcemaps.write( "./maps" ) )
-        .pipe(gulp.dest("build/"));
+        .pipe(ts( tsConfig ));
+    return merge(
+        tsResult.pipe(sourcemaps.write('maps/')).pipe(gulp.dest(".")),
+        tsResult.js.pipe(gulp.dest("./")),
+        tsResult.dts.pipe(gulp.dest("./"))
+    );
 });
 
 

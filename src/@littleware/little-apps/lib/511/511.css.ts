@@ -1,3 +1,7 @@
+import { html, render, TemplateResult } from '../../../../lit-html/lit-html.js';
+
+export const css = html`
+<style id="lw-511">
 th {
     font-family: 'Noto Sans', sans-serif;
     font-weight: normal;
@@ -44,3 +48,5 @@ lw-arrival-pie {
     background-color:#DD4400;
 }
 
+</style>
+`;
