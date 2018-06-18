@@ -1,7 +1,8 @@
-import {attachController} from '/modules/@littleware/little-apps/lib/511/511.js';
+import {}
+import {attachController} from './511.js';
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    littleware.app511.testController = littleware.app511.attachController(
+    littleware.app511.testController = attachController(
         {
             pie: document.body.querySelector( "lw-arrival-pie" ),
             historyTable: document.body.querySelector( "table#history" ),

@@ -12,7 +12,12 @@ const nunjucksRender = require('gulp-nunjucks-render');
 const sourcemaps = require('gulp-sourcemaps');
 const exec = require('child_process').exec;
 const mkdirp = require( 'mkdirp' );
- 
+const gulpHelper = require('./gulpHelper');
+const basePath = "src/@littleware/little-apps";
+
+
+gulpHelper.defineTasks( { basePath } );
+
 
 gulp.task('makeico', function (cb) {
     new Promise( function(resolve, reject) {
@@ -64,126 +69,18 @@ gulp.task('makeico', function (cb) {
         }
     );
 });
-  
-
-// register markdown support with nunjucks
-var nunjucksManageEnv = function(env) {
-    // The second argument can be any function that renders markdown 
-    markdown.register(env, marked);
-};
-
-//var env = new nunjucks.Environment(new nunjucks.FileSystemLoader("."));
-//markdown.register(env, marked);
-
-//var tsProject = ts.createProject("tsconfig.json");
-//var watch = require( 'gulp-watch' );
-
-
-gulp.task('clean', [], function() {
-  console.log("Clean all files in build folder");
-
-  return gulp.src("build/*", { read: false }).pipe(clean());
-});
-
-gulp.task( 'compilejs', [], function() {
-    gulp.src( "src/**/*.js" )
-        .pipe(rev())
-        .pipe( gulp.dest( "build/" ) )
-        .pipe( rev.manifest( "build/rev-manifest.json", {
-            base: "./build/",
-            merge: true
-        }  ))
-        .pipe( gulp.dest( "build/" ) );
-});
-
-//
-// Server side templating with nunjucks
-// see https://zellwk.com/blog/nunjucks-with-gulp/
-// Also incorporating markdown support with nunjucks-markdown.
-//
-gulp.task( 'compilenunjucks', [ "compilejs", "compilets", "compilecss" ], function() {
-    const manifest = gulp.src( "./build/" + revManifestPath);
-    gulp.src( ["src/**/*.html", "!src/eventTrack/events.html" ] )
-    .pipe( nunjucksRender( { manageEnv:nunjucksManageEnv, envOptions:{autoescape:false}, path: [ "src" ] } ) ) // path: [ "src/templates" ], 
-    .on('error', console.log)
-    .pipe(revReplace({manifest: manifest} ))
-    .pipe( gulp.dest( "build/" ) );
-});
-
-/*
-gulp.task("revreplace", ["revision"], function(){
-  var manifest = gulp.src("./" + opt.distFolder + "/rev-manifest.json");
-
-  return gulp.src(opt.srcFolder + "/index.html")
-    .pipe(revReplace({manifest: manifest}))
-    .pipe(gulp.dest(opt.distFolder));
-});
-*/
-
-gulp.task( 'compilehtml', [ 'compilenunjucks'], function() {
-    gulp.src( ["src/**/*.json" ] ).pipe( gulp.dest( "build/" ) );
-});
-
-
-
-gulp.task( 'compilecss', [], function() {
-    gulp.src( "src/**/*.css" )
-        .pipe( gulp.dest( "build/" ) )
-        .pipe(rev())
-        .pipe( gulp.dest( "build/" ) )
-        //.pipe( debug({title:'compilecss'}))
-        .pipe( rev.manifest( "build/rev-manifest.json", {
-            base: "build",
-            merge: true
-        }))
-        .pipe( gulp.dest( "build/" ) );
-});
 
 gulp.task( 'compileimg', [], function() {
-    gulp.src( "src/resources/img/**/*" ).pipe( gulp.dest( "build/resources/img" ) );
+    gulp.src( "src/resources/img/**/*" ).pipe( gulp.dest( "site/resources/img" ) );
 });
 
 gulp.task( 'compilebower', [], function() {
     gulp.src( ["node_modules/jasmine-core/**/*", "node_modules/font-awesome/**/*",
                 "node_modules/webcomponentsjs/**/*", 
-                "node_modules/@littleware/little-elements/build/**/*",
-                "!node_modules/@littleware/little-elements/build/3rdParty/**/*",
+                "node_modules/@littleware/little-elements/**/*"
              ], 
-            { base:"node_modules" }  ).pipe( gulp.dest( "build/3rdParty" ) 
+            { base:"node_modules" }  ).pipe( gulp.dest( "site/modules" ) 
             );
-});
-
-
-var tsConfig = {
-    //noImplicitAny: true,
-    target: "es6",
-    module: "es2015",
-    //moduleResolution: "Node",
-    sourceMap: true,
-    declaration: true,
-    baseUrl: "src", // This must be specified if "paths" is.
-    //paths: {
-    //    "*.mjs": ["*", "*.ts"]
-    //},
-    rootDirs: [
-        "src",
-        "node_modules"
-    ]
-    // declaration: true
-};
-
-gulp.task( 'compilets', [], function() {
-    const tsResult = gulp.src( 
-            ['src/@littleware/little-apps/lib/**/*.ts'], 
-            { base:"src/@littleware/little-apps/lib" }
-        )
-        //.pipe( sourcemaps.init() )
-        .pipe(ts( tsConfig ));
-    return merge(
-        tsResult.pipe(sourcemaps.write('maps/')).pipe(gulp.dest(".")),
-        tsResult.js.pipe(gulp.dest("./")),
-        tsResult.dts.pipe(gulp.dest("./"))
-    );
 });
 
 

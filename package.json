@@ -11,7 +11,7 @@
     "@littleware/little-elements": "^1.0.0"
   },
   "devDependencies": {
-    "@types/jasmine": ">=2.5.40",
+    "@types/jasmine": ">=2.8.6",
     "@types/node": "^6.0.58",
     "gulp": "^3.9.1",
     "gulp-debug": "^3.1.0",
@@ -36,7 +36,7 @@
   },
   "scripts": {
     "test": "karma start karma.conf.js",
-    "start": "node build/server.js",
+    "start": "npx little-server /modules/@littleware/little-apps/lib/ ./lib/",
     "prepublish": "node node_modules/gulp/bin/gulp.js"
   },
   "repository": {
