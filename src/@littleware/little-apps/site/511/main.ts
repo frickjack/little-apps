@@ -1,5 +1,4 @@
-import {}
-import {attachController} from './511.js';
+import {attachController} from '../../lib/511/511.js';
 
 document.addEventListener("DOMContentLoaded", function(event) {
     littleware.app511.testController = attachController(

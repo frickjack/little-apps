@@ -36,7 +36,7 @@
   },
   "scripts": {
     "test": "karma start karma.conf.js",
-    "start": "npx little-server /modules/@littleware/little-apps/lib/ ./lib/",
+    "start": "npx little-server /modules/@littleware/little-apps/lib/ ./lib/ / ./site/",
     "prepublish": "node node_modules/gulp/bin/gulp.js"
   },
   "repository": {

@@ -15,3 +15,7 @@ build/
 dist/
 nbproject/private
 node_modules/
+/lib/
+/bin/
+/site/
+/maps/

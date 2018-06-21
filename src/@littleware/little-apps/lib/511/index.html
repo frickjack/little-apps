@@ -1,8 +1,11 @@
 {% extends "511/index.html" %}
 {% block headBottom %}
- {% include "resources/js/littleware/test/test.template.html" %}
+    <link rel="stylesheet" type="text/css" href="../../../../jasmine-core/lib/jasmine-core/jasmine.css" />
+    <script src="../../../../jasmine-core/lib/jasmine-core/jasmine.js"></script>
+    <script src="../../../../jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+    <script src="../../../little-elements/lib/test/littleJasmineBoot.js"></script>
 {% endblock %}
 
 {% block bodyBottom %}
-    <script src="/511/spec/511Spec.js"></script>
+    <script src="./spec/main.js" type="module"></script>
 {% endblock %}
