@@ -1,6 +1,10 @@
-import {computeStats, date2Str, Contraction, Controller511} from '../511.js';
+import {computeStats, date2Str, Contraction, Controller511, storageKey} from '../511.js';
 
 var testController:Controller511 = null;
+
+export function setTestController(controller:Controller511) {
+    testController = controller;
+}
 
 describe( "The 511 app controller", function() {
     it( "Exists", function() {

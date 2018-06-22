@@ -5,7 +5,6 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="manifest" href="./manifest.json">
 
-        {% include "resources/js/littleware/headerSimple/headerSimple.template.html" %}
         {% block headBottom %}{% endblock %}     
     </head>
     <body class="lw-content">
@@ -59,11 +58,9 @@
             </div>
         </div>
 
-        <script src="/511/511.js"></script>
-        <script src="/511/main.js"></script>
-           
-
-        {% block bodyBottom %}{% endblock %}     
+        {% block bodyBottom %}
+          <script src="./main.js" type="module"></script>        
+        {% endblock %}
 
     </body>
 </html>
