@@ -21,19 +21,35 @@
           <div class="pure-u-1-1 pure-u-md-1-2">
               <table id="stats" class="lw-data-table pure-table">
                   <thead>
-                      <tr><th>Ave Period mins:secs</th><th>Ave Duration</th><th>Time Covered</th></tr>
+                      <tr>
+                          <th class="lw-data-table__hcell">Ave Period mins:secs</th>
+                          <th class="lw-data-table__hcell">Ave Duration</th>
+                          <th class="lw-data-table__hcell">Time Covered</th>
+                        </tr>
                   </thead>
                   <tbody>
-                      <tr><td>0</td><td>0</td><td>-</td></tr>
+                      <tr>
+                          <td class="lw-data-table__dcell">0</td>
+                          <td class="lw-data-table__dcell">0</td>
+                          <td class="lw-data-table__dcell">-</td>
+                        </tr>
                   </tbody>
               </table>
               <div class="lw-scroll-container lw-scroll-container_history-table">
               <table id="history" class="lw-data-table pure-table pure-table-striped">
                   <thead>
-                      <tr><th>Start</th><th>End</th><th>Duration</th></tr>
+                      <tr>
+                          <th class="lw-data-table__hcell">Start</th>
+                          <th class="lw-data-table__hcell">End</th>
+                          <th class="lw-data-table__hcell">Duration</th>
+                        </tr>
                   </thead>
                   <tbody>
-                      <tr><td>-</td><td>-</td><td>-</td></tr>
+                      <tr>
+                          <td class="lw-data-table__dcell">-</td>
+                          <td class="lw-data-table__dcell">-</td>
+                          <td class="lw-data-table__dcell">-</td>
+                        </tr>
                   </tbody>
               </table>
               </div>
@@ -59,7 +75,7 @@
         </div>
 
         {% block bodyBottom %}
-          <script src="./main.js" type="module"></script>        
+          <script src="{{ jsroot }}/@littleware/little-apps/lib/511/main.js" type="module"></script>        
         {% endblock %}
 
     </body>

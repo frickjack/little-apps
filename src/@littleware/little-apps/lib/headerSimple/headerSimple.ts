@@ -4,7 +4,7 @@ import {singleton as styleHelper} from '../../../little-elements/lib/styleGuide/
 import './googleAnalytics.js';
 
 function templateFactory(header:SimpleHeader) {
-  const titleStr = (this.getAttribute('title') || 'Home').replace( /[<>\r\n]+/g, "" );
+  const titleStr = (header.getAttribute('title') || 'Home').replace( /[<>\r\n]+/g, "" );
   return html`
   <table class="lw-header">
         <tr>

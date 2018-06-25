@@ -14,6 +14,14 @@ th {
     margin-bottom: 20px;
 }
 
+.lw-data-table__dcell {
+    text-align: right;
+}
+
+.lw-data-table__hcell {
+    text-align: right;
+}
+
 .lw-scroll-container {
     overflow:auto;
 }

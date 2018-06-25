@@ -26,7 +26,7 @@ export function date2Degrees( dt:Date ):number {
 export function date2Str( dt:Date ):string {
     const hrs = dt.getHours();
     const amPm = (hrs < 12) ? "AM" : "PM";
-    return ("" + (hrs === 0 ? 12 : hrs) + ":0" + dt.getMinutes() + ":0" + dt.getSeconds() + " " + amPm).replace( /:0+(\d\d+)/g, ":$1" );
+    return ("" + (hrs % 12 === 0 ? 12 : hrs % 12) + ":0" + dt.getMinutes() + ":0" + dt.getSeconds() + " " + amPm).replace( /:0+(\d\d+)/g, ":$1" );
 }
 
 export function secs2Str( numSecs:number ):string {
@@ -146,10 +146,13 @@ export class Controller511 {
             (cxn, index) => {
                 let tr = document.createElement( "TR" );
                 let tdStart = document.createElement( "TD" );
+                tdStart.className = "lw-data-table__dcell";
                 tdStart.innerText = date2Str( cxn.startTime );
                 let tdEnd = document.createElement( "TD" );
+                tdEnd.className = "lw-data-table__dcell";
                 tdEnd.innerText = date2Str( cxn.endTime );
                 let tdDuration = document.createElement( "TD" );
+                tdDuration.className = "lw-data-table__dcell";
                 tdDuration.innerText = "" + Math.round((cxn.endTime.getTime() - cxn.startTime.getTime()) / 1000) + " secs";
                 [tdStart,tdEnd,tdDuration].forEach( (td) => { tr.appendChild(td); });
                 dataBody.appendChild(tr);
