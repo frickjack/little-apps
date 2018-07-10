@@ -9,7 +9,7 @@ gulpHelper.defineTasks(gulp, { basePath, data: { jsroot: "/modules" } });
 
 
 gulp.task('makeico', function (cb) {
-    new Promise( function(resolve, reject) {
+    return new Promise( function(resolve, reject) {
         const path = "site/resources/img/appIcons"; 
         mkdirp( path, function(err) {
                 if (err) {
@@ -61,21 +61,23 @@ gulp.task('makeico', function (cb) {
 });
 
 
-gulp.task('compile', ['little-compile', 'makeico'], function() {
+gulp.task('compile', gulp.series('little-compile', 'makeico', function(done) {
   // place code for your default task here
   //console.log( "Hello, World!" );
   //gulp.src( "src/**/*" ).pipe( gulp.dest( "build/" ) );
-});
+  done();
+}));
 
-gulp.task('default', [ 'compile' ], function() {
+gulp.task('default', gulp.series('compile', function(done) {
   // place code for your default task here
   //console.log( "Hello, World!" );
   //gulp.src( "src/**/*" ).pipe( gulp.dest( "build/" ) );
-});
+  done();
+}));
 
 
 
-gulp.task( 'deploy', [ 'little-compileclean' ], function(cb) {
+gulp.task( 'deploy', gulp.series('little-compileclean', function(cb) {
     const pwdPath = process.cwd();
     const imageName = "frickjack/s3cp:1.0.0";
     const commandStr = "yes | docker run --rm --name s3gulp -v littleware:/root/.littleware -v '" +
@@ -83,7 +85,7 @@ gulp.task( 'deploy', [ 'little-compileclean' ], function(cb) {
 
     console.log('Running: ' + commandStr);
 
-    exec( commandStr, 
+    return exec( commandStr, 
         function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
@@ -94,4 +96,4 @@ gulp.task( 'deploy', [ 'little-compileclean' ], function(cb) {
             }
         }
     );
-});
+}));
