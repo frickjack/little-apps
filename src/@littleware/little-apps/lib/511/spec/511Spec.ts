@@ -1,15 +1,20 @@
-import {computeStats, date2Str, Contraction, Controller511, storageKey} from '../511.js';
+import {getStage} from '../../../../little-elements/lib/test/util.js';
+import {computeStats, date2Str, Contraction, Controller511, Little511, storageKey} from '../511.js';
 
-var testController:Controller511 = null;
-
-export function setTestController(controller:Controller511) {
-    testController = controller;
-}
 
 describe( "The 511 app controller", function() {
+    let lw511:Little511 = null;
+
+    beforeAll(function(done){
+        let stage = getStage('511Spec', 'Testing 511 Container');
+        lw511 = new Little511();
+        stage.appendChild(lw511);
+        // return Promise get controller ...
+        lw511.ready().then(() => done());
+    });
+
     it( "Exists", function() {
-        // testController is iniialized in 511.html ...
-        expect( testController ).toBeDefined();
+        expect( lw511.controller ).toBeDefined();
     });
 
     it( "Can compute stats", function() {
@@ -25,22 +30,22 @@ describe( "The 511 app controller", function() {
 
     it( "Can update info on an ongoing contraction", function(done) {
         const nowMs = Date.now();
-        testController.contractionList = [
+        lw511.controller.contractionList = [
             { startTime: new Date( nowMs - 15*60*1000 ), endTime:new Date( nowMs - 14*60*1000 )},
             { startTime: new Date( nowMs - 10*60*1000 ), endTime:new Date( nowMs - 9*60*1000 )},
             { startTime: new Date( nowMs - 5*60*1000 ), endTime:new Date( nowMs - 4*60*1000 )},
             { startTime: new Date( nowMs - 2*60*1000 ), endTime:new Date( nowMs - 1*60*1000 )}
         ];
-        testController.startTimer();
+        lw511.controller.startTimer();
         setTimeout( function() {
-            expect( testController.contractionList.length ).toBe( 5 );
-            expect( testController.view.historyTable.querySelectorAll( 'tbody > tr' ).length ).toBe( 5 );
-            expect( testController.contractionList[4].startTime.getTime() + 1 ).toBeGreaterThan( nowMs );
+            expect( lw511.controller.contractionList.length ).toBe( 5 );
+            expect( lw511.controller.view.historyTable.querySelectorAll( 'tbody > tr' ).length ).toBe( 5 );
+            expect( lw511.controller.contractionList[4].startTime.getTime() + 1 ).toBeGreaterThan( nowMs );
             const check1Ms = Date.now();
             setTimeout( function() {
-                expect( testController.contractionList.length ).toBe( 5 );
-                expect( testController.contractionList[4].endTime.getTime() + 1 ).toBeGreaterThan( check1Ms );
-                testController.endTimer();
+                expect( lw511.controller.contractionList.length ).toBe( 5 );
+                expect( lw511.controller.contractionList[4].endTime.getTime() + 1 ).toBeGreaterThan( check1Ms );
+                lw511.controller.endTimer();
                 done();
             }, 1000 );
         }, 2000 );
@@ -60,8 +65,8 @@ describe( "The 511 app controller", function() {
     });
 
     it ( "clears history", function() {
-        testController.clearHistory();
-        expect( testController.contractionList.length ).toBe( 0 );
+        lw511.controller.clearHistory();
+        expect( lw511.controller.contractionList.length ).toBe( 0 );
         expect( localStorage.getItem( storageKey ) ).toBe( null );
     });
 });

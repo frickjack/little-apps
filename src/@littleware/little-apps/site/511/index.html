@@ -14,66 +14,16 @@
           <div class="pure-u-1">
               <lw-header-simple title="5-1-1 Contraction Timer"></lw-header-simple>
           </div>
-          <div class="pure-u-1-1 pure-u-md-1-2">
-              <lw-arrival-pie arrival-list=""></lw-arrival-pie>
-             <button id="startStop" autofocus="true" type="button" class="pure-button pure-button-primary lw-button lw-button_start">start contraction</button>
-          </div>
-          <div class="pure-u-1-1 pure-u-md-1-2">
-              <table id="stats" class="lw-data-table pure-table">
-                  <thead>
-                      <tr>
-                          <th class="lw-data-table__hcell">Ave Period mins:secs</th>
-                          <th class="lw-data-table__hcell">Ave Duration</th>
-                          <th class="lw-data-table__hcell">Time Covered</th>
-                        </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td class="lw-data-table__dcell">0</td>
-                          <td class="lw-data-table__dcell">0</td>
-                          <td class="lw-data-table__dcell">-</td>
-                        </tr>
-                  </tbody>
-              </table>
-              <div class="lw-scroll-container lw-scroll-container_history-table">
-              <table id="history" class="lw-data-table pure-table pure-table-striped">
-                  <thead>
-                      <tr>
-                          <th class="lw-data-table__hcell">Start</th>
-                          <th class="lw-data-table__hcell">End</th>
-                          <th class="lw-data-table__hcell">Duration</th>
-                        </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td class="lw-data-table__dcell">-</td>
-                          <td class="lw-data-table__dcell">-</td>
-                          <td class="lw-data-table__dcell">-</td>
-                        </tr>
-                  </tbody>
-              </table>
-              </div>
-              <button id="clearHistory" type="button" class="pure-button lw-button">Clear History</button>
-            </div>
-            <div class="pure-u-1-1">
+          <lw-511></lw-511>
+          <div class="pure-u-1-1">
               <p>
                   The 5-1-1 rule: when labor progresses normally (pain is not excessive, water does not break, etc)
                   go to the hospital when contractions occur every <em>5</em> minutes each lasting <em>1</em> minute 
                   for a period of <em>1</em> hour.
               </p>
-            </div>
+          </div>
         </div>
         
-        <div id="clearHistoryModal" class="lw-modalDialog">
-            <div class="lw-modalDialog__content">
-                <a href="#app" class="lw-modalDialog__closeX">X</a>
-                <p>
-                   Clear the history of contractions ?
-                </p>
-                <button id="clearHistoryOk" type="button" class="pure-button pure-button-primary lw-button">Do it!</button>
-            </div>
-        </div>
-
         {% block bodyBottom %}
           <script src="{{ jsroot }}/@littleware/little-apps/lib/511/main.js" type="module"></script>        
         {% endblock %}

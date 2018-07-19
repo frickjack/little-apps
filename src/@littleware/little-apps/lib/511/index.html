@@ -1,11 +1,22 @@
-{% extends "site/511/index.html" %}
-{% block headBottom %}
-    <link rel="stylesheet" type="text/css" href="../../../../jasmine-core/lib/jasmine-core/jasmine.css" />
-    <script src="../../../../jasmine-core/lib/jasmine-core/jasmine.js"></script>
-    <script src="../../../../jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
-    <script src="../../../little-elements/lib/test/littleJasmineBoot.js"></script>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>headerView Test</title>
 
-{% block bodyBottom %}
-    <script src="./spec/main.js" type="module"></script>
-{% endblock %}
+<link rel="stylesheet" type="text/css" href="../../../../jasmine-core/lib/jasmine-core/jasmine.css" />
+<script src="../../../../jasmine-core/lib/jasmine-core/jasmine.js"></script>
+<script src="../../../../jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+<script src="../../../little-elements/lib/test/littleJasmineBoot.js"></script>
+
+</head>
+<body class="lw-content">
+
+<section id="README">
+  {% markdown %}
+     {% include "lib/511/README.md" %}
+  {% endmarkdown %}
+</section>
+
+<script src="./spec/main.js" type="module"></script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+import { html, render } from '../../../../lit-html/lit-html.js';
 import '../../../little-elements/lib/arrivalPie/arrivalPie.js';
 import {singleton as styleHelper} from '../../../little-elements/lib/styleGuide/styleGuide.js';
 import {css} from './511.css.js';
@@ -13,6 +14,62 @@ export interface Stats {
     aveDurationSecs:number;
     timeCoveredSecs:number;
     numSamples:number;
+}
+
+function templateFactory() {
+    const template = html`
+<div class="pure-u-1-1 pure-u-md-1-2">
+    <lw-arrival-pie arrival-list=""></lw-arrival-pie>
+   <button id="startStop" autofocus="true" type="button" class="pure-button pure-button-primary lw-button lw-button_start">start contraction</button>
+</div>
+<div class="pure-u-1-1 pure-u-md-1-2">
+  <table id="stats" class="lw-data-table pure-table">
+    <thead>
+        <tr>
+            <th class="lw-data-table__hcell">Ave Period mins:secs</th>
+            <th class="lw-data-table__hcell">Ave Duration</th>
+            <th class="lw-data-table__hcell">Time Covered</th>
+          </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="lw-data-table__dcell">0</td>
+            <td class="lw-data-table__dcell">0</td>
+            <td class="lw-data-table__dcell">-</td>
+          </tr>
+    </tbody>
+  </table>
+  <div class="lw-scroll-container lw-scroll-container_history-table">
+    <table id="history" class="lw-data-table pure-table pure-table-striped">
+      <thead>
+          <tr>
+              <th class="lw-data-table__hcell">Start</th>
+              <th class="lw-data-table__hcell">End</th>
+              <th class="lw-data-table__hcell">Duration</th>
+              </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td class="lw-data-table__dcell">-</td>
+              <td class="lw-data-table__dcell">-</td>
+              <td class="lw-data-table__dcell">-</td>
+              </tr>
+      </tbody>
+    </table>
+  </div>
+  <button id="clearHistory" type="button" class="pure-button lw-button">Clear History</button>
+</div>
+<div id="clearHistoryModal" class="lw-modalDialog">
+    <div class="lw-modalDialog__content">
+        <a href="#app" class="lw-modalDialog__closeX">X</a>
+        <p>
+            Clear the history of contractions ?
+        </p>
+        <button id="clearHistoryOk" type="button" class="pure-button pure-button-primary lw-button">Do it!</button>
+    </div>
+</div>
+    `;
+    return template;
 }
 
 /**
@@ -293,10 +350,10 @@ export class Controller511 {
  */
 export function attachController( 
     view:View511
-    ):any {
+    ):Controller511 {
     let contractionList = [];
     try {
-        let data = JSON.parse( localStorage.getItem( storageKey ) );
+        let data = JSON.parse(localStorage.getItem( storageKey ) || '{}');
         contractionList = (data.contractionList || []).map(
             function(js) {
                 return {
@@ -310,7 +367,7 @@ export function attachController(
     }
     
     let controller = new Controller511( view, contractionList );
-    view.startStopButton.addEventListener( "click", function(ev) {
+    view.startStopButton.addEventListener('click', function(ev) {
         if ( controller.isTimerRunning ) {
             controller.endTimer();
         } else {
@@ -318,7 +375,7 @@ export function attachController(
         }
     });
 
-    view.clearHistoryButton.addEventListener( "click", function(ev) {
+    view.clearHistoryButton.addEventListener('click', function(ev) {
         controller.openClearHistoryModal();
     });
     const closeX = view.clearHistoryModal.querySelector( "a.lw-modalDialog__closeX" );
@@ -331,15 +388,85 @@ export function attachController(
     }
     const okButton = view.clearHistoryModal.querySelector( "button" );
     if ( okButton ) {
-        okButton.addEventListener( "click", function(ev) {
+        okButton.addEventListener('click', function(ev) {
             controller.clearHistory();
         });
     } else {
         console.log( "WARNING - no 'ok' button found in clearHistory modal" );
     }
-    controller.render( false );
+    controller.render(false);
     return controller;
 }
+
+/**
+ * 511 custom element
+ */
+export class Little511 extends HTMLElement {
+    _isRendered:boolean = false;
+    controller:Controller511 = null;
+
+    // Can define constructor arguments if you wish.
+    constructor() {
+      // If you define a ctor, always call super() first!
+      // This is specific to CE and required by the spec.
+      super();
+    }
+
+    //static get observedAttributes():Array<string> { return ['title']; }
+
+    connectedCallback(): void {
+        this._render();
+    }
+
+    disconnectedCallback(): void {
+    }
+
+    attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
+      //console.log( "Attribute change! " + attrName );
+      //this._render();
+    }
+
+    adoptedCallback(): void {}
+
+    /**
+     * Little helper resolves once this element has
+     * been rendered
+     */
+    ready(): Promise<Little511> {
+        return new Promise((resolve, reject) => {
+            if (this._isRendered){
+                resolve(this);
+            }
+            (this as any).resolveReady = resolve;
+        });
+    }
+
+    /**
+     * Simple adaptation of legacy controller-based rendering
+     */
+    _render():void {
+        if (!this._isRendered) {
+          render(templateFactory(), this);
+          this.controller = attachController(
+            {
+                pie: this.querySelector('lw-arrival-pie'),
+                historyTable: this.querySelector('table#history'),
+                statsTable: this.querySelector('table#stats'),
+                startStopButton: this.querySelector('button#startStop'),
+                clearHistoryButton: this.querySelector('button#clearHistory'),
+                clearHistoryModal: this.querySelector('div#clearHistoryModal')
+            }
+          );
+          this._isRendered = true;
+          const self:any = this;
+          if (typeof self.resolveReady === 'function') {
+            self.resolveReady(this);
+          }
+        }
+    }
+}
+
+window.customElements.define('lw-511', Little511);
 
 styleHelper.componentCss.push(css);
 styleHelper.render();
