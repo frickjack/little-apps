@@ -34,7 +34,7 @@
     "typescript": ">=2.9.1"
   },
   "scripts": {
-    "test": "karma start karma.conf.js",
+    "test": "npx karma start karma.conf.js",
     "start": "node node_modules/.bin/little-server /modules/@littleware/little-apps/lib/ ./lib/ /resources/ ./site/resources/ / ./site/",
     "prepublish": "node node_modules/.bin/gulp"
   },
