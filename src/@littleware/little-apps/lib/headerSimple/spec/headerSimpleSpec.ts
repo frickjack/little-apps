@@ -20,7 +20,7 @@ describe( "the lw-header-simple custom element", function() {
         spyOn( hd, "_render" ).and.callThrough();
         hd.setAttribute( "title", "TestTitle" );
         expect( (hd._render as any).calls.any() ).toBe( true );
-        expect( hd.querySelector( "td.lw-header__title" ).textContent ).toBe( "TestTitle" );
+        expect( hd.querySelector( "td.lw-header__title" ).textContent.trim()).toBe('TestTitle');
     });
 
     it( "Can render a SimpleHeader", function() {
@@ -28,6 +28,6 @@ describe( "the lw-header-simple custom element", function() {
         let hd = document.createElement( "lw-header-simple" );
         stage.appendChild( hd );
         hd.setAttribute( "title", "Test Title");
-        expect( stage.querySelector( "td.lw-header__title" ).textContent ).toBe( "Test Title" );
+        expect( stage.querySelector( "td.lw-header__title" ).textContent.trim()).toBe('Test Title');
     });
 });
