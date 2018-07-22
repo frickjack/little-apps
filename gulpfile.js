@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const merge = require('merge-stream');
 const exec = require('child_process').exec;
 const mkdirp = require( 'mkdirp' );
 const gulpHelper = require('@littleware/little-elements/gulpHelper');
@@ -95,5 +96,18 @@ gulp.task( 'deploy', gulp.series('little-compileclean', function(cb) {
                 cb();
             }
         }
+    );
+}));
+
+
+/**
+ * Prepare /dist folder for deployment
+ */
+gulp.task( 'stage', gulp.series('little-compileclean', function() {
+    return merge(
+        gulp.src('site/**/*.*').pipe(gulp.dest('dist/')),
+        gulp.src('node_modules/@littleware/**/*.*').pipe(gulp.dest('dist/modules/@littleware/')),
+        gulp.src('lib/**/*.*').pipe(gulp.dest('dist/modules/@littleware/little-apps/lib/')),
+        gulp.src('node_modules/lit-html/lit-html.js').pipe(gulp.dest('dist/modules/lit-html/lit-html.js'))
     );
 }));
