@@ -1,6 +1,6 @@
 {
   "name": "@littleware/little-apps",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "littleware web clients",
   "main": "build/server.js",
   "dependencies": {
