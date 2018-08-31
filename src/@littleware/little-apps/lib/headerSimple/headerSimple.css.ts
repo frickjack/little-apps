@@ -20,7 +20,11 @@ lw-header-simple {
 
 .lw-header__link {
     color:#777;
-    display: block;
+}   
+
+.lw-header__link:hover {
+    color:#777;
+    background-color:#0BDAF7;
 }   
 
 .lw-header__title {

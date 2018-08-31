@@ -9,7 +9,7 @@ function templateFactory(header:SimpleHeader) {
   <table class="lw-header">
         <tr>
             <td class="lw-header__nav">
-                <a href="/" class="pure-menu-link"><i class="fa fa-home fa-2x"></i></a>
+                <a href="/" class="pure-menu-link lw-header__link"><i class="fa fa-home fa-2x"></i></a>
             </td>
             <td class="lw-header__title">
                 ${titleStr}
