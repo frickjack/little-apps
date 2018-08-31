@@ -4,11 +4,11 @@ const exec = require('child_process').exec;
 const mkdirp = require('mkdirp');
 const replace = require('gulp-replace');
 const gulpHelper = require('@littleware/little-elements/gulpHelper');
+const package = require('./package.json');
 const basePath = "src/@littleware/little-apps";
 
 // TODO - automate version assignment
-const moduleVersion='1.0.0';
-gulpHelper.defineTasks(gulp, { basePath, data: { jsroot: `/modules/${moduleVersion}` } });
+gulpHelper.defineTasks(gulp, { basePath, data: { jsroot: `/modules/${package.version}` } });
 
 
 gulp.task('makeico', function (cb) {
@@ -87,14 +87,14 @@ gulp.task('stage', gulp.series('little-compileclean', function() {
         gulp.src('site/**/*.*').pipe(gulp.dest('dist/')),
         gulp.src('node_modules/@littleware/little-elements/lib/**/*.*'
             // hack for now - replace /modules/ path in styleHelper
-            ).pipe(replace(`/modules/`, `/modules/${moduleVersion}/`)
-            ).pipe(gulp.dest(`dist/modules/${moduleVersion}/@littleware/little-elements/lib/`)
+            ).pipe(replace(`/modules/`, `/modules/${package.version}/`)
+            ).pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/lib/`)
             ),
-        gulp.src('node_modules/@littleware/little-elements/maps/**/*.*').pipe(gulp.dest(`dist/modules/${moduleVersion}/@littleware/little-elements/maps/`)),
-        gulp.src('lib/**/*.*').pipe(gulp.dest(`dist/modules/${moduleVersion}/@littleware/little-apps/lib/`)),
-        gulp.src('node_modules/lit-html/lit-html.js').pipe(gulp.dest(`dist/modules/${moduleVersion}/lit-html/`)),
-        gulp.src('node_modules/font-awesome/**/*.*').pipe(gulp.dest(`dist/modules/${moduleVersion}/font-awesome/`)),
-        gulp.src('node_modules/jasmine-core/lib/jasmine-core/**/*.*').pipe(gulp.dest(`dist/modules/${moduleVersion}/jasmine-core/lib/jasmine-core/`))
+        gulp.src('node_modules/@littleware/little-elements/maps/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/maps/`)),
+        gulp.src('lib/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-apps/lib/`)),
+        gulp.src('node_modules/lit-html/lit-html.js').pipe(gulp.dest(`dist/modules/${package.version}/lit-html/`)),
+        gulp.src('node_modules/font-awesome/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/font-awesome/`)),
+        gulp.src('node_modules/jasmine-core/lib/jasmine-core/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/jasmine-core/lib/jasmine-core/`))
     );
 }));
 
