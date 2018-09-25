@@ -1,32 +1,25 @@
-﻿<!DOCTYPE html>
-<html>
-    <head>
-        <title>5-1-1</title>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <link rel="manifest" href="./manifest.json">
+﻿{% extends "little-elements/lib/styleGuide/shell/basicShell.html.njk" %}
 
-        {% block headBottom %}{% endblock %}     
-    </head>
-    <body class="lw-content">
+{% block head %}
+  <title>5-1-1</title>
+  <link rel="manifest" href="./manifest.json">
+{% endblock %}
 
-        <div id="app" class="pure-g">
-        
-          <div class="pure-u-1">
-              <lw-header-simple title="5-1-1 Contraction Timer"></lw-header-simple>
-          </div>
-          <lw-511></lw-511>
-          <div class="pure-u-1-1">
-              <p>
-                  The 5-1-1 rule: when labor progresses normally (pain is not excessive, water does not break, etc)
-                  go to the hospital when contractions occur every <em>5</em> minutes each lasting <em>1</em> minute 
-                  for a period of <em>1</em> hour.
-              </p>
-          </div>
+
+{% block content %}
+    <div id="app" class="pure-g">
+        <div class="pure-u-1">
+            <lw-header-simple title="5-1-1 Contraction Timer"></lw-header-simple>
         </div>
+        <lw-511></lw-511>
+        <div class="pure-u-1-1">
+            <p>
+                The 5-1-1 rule: when labor progresses normally (pain is not excessive, water does not break, etc)
+                go to the hospital when contractions occur every <em>5</em> minutes each lasting <em>1</em> minute 
+                for a period of <em>1</em> hour.
+            </p>
+        </div>
+    </div>
         
-        {% block bodyBottom %}
-          <script src="{{ jsroot }}/@littleware/little-apps/lib/511/main.js" type="module"></script>        
-        {% endblock %}
-
-    </body>
-</html>
+    <script src="{{ jsroot }}/@littleware/little-apps/lib/511/main.js" type="module"></script>
+{% endblock %}

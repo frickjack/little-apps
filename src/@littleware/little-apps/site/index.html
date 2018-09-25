@@ -1,10 +1,10 @@
-﻿
-<!DOCTYPE html>
-<html>
-<head>
-    <title>frickjack.com</title>
-</head>
-<body>
+﻿{% extends "little-elements/lib/styleGuide/shell/basicShell.html.njk" %}
+
+{% block head %}
+<title>frickjack.com</title>
+{% endblock %}
+
+{% block content %}
     <lw-header-simple title="Home">
     </lw-header-simple>
 
@@ -61,6 +61,5 @@
         </div>
     </div>
 
-    <script src="{{ jsroot }}/@littleware/little-apps/lib/headerSimple/headerSimple.js" type="module"></script>
-</body>
-</html>
+    <script src="{{ jsroot }}/@littleware/little-apps/lib/indexMain.js" type="module"></script>
+{% endblock %}
