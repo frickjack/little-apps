@@ -1,16 +1,12 @@
-﻿<!DOCTYPE html>
-<html>
-    <head>
+{% extends "little-elements/lib/styleGuide/shell/basicShell.html.njk" %}
+
+    {% block head %}
         <title>5-1-1</title>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="manifest" href="./manifest.json">
+    {% endblock %} 
 
-        {% block headBottom %}{% endblock %}     
-    </head>
-    <body class="lw-content">
-
+    {% block content %}
         <div id="app" class="pure-g">
-        
           <div class="pure-u-1">
               <lw-header-simple title="auth login"></lw-header-simple>
           </div>
@@ -23,7 +19,7 @@
           </div>
         </div>
        
-        
+        <pre>
         https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yanFUVDYv/.well-known/jwks.json
 
         function parseJwt (token) {
@@ -34,5 +30,5 @@
             );
              
           };
-    </body>
-</html>
+        </pre>
+    {% endblock %}

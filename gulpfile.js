@@ -84,11 +84,17 @@ gulp.task('default', gulp.series('compile', function(done) {
  */
 gulp.task('stage', gulp.series('little-compileclean', function() {
     return merge(
-        gulp.src('site/**/*.*').pipe(gulp.dest('dist/')),
+        gulp.src('site/**/*.*'
+            //).pipe(replace(`/modules/`, `/modules/${package.version}/`)
+            ).pipe(gulp.dest('dist/')),
         gulp.src('node_modules/@littleware/little-elements/lib/**/*.*'
-            // hack for now - replace /modules/ path in styleHelper
+            // hack for now - replace /modules/ path in styleHelper and basicShell
             ).pipe(replace(`/modules/`, `/modules/${package.version}/`)
             ).pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/lib/`)
+            ),
+        gulp.src('node_modules/@webcomponents/webcomponentsjs/**/*.*'
+            ).pipe(
+                gulp.dest(`dist/modules/${package.version}/@webcomponents/webcomponentsjs/`)
             ),
         gulp.src('node_modules/@littleware/little-elements/maps/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/maps/`)),
         gulp.src('lib/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-apps/lib/`)),
