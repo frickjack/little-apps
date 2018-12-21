@@ -1,0 +1,18 @@
+{% extends "little-elements/lib/styleGuide/shell/basicShell.html.njk" %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="../../../../jasmine-core/lib/jasmine-core/jasmine.css" />
+<script src="../../../../jasmine-core/lib/jasmine-core/jasmine.js"></script>
+<script src="../../../../jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+<script src="../../../little-elements/lib/test/littleJasmineBoot.js"></script>
+{% endblock %}
+
+{% block content %}
+<section id="README">
+  {% markdown %}
+     {% include "lib/jwt/README.md" %}
+  {% endmarkdown %}
+</section>
+
+<script src="./spec/main.js" type="module"></script>
+{% endblock %}

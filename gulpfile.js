@@ -23,15 +23,21 @@ gulp.task('makeico', function (cb) {
                 }
         });
     }).then( (folderStr) => {
-        const promiseList = [ '57', '72', '114', '144', '152', '167', '180'
-            ].map( 
-                (rez) => {
-                    return {
-                        svgPath: `${basePath}/site/resources/img/511.svg`,
-                        pngPath: `${folderStr}/oo511.${rez}x${rez}.png`,
-                        rez:rez
-                    };
-                }
+        const svgList = ['511', 'jwt'];
+        const rezList = [ '57', '72', '114', '144', '152', '167', '180'];
+        const promiseList = rezList.reduce( 
+                (acc, rez) => svgList.reduce(
+                    (acc, svgName) => {
+                        acc.push(
+                            {
+                                svgPath: `${basePath}/site/resources/img/${svgName}.svg`,
+                                pngPath: `${folderStr}/oo${svgName}.${rez}x${rez}.png`,
+                                rez:rez
+                            }
+                        );
+                        return acc;
+                    }, acc
+                ), []
             ).map(
                 (info) => {
                     return new Promise( function(resolve,reject) {

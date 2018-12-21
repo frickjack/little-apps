@@ -1,0 +1,23 @@
+﻿{% extends "little-elements/lib/styleGuide/shell/basicShell.html.njk" %}
+
+{% block head %}
+  <title>jwt</title>
+  <link rel="manifest" href="./manifest.json">
+{% endblock %}
+
+
+{% block content %}
+    <div id="app" class="pure-g">
+        <div class="pure-u-1">
+            <lw-header-simple title="JWT Parser"></lw-header-simple>
+        </div>
+        <lw-jwt></lw-jwt>
+        <div class="pure-u-1-1">
+            <p>
+            JSON Web Token parser.
+            </p>
+        </div>
+    </div>
+        
+    <script src="{{ jsroot }}/@littleware/little-apps/lib/jwt/main.js" type="module"></script>
+{% endblock %}
