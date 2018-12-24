@@ -47,8 +47,8 @@ export function parseSignedJwt(token:string):JwtData {
     try {
         return new JwtData(
           token,
-          JSON.stringify(JSON.parse(parts[0]), null, '   '), 
-          JSON.stringify(JSON.parse(parts[1]), null, '   '),
+          JSON.stringify(JSON.parse(parts[0]), null, ' '), 
+          JSON.stringify(JSON.parse(parts[1]), null, ' '),
           parts[2],
           true,
           ""
@@ -68,17 +68,28 @@ export function emptyJwt():JwtData {
 function templateFactory(data:JwtData) {
     const template = html`
 <div class="lw-jwt-container">
-  <div class="lw-jwt-token"><pre>
+  <div class="lw-jwt-token">
+  Paste a token here
+  <pre class="lw-jwt-paste-target">
 ${data.token.substring(0,5) + (data.token.length > 10 ? "..." + data.token.slice(-5) : "")}
-  </pre></div>
-  <div class="lw-jwt-header"><pre>
+  </pre>
+  </div>
+  <div class="lw-jwt-header">
+  <b>Header</b>
+  <pre class="lw-jwt-code">
 ${data.isValid ? data.header : ""}
   </pre></div>
   <div class="lw-jwt-${data.isValid ? "body" : "error"}">
-  <pre>
+  <b>Body</b>
+  <pre class="lw-jwt-code">
 ${data.isValid ? data.body : data.errorStr}
   </pre></div>
-  <div class="lw-jwt-signature">${data.isValid ? data.signature : ""}</div>
+  <div class="lw-jwt-signature">
+  <b>Signature</b>
+  <div class="lw-jwt-code">
+  ${data.isValid ? data.signature : ""}
+  </div>
+  </div>
 </div>
     `;
     return template;

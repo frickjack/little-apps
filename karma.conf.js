@@ -17,9 +17,12 @@ module.exports = function(config) {
     files: [
       'node_modules/@littleware/little-elements/lib/test/karmaAdapter.js',
       { pattern: 'node_modules/@littleware/**/*.js', type: 'module', included: false },
-      { pattern: 'lib/testMain.js', type: 'module', included: true },
-      { pattern: 'lib/**/*.js', type: 'module', included: false },
-      { pattern: 'node_modules/lit-html/*.js', type: 'module', included: false }
+      { pattern: 'lib/511/**/*.js', type: 'module', included: false },
+      { pattern: 'lib/jwt/**/*.js', type: 'module', included: false },
+      { pattern: 'lib/headerSimple/**/*.js', type: 'module', included: false },
+      { pattern: 'node_modules/lit-html/*.js', type: 'module', included: false },
+      { pattern: 'node_modules/font-awesome/**/*', included: false },
+      { pattern: 'lib/testMain.js', type: 'module', included: true }
     ],
     
     // list of files to exclude
@@ -32,7 +35,8 @@ module.exports = function(config) {
     },
     proxies: {
       '/lit-html': '/base/node_modules/lit-html',
-      '/little-elements': '/base/node_modules/@littleware/little-elements'
+      '/little-elements': '/base/node_modules/@littleware/little-elements',
+      '/modules/font-awesome': '/base/node_modules/font-awesome'
     },
 
     // test results reporter to use
