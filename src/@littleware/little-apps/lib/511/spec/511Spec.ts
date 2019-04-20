@@ -1,4 +1,4 @@
-import {getStage} from '../../../../little-elements/lib/test/util.js';
+import {getStage} from '../../../../../../@littleware/little-elements/web/lib/test/util.js';
 import {computeStats, date2Str, Contraction, Controller511, Little511, storageKey} from '../511.js';
 
 

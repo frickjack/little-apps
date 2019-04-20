@@ -1,6 +1,6 @@
-import { html, render } from '../../../../lit-html/lit-html.js';
+import { html, render } from '../../../../../lit-html/lit-html.js';
 import { css } from './headerSimple.css.js';
-import {singleton as styleHelper} from '../../../little-elements/lib/styleGuide/styleGuide.js';
+import {singleton as styleHelper} from '../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js';
 import './googleAnalytics.js';
 
 function templateFactory(header:SimpleHeader) {

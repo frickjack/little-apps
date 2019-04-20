@@ -1,6 +1,5 @@
-import { html, render } from '../../../../lit-html/lit-html.js';
-import '../../../little-elements/lib/arrivalPie/arrivalPie.js';
-import {singleton as styleHelper} from '../../../little-elements/lib/styleGuide/styleGuide.js';
+import { html, render } from '../../../../../lit-html/lit-html.js';
+import {singleton as styleHelper} from '../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js';
 import {css} from './jwt.css.js';
 
 

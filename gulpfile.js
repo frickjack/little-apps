@@ -93,17 +93,17 @@ gulp.task('stage', gulp.series('little-compileclean', function() {
         gulp.src('site/**/*.*'
             //).pipe(replace(`/modules/`, `/modules/${package.version}/`)
             ).pipe(gulp.dest('dist/')),
-        gulp.src('node_modules/@littleware/little-elements/lib/**/*.*'
+        gulp.src('node_modules/@littleware/little-elements/web/**/*.*'
             // hack for now - replace /modules/ path in styleHelper and basicShell
             ).pipe(replace(`/modules/`, `/modules/${package.version}/`)
-            ).pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/lib/`)
+            ).pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/web/`)
             ),
         gulp.src('node_modules/@webcomponents/webcomponentsjs/**/*.*'
             ).pipe(
                 gulp.dest(`dist/modules/${package.version}/@webcomponents/webcomponentsjs/`)
             ),
-        gulp.src('node_modules/@littleware/little-elements/maps/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/maps/`)),
-        gulp.src('lib/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-apps/lib/`)),
+        //gulp.src('node_modules/@littleware/little-elements/maps/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/maps/`)),
+        gulp.src('web/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-apps/web/`)),
         gulp.src('node_modules/lit-html/lit-html.js').pipe(gulp.dest(`dist/modules/${package.version}/lit-html/`)),
         gulp.src('node_modules/font-awesome/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/font-awesome/`)),
         gulp.src('node_modules/jasmine-core/lib/jasmine-core/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/jasmine-core/lib/jasmine-core/`))

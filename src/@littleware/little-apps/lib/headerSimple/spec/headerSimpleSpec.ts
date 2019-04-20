@@ -1,4 +1,4 @@
-import {getStage} from '../../../../little-elements/lib/test/util.js';
+import {getStage} from '../../../../../../@littleware/little-elements/web/lib/test/util.js';
 import {SimpleHeader} from '../headerSimple.js';
 
 describe( "the lw-header-simple custom element", function() {
