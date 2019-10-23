@@ -1,8 +1,7 @@
-import { html, render } from '../../../../../lit-html/lit-html.js';
-import '../../../../../@littleware/little-elements/web/lib/arrivalPie/arrivalPie.js';
-import {singleton as styleHelper} from '../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js';
-import {css} from './511.css.js';
-
+import "../../../../../@littleware/little-elements/web/lib/arrivalPie/arrivalPie.js";
+import {singleton as styleHelper} from "../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js";
+import { html, render } from "../../../../../lit-html/lit-html.js";
+import {css} from "./511.css.js";
 
 export interface Contraction {
     startTime: Date;
@@ -10,10 +9,10 @@ export interface Contraction {
 }
 
 export interface Stats {
-    avePeriodSecs:number;
-    aveDurationSecs:number;
-    timeCoveredSecs:number;
-    numSamples:number;
+    avePeriodSecs: number;
+    aveDurationSecs: number;
+    timeCoveredSecs: number;
+    numSamples: number;
 }
 
 function templateFactory() {
@@ -76,17 +75,17 @@ function templateFactory() {
  * Little utility converts a date to the degrees represnting
  * the position of the minute-hand on a clock for the given date
  */
-export function date2Degrees( dt:Date ):number {
-    return (dt.getMinutes()*60 + dt.getSeconds()) / 10;
+export function date2Degrees( dt: Date ): number {
+    return (dt.getMinutes() * 60 + dt.getSeconds()) / 10;
 }
 
-export function date2Str( dt:Date ):string {
+export function date2Str( dt: Date ): string {
     const hrs = dt.getHours();
     const amPm = (hrs < 12) ? "AM" : "PM";
     return ("" + (hrs % 12 === 0 ? 12 : hrs % 12) + ":0" + dt.getMinutes() + ":0" + dt.getSeconds() + " " + amPm).replace( /:0+(\d\d+)/g, ":$1" );
 }
 
-export function secs2Str( numSecs:number ):string {
+export function secs2Str( numSecs: number ): string {
     return "" + Math.floor( numSecs / 60 ) + ":" + ( "00" + (numSecs % 60)).substr(-2);
 }
 
@@ -94,29 +93,29 @@ export function secs2Str( numSecs:number ):string {
  * Compute statistics over the given history of contractions -
  * assumes contractions are sorted in time-ascending order.
  */
-export function computeStats( history:Contraction[] ):Stats {
-    let count = history.length;
-    let result = {
+export function computeStats( history: Contraction[] ): Stats {
+    const count = history.length;
+    const result = {
         avePeriodSecs: 0,
-        aveDurationSecs:0,
-        timeCoveredSecs:0,
-        numSamples:count
+        aveDurationSecs: 0,
+        timeCoveredSecs: 0,
+        numSamples: count,
     };
     if ( count > 1 ) {
-        let copy:Contraction[] = [].concat( history );
+        const copy: Contraction[] = [].concat( history );
         result.avePeriodSecs = Math.round(
-            history.slice(1).map( 
-                (it) => { return it.startTime.getTime() - copy.shift().startTime.getTime(); } 
-            ).reduce( (acc,it) => { return acc+it; }, 0 ) / (1000 * (count-1))
+            history.slice(1).map(
+                (it) => it.startTime.getTime() - copy.shift().startTime.getTime(),
+            ).reduce( (acc, it) => acc + it, 0 ) / (1000 * (count - 1)),
         );
     }
     if ( count > 0 ) {
         result.aveDurationSecs = Math.round(
-            history.map( 
-                (it) => { return it.endTime.getTime() - it.startTime.getTime(); }
-            ).reduce( (acc,it) => { return acc + it; }, 0 ) / (1000 * count)
+            history.map(
+                (it) => it.endTime.getTime() - it.startTime.getTime(),
+            ).reduce( (acc, it) => acc + it, 0 ) / (1000 * count),
         );
-        result.timeCoveredSecs = Math.round( (history[count-1].endTime.getTime() - history[0].startTime.getTime())/1000);
+        result.timeCoveredSecs = Math.round( (history[count - 1].endTime.getTime() - history[0].startTime.getTime()) / 1000);
     }
     return result;
 }
@@ -124,24 +123,28 @@ export function computeStats( history:Contraction[] ):Stats {
 export const storageKey = "511Data";
 
 export interface View511 {
-    pie:Element;
-    historyTable:Element;
-    statsTable:Element;
-    startStopButton:Element,
-    clearHistoryButton:Element,
-    clearHistoryModal:Element
-};
+    pie: Element;
+    historyTable: Element;
+    statsTable: Element;
+    startStopButton: Element;
+    clearHistoryButton: Element;
+    clearHistoryModal: Element;
+}
 
 /**
  * Manager for the 511 view
  */
 export class Controller511 {
-    private _timerInterval:any;
-    contractionList:Contraction[];
 
-    view:View511;
-    
-    constructor( view:View511, contractionList:Contraction[] ) {
+    get isTimerRunning() {
+        return !! this._timerInterval;
+    }
+    public contractionList: Contraction[];
+
+    public view: View511;
+    private _timerInterval: any;
+
+    constructor( view: View511, contractionList: Contraction[] ) {
         this.contractionList = contractionList;
         this._timerInterval = null;
         this.view = view;
@@ -149,32 +152,32 @@ export class Controller511 {
 
     /**
      * Update the UX to match the current state of the controller
-     * 
+     *
      * @param includeSecondHand whether or not to render a clock hand at the current second
      */
-    render( includeSecondHand:boolean ):void {
+    public render( includeSecondHand: boolean ): void {
         //
         // First - update the pie widget - pie only shows
         // data for contractions that occurred over the last hour
         //
-        let nowMs = Date.now();
-        let oneHourMs = 60*60*1000;
-        let oneHourHistory = this.contractionList.filter(
-            (cxn) => { return nowMs - cxn.startTime.getTime() < oneHourMs }
+        const nowMs = Date.now();
+        const oneHourMs = 60 * 60 * 1000;
+        const oneHourHistory = this.contractionList.filter(
+            (cxn) => nowMs - cxn.startTime.getTime() < oneHourMs,
         );
         let arrivalListStr = oneHourHistory.map(
             (cxn) => {
                 return {
                     startDegrees: date2Degrees( cxn.startTime ),
-                    endDegrees: date2Degrees( cxn.endTime )
-                }
-            }
+                    endDegrees: date2Degrees( cxn.endTime ),
+                };
+            },
         ).map(
             (deg) => {
                 return "" + deg.startDegrees + "," + ((360 + deg.endDegrees - deg.startDegrees) % 360);
-            }
+            },
         ).reduce(
-            (acc,s) => { return acc + s + ";" }, ""
+            (acc, s) => acc + s + ";", "",
         );
         if ( includeSecondHand ) {
             arrivalListStr += (new Date().getSeconds() * 6) + ",1";
@@ -182,8 +185,8 @@ export class Controller511 {
         this.view.pie.setAttribute( "arrival-list", arrivalListStr );
 
         // update the stats table
-        let stats = computeStats( oneHourHistory );
-        let statCells = this.view.statsTable.querySelectorAll( 'td' );
+        const stats = computeStats( oneHourHistory );
+        const statCells = this.view.statsTable.querySelectorAll( "td" );
         if ( statCells.length > 2 ) {
             const durMins = Math.floor( stats.avePeriodSecs / 60 );
             const remainingSecs = stats.avePeriodSecs % 60;
@@ -195,25 +198,25 @@ export class Controller511 {
         }
 
         // update the history table
-        let dataBody = this.view.historyTable.querySelector( 'tbody' );
-        while( dataBody.hasChildNodes() ) {
+        const dataBody = this.view.historyTable.querySelector( "tbody" );
+        while ( dataBody.hasChildNodes() ) {
             dataBody.removeChild( dataBody.childNodes[0] );
         }
         oneHourHistory.reverse().forEach(
             (cxn, index) => {
-                let tr = document.createElement( "TR" );
-                let tdStart = document.createElement( "TD" );
+                const tr = document.createElement( "TR" );
+                const tdStart = document.createElement( "TD" );
                 tdStart.className = "lw-data-table__dcell";
                 tdStart.innerText = date2Str( cxn.startTime );
-                let tdEnd = document.createElement( "TD" );
+                const tdEnd = document.createElement( "TD" );
                 tdEnd.className = "lw-data-table__dcell";
                 tdEnd.innerText = date2Str( cxn.endTime );
-                let tdDuration = document.createElement( "TD" );
+                const tdDuration = document.createElement( "TD" );
                 tdDuration.className = "lw-data-table__dcell";
                 tdDuration.innerText = "" + Math.round((cxn.endTime.getTime() - cxn.startTime.getTime()) / 1000) + " secs";
-                [tdStart,tdEnd,tdDuration].forEach( (td) => { tr.appendChild(td); });
+                [tdStart, tdEnd, tdDuration].forEach( (td) => { tr.appendChild(td); });
                 dataBody.appendChild(tr);
-            }
+            },
         );
 
         // update the button
@@ -228,38 +231,34 @@ export class Controller511 {
         }
     }
 
-    get isTimerRunning() {
-        return !! this._timerInterval;
-    }
-
     /**
      * Internal helper updates the endTime on the most recent
      * contraction to now - unless that update would give the latest contraction
      * a duration over 10mins - in which case we auto-add a new Contraction.
      * Also - limits the list to 100 entries.
      * These rules have to do with limitations on our view (pie only supports
-     * accute angle slices, and table is only useful up to 100 entries) 
-     * 
+     * accute angle slices, and table is only useful up to 100 entries)
+     *
      * @return the most recent contraction
      */
-    _updateLatestContraction():Contraction {
-        let now = new Date();
+    public _updateLatestContraction(): Contraction {
+        const now = new Date();
 
-        if( this.contractionList.length < 1 ) {
+        if ( this.contractionList.length < 1 ) {
             this.contractionList.push(
-                { startTime: now, endTime: now }
+                { startTime: now, endTime: now },
             );
         }
         let cxn = this.contractionList[ this.contractionList.length - 1 ];
-        let durationMins = (now.getTime() - cxn.startTime.getTime()) / 60000;
+        const durationMins = (now.getTime() - cxn.startTime.getTime()) / 60000;
         if ( durationMins < 10 ) {
             cxn.endTime = new Date();
         } else {
             // start a new contraction if last duration would be over 10 mins
-            cxn = { startTime:now, endTime:now };
+            cxn = { startTime: now, endTime: now };
             this.contractionList.push( cxn );
         }
-        // 
+        //
         // Limit the contraction list to 100 entries
         //
         if ( this.contractionList.length > 100 ) {
@@ -272,24 +271,23 @@ export class Controller511 {
         return cxn;
     }
 
-
     /**
      * Add a new contraction to the contractionList, and
      * setup an interval to update that contraction's endTime,
      * and re-render the view.
      */
-    startTimer():void {
+    public startTimer(): void {
         if ( ! this._timerInterval ) {
-            let cxn = {
+            const cxn = {
                 startTime: new Date(),
-                endTime: new Date()
+                endTime: new Date(),
             };
             this.contractionList.push( cxn );
             this._timerInterval = setInterval(
                 () => {
-                    var nowMs = Date.now();
-                    
-                    let latest = this._updateLatestContraction();
+                    const nowMs = Date.now();
+
+                    const latest = this._updateLatestContraction();
                     if ( latest !== cxn ) {
                         // assume the user has gone away after 10 mins - need to get to hostpital anyway!
                         this.endTimer();
@@ -297,7 +295,7 @@ export class Controller511 {
                         this.render(true);
                     }
                 },
-                500
+                500,
             );
         } else {
             console.log( "ignoring duplicate startTimer call" );
@@ -306,11 +304,11 @@ export class Controller511 {
 
     /**
      * End the timer started by startTimer, and re-render
-     * 
+     *
      * @return true if timer cleared and render called, false if NOOP
      *          since timer was not running
      */
-    endTimer():boolean {
+    public endTimer(): boolean {
         if ( this._timerInterval ) {
             clearInterval( this._timerInterval );
             this._timerInterval = null;
@@ -326,7 +324,7 @@ export class Controller511 {
      * Clear the history contraction list, clear the start-timer interval if any,
      * and re-render
      */
-    clearHistory():void {
+    public clearHistory(): void {
         localStorage.removeItem( storageKey );
         this.contractionList = [];
         this.closeClearHistoryModal();
@@ -335,39 +333,38 @@ export class Controller511 {
         }
     }
 
-    openClearHistoryModal():void {
+    public openClearHistoryModal(): void {
         this.view.clearHistoryModal.classList.add( "lw-modalDialog_open" );
     }
 
-    closeClearHistoryModal():void {
+    public closeClearHistoryModal(): void {
         this.view.clearHistoryModal.classList.remove( "lw-modalDialog_open" );
     }
 }
 
-
 /**
  * Attach a controller to the DOM elements that make up the 511 UX
  */
-export function attachController( 
-    view:View511
-    ):Controller511 {
+export function attachController(
+    view: View511,
+    ): Controller511 {
     let contractionList = [];
     try {
-        let data = JSON.parse(localStorage.getItem( storageKey ) || '{}');
+        const data = JSON.parse(localStorage.getItem( storageKey ) || "{}");
         contractionList = (data.contractionList || []).map(
             function(js) {
                 return {
                     startTime: new Date( js.startTime ),
-                    endTime: new Date( js.endTime )
-                }
-            }
+                    endTime: new Date( js.endTime ),
+                };
+            },
         );
     } catch ( err ) {
         console.log( "Failed parsing 511 local storage", err );
     }
-    
-    let controller = new Controller511( view, contractionList );
-    view.startStopButton.addEventListener('click', function(ev) {
+
+    const controller = new Controller511( view, contractionList );
+    view.startStopButton.addEventListener("click", function(ev) {
         if ( controller.isTimerRunning ) {
             controller.endTimer();
         } else {
@@ -375,7 +372,7 @@ export function attachController(
         }
     });
 
-    view.clearHistoryButton.addEventListener('click', function(ev) {
+    view.clearHistoryButton.addEventListener("click", function(ev) {
         controller.openClearHistoryModal();
     });
     const closeX = view.clearHistoryModal.querySelector( "a.lw-modalDialog__closeX" );
@@ -388,7 +385,7 @@ export function attachController(
     }
     const okButton = view.clearHistoryModal.querySelector( "button" );
     if ( okButton ) {
-        okButton.addEventListener('click', function(ev) {
+        okButton.addEventListener("click", function(ev) {
             controller.clearHistory();
         });
     } else {
@@ -402,8 +399,8 @@ export function attachController(
  * 511 custom element
  */
 export class Little511 extends HTMLElement {
-    _isRendered:boolean = false;
-    controller:Controller511 = null;
+    public _isRendered: boolean = false;
+    public controller: Controller511 = null;
 
     // Can define constructor arguments if you wish.
     constructor() {
@@ -412,29 +409,29 @@ export class Little511 extends HTMLElement {
       super();
     }
 
-    //static get observedAttributes():Array<string> { return ['title']; }
+    // static get observedAttributes():Array<string> { return ['title']; }
 
-    connectedCallback(): void {
+    public connectedCallback(): void {
         this._render();
     }
 
-    disconnectedCallback(): void {
+    public disconnectedCallback(): void {
     }
 
-    attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
-      //console.log( "Attribute change! " + attrName );
-      //this._render();
+    public attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
+      // console.log( "Attribute change! " + attrName );
+      // this._render();
     }
 
-    adoptedCallback(): void {}
+    public adoptedCallback(): void {}
 
     /**
      * Little helper resolves once this element has
      * been rendered
      */
-    ready(): Promise<Little511> {
+    public ready(): Promise<Little511> {
         return new Promise((resolve, reject) => {
-            if (this._isRendered){
+            if (this._isRendered) {
                 resolve(this);
             }
             (this as any).resolveReady = resolve;
@@ -444,29 +441,29 @@ export class Little511 extends HTMLElement {
     /**
      * Simple adaptation of legacy controller-based rendering
      */
-    _render():void {
+    public _render(): void {
         if (!this._isRendered) {
           render(templateFactory(), this);
           this.controller = attachController(
             {
-                pie: this.querySelector('lw-arrival-pie'),
-                historyTable: this.querySelector('table#history'),
-                statsTable: this.querySelector('table#stats'),
-                startStopButton: this.querySelector('button#startStop'),
-                clearHistoryButton: this.querySelector('button#clearHistory'),
-                clearHistoryModal: this.querySelector('div#clearHistoryModal')
-            }
+                pie: this.querySelector("lw-arrival-pie"),
+                historyTable: this.querySelector("table#history"),
+                statsTable: this.querySelector("table#stats"),
+                startStopButton: this.querySelector("button#startStop"),
+                clearHistoryButton: this.querySelector("button#clearHistory"),
+                clearHistoryModal: this.querySelector("div#clearHistoryModal"),
+            },
           );
           this._isRendered = true;
-          const self:any = this;
-          if (typeof self.resolveReady === 'function') {
+          const self: any = this;
+          if (typeof self.resolveReady === "function") {
             self.resolveReady(this);
           }
         }
     }
 }
 
-window.customElements.define('lw-511', Little511);
+window.customElements.define("lw-511", Little511);
 
 styleHelper.componentCss.push(css);
 styleHelper.render();

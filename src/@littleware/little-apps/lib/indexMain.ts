@@ -1,5 +1,5 @@
-import './headerSimple/headerSimple.js';
+import "./headerSimple/headerSimple.js";
 
-if ( window['littleShell'] ) {
-    window['littleShell'].clear();
+if ( window.littleShell ) {
+    window.littleShell.clear();
 }

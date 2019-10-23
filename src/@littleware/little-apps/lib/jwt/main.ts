@@ -1,6 +1,6 @@
-import  './jwt.js';
-import '../headerSimple/headerSimple.js';
+import "../headerSimple/headerSimple.js";
+import  "./jwt.js";
 
-if ( window['littleShell'] ) {
-    window['littleShell'].clear();
+if ( window.littleShell ) {
+    window.littleShell.clear();
 }

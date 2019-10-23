@@ -1,10 +1,10 @@
-import { html, render } from '../../../../../lit-html/lit-html.js';
-import { css } from './headerSimple.css.js';
-import {singleton as styleHelper} from '../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js';
-import './googleAnalytics.js';
+import {singleton as styleHelper} from "../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js";
+import { html, render } from "../../../../../lit-html/lit-html.js";
+import "./googleAnalytics.js";
+import { css } from "./headerSimple.css.js";
 
-function templateFactory(header:SimpleHeader) {
-  const titleStr = (header.getAttribute('title') || 'Home').replace( /[<>\r\n]+/g, "" );
+function templateFactory(header: SimpleHeader) {
+  const titleStr = (header.getAttribute("title") || "Home").replace( /[<>\r\n]+/g, "" );
   return html`
   <table class="lw-header">
         <tr>
@@ -34,20 +34,20 @@ export class SimpleHeader extends HTMLElement {
      *  Monitor the 'name' attribute for changes, see:
      *     https://developer.mozilla.org/en-US/docs/Web/Web_Components/Custom_Elements
      */
-    static get observedAttributes():Array<string> { return ['title']; }
+    static get observedAttributes(): string[] { return ["title"]; }
 
-    connectedCallback(): void {
+    public connectedCallback(): void {
     }
 
-    disconnectedCallback(): void {
+    public disconnectedCallback(): void {
     }
 
-    attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
-      //console.log( "Attribute change! " + attrName );
+    public attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
+      // console.log( "Attribute change! " + attrName );
       this._render();
     }
 
-    adoptedCallback(): void {
+    public adoptedCallback(): void {
 
     }
 
@@ -55,7 +55,7 @@ export class SimpleHeader extends HTMLElement {
      * Rebuild the path elements under the arrpie-pielist group
      * Note: only public to fascilitate testing
      */
-    _render():void {
+    public _render(): void {
       render( templateFactory(this), this );
     }
 }
