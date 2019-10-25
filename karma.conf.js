@@ -2,7 +2,7 @@
 // Generated on Sat Jan 07 2017 22:42:18 GMT-0600 (CST)
 
 module.exports = function(config) {
-  config.set({
+  const settings = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -21,6 +21,7 @@ module.exports = function(config) {
       { pattern: 'web/lib/jwt/**/*.js', type: 'module', included: false },
       { pattern: 'web/lib/headerSimple/**/*.js', type: 'module', included: false },
       { pattern: 'node_modules/lit-html/*.js', type: 'module', included: false },
+      { pattern: 'node_modules/lit-html/lib/*.js', type: 'module', included: false },
       { pattern: 'node_modules/font-awesome/**/*', included: false },
       { pattern: 'web/lib/testMain.js', type: 'module', included: true }
     ],
@@ -68,5 +69,11 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  };
+
+  if (process.env['LITTLE_INTERACTIVE'] === 'false') {
+    settings.singleRun = true;
+    settings.browsers = ['ChromeHeadless'];
+  }
+  config.set(settings);
 }

@@ -82,6 +82,7 @@ export function date2Degrees( dt: Date ): number {
 export function date2Str( dt: Date ): string {
     const hrs = dt.getHours();
     const amPm = (hrs < 12) ? "AM" : "PM";
+    // tslint:disable-next-line
     return ("" + (hrs % 12 === 0 ? 12 : hrs % 12) + ":0" + dt.getMinutes() + ":0" + dt.getSeconds() + " " + amPm).replace( /:0+(\d\d+)/g, ":$1" );
 }
 
@@ -96,10 +97,10 @@ export function secs2Str( numSecs: number ): string {
 export function computeStats( history: Contraction[] ): Stats {
     const count = history.length;
     const result = {
-        avePeriodSecs: 0,
         aveDurationSecs: 0,
-        timeCoveredSecs: 0,
+        avePeriodSecs: 0,
         numSamples: count,
+        timeCoveredSecs: 0,
     };
     if ( count > 1 ) {
         const copy: Contraction[] = [].concat( history );
@@ -115,6 +116,7 @@ export function computeStats( history: Contraction[] ): Stats {
                 (it) => it.endTime.getTime() - it.startTime.getTime(),
             ).reduce( (acc, it) => acc + it, 0 ) / (1000 * count),
         );
+        // tslint:disable-next-line
         result.timeCoveredSecs = Math.round( (history[count - 1].endTime.getTime() - history[0].startTime.getTime()) / 1000);
     }
     return result;
@@ -142,6 +144,7 @@ export class Controller511 {
     public contractionList: Contraction[];
 
     public view: View511;
+    // tslint:disable-next-line
     private _timerInterval: any;
 
     constructor( view: View511, contractionList: Contraction[] ) {
@@ -168,8 +171,8 @@ export class Controller511 {
         let arrivalListStr = oneHourHistory.map(
             (cxn) => {
                 return {
-                    startDegrees: date2Degrees( cxn.startTime ),
                     endDegrees: date2Degrees( cxn.endTime ),
+                    startDegrees: date2Degrees( cxn.startTime ),
                 };
             },
         ).map(
@@ -194,6 +197,7 @@ export class Controller511 {
             statCells[1].textContent = secs2Str( stats.aveDurationSecs );
             statCells[2].textContent = secs2Str( stats.timeCoveredSecs );
         } else {
+            // tslint:disable-next-line
             console.log( "ERROR: malformed stats table" );
         }
 
@@ -279,14 +283,12 @@ export class Controller511 {
     public startTimer(): void {
         if ( ! this._timerInterval ) {
             const cxn = {
-                startTime: new Date(),
                 endTime: new Date(),
+                startTime: new Date(),
             };
-            this.contractionList.push( cxn );
+            this.contractionList.push(cxn);
             this._timerInterval = setInterval(
                 () => {
-                    const nowMs = Date.now();
-
                     const latest = this._updateLatestContraction();
                     if ( latest !== cxn ) {
                         // assume the user has gone away after 10 mins - need to get to hostpital anyway!
@@ -298,6 +300,7 @@ export class Controller511 {
                 500,
             );
         } else {
+            // tslint:disable-next-line
             console.log( "ignoring duplicate startTimer call" );
         }
     }
@@ -315,7 +318,8 @@ export class Controller511 {
             this.render(false);
             return true;
         } else {
-            console.log( "ignoring endTimer call - no active interval" );
+            // tslint:disable-next-line
+            console.log("ignoring endTimer call - no active interval");
             return false;
         }
     }
@@ -352,19 +356,20 @@ export function attachController(
     try {
         const data = JSON.parse(localStorage.getItem( storageKey ) || "{}");
         contractionList = (data.contractionList || []).map(
-            function(js) {
+            (js) => {
                 return {
-                    startTime: new Date( js.startTime ),
                     endTime: new Date( js.endTime ),
+                    startTime: new Date( js.startTime ),
                 };
             },
         );
     } catch ( err ) {
+        // tslint:disable-next-line
         console.log( "Failed parsing 511 local storage", err );
     }
 
     const controller = new Controller511( view, contractionList );
-    view.startStopButton.addEventListener("click", function(ev) {
+    view.startStopButton.addEventListener("click", (ev) => {
         if ( controller.isTimerRunning ) {
             controller.endTimer();
         } else {
@@ -372,23 +377,25 @@ export function attachController(
         }
     });
 
-    view.clearHistoryButton.addEventListener("click", function(ev) {
+    view.clearHistoryButton.addEventListener("click", (ev) => {
         controller.openClearHistoryModal();
     });
     const closeX = view.clearHistoryModal.querySelector( "a.lw-modalDialog__closeX" );
     if ( closeX ) {
-        closeX.addEventListener( "click", function(ev) {
+        closeX.addEventListener( "click", (ev) => {
             controller.closeClearHistoryModal();
         });
     } else {
+        // tslint:disable-next-line
         console.log( "WARNING - no 'closeX' link found in clearHistory modal" );
     }
     const okButton = view.clearHistoryModal.querySelector( "button" );
     if ( okButton ) {
-        okButton.addEventListener("click", function(ev) {
+        okButton.addEventListener("click", (ev) => {
             controller.clearHistory();
         });
     } else {
+        // tslint:disable-next-line
         console.log( "WARNING - no 'ok' button found in clearHistory modal" );
     }
     controller.render(false);
@@ -399,6 +406,7 @@ export function attachController(
  * 511 custom element
  */
 export class Little511 extends HTMLElement {
+    // tslint:disable-next-line
     public _isRendered: boolean = false;
     public controller: Controller511 = null;
 
@@ -409,28 +417,16 @@ export class Little511 extends HTMLElement {
       super();
     }
 
-    // static get observedAttributes():Array<string> { return ['title']; }
-
     public connectedCallback(): void {
         this._render();
     }
-
-    public disconnectedCallback(): void {
-    }
-
-    public attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
-      // console.log( "Attribute change! " + attrName );
-      // this._render();
-    }
-
-    public adoptedCallback(): void {}
 
     /**
      * Little helper resolves once this element has
      * been rendered
      */
     public ready(): Promise<Little511> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             if (this._isRendered) {
                 resolve(this);
             }
@@ -446,12 +442,12 @@ export class Little511 extends HTMLElement {
           render(templateFactory(), this);
           this.controller = attachController(
             {
-                pie: this.querySelector("lw-arrival-pie"),
-                historyTable: this.querySelector("table#history"),
-                statsTable: this.querySelector("table#stats"),
-                startStopButton: this.querySelector("button#startStop"),
                 clearHistoryButton: this.querySelector("button#clearHistory"),
                 clearHistoryModal: this.querySelector("div#clearHistoryModal"),
+                historyTable: this.querySelector("table#history"),
+                pie: this.querySelector("lw-arrival-pie"),
+                startStopButton: this.querySelector("button#startStop"),
+                statsTable: this.querySelector("table#stats"),
             },
           );
           this._isRendered = true;

@@ -7,12 +7,14 @@ import {css} from "./jwt.css.js";
  * and its parsed components
  */
 export class JwtData {
+    /* tslint:disable */
     private _token: string = "";
     private _header = "";
     private _body = "";
     private _signature = "";
     private _isValid = false;
     private _errorStr = "uninitalized";
+    /* tslint:enable */
 
     constructor(token, header, body, signature, isValid, errorStr) {
         this._token = token;
@@ -39,7 +41,7 @@ export function parseSignedJwt(token: string): JwtData {
         return new JwtData("", "", "", "", false, "empty token");
     }
     const parts = token.split(".").map((str, idx) => idx < 2 ? atob(str.replace("-", "+").replace("_", "/")) : str);
-    if (parts.length != 3) {
+    if (parts.length !== 3) {
         return new JwtData(token, "", "", "", false, "invalid format - expect 'header.body.signature'");
     }
     try {
@@ -103,6 +105,7 @@ export class Controller {
         this.view._render();
     }
     private view: LittleJwt;
+    // tslint:disable-next-line
     private _data: JwtData;
     private isConnected = false;
 
@@ -153,8 +156,6 @@ export class LittleJwt extends HTMLElement {
         this.controller = new Controller(this, emptyJwt());
     }
 
-    // static get observedAttributes():Array<string> { return ['title']; }
-
     public connectedCallback(): void {
         this._render();
         this.controller.connect();
@@ -167,13 +168,6 @@ export class LittleJwt extends HTMLElement {
     get data() { return this.controller.data; }
     get token() { return this.controller.data.token; }
     set token(str) { this.controller.data = parseSignedJwt(str); }
-
-    public attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
-        // console.log( "Attribute change! " + attrName );
-        // this._render();
-    }
-
-    public adoptedCallback(): void {}
 
     /**
      * Schedule async render if not already scheduled ...

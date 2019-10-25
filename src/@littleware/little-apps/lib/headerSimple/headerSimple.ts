@@ -36,19 +36,9 @@ export class SimpleHeader extends HTMLElement {
      */
     static get observedAttributes(): string[] { return ["title"]; }
 
-    public connectedCallback(): void {
-    }
-
-    public disconnectedCallback(): void {
-    }
-
     public attributeChangedCallback(attrName?: string, oldVal?: string, newVal?: string): void {
       // console.log( "Attribute change! " + attrName );
       this._render();
-    }
-
-    public adoptedCallback(): void {
-
     }
 
     /**
