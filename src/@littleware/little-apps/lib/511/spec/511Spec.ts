@@ -29,6 +29,7 @@ describe( "The 511 app controller", () => {
 
     it("Can update info on an ongoing contraction", (done) => {
         const nowMs = Date.now();
+        lw511.controller.endTimer(); // just in case
         lw511.controller.contractionList = [
             { startTime: new Date( nowMs - 15 * 60 * 1000 ), endTime: new Date( nowMs - 14 * 60 * 1000 )},
             { startTime: new Date( nowMs - 10 * 60 * 1000 ), endTime: new Date( nowMs - 9 * 60 * 1000 )},
