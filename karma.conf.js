@@ -15,7 +15,6 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/@littleware/little-elements/web/lib/test/karmaAdapter.js',
       { pattern: 'node_modules/@littleware/**/*.js', type: 'module', included: false },
       { pattern: 'web/lib/511/**/*.js', type: 'module', included: false },
       { pattern: 'web/lib/jwt/**/*.js', type: 'module', included: false },
