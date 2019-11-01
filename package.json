@@ -24,6 +24,7 @@
     "gulp-rimraf": "latest",
     "gulp-sequence": "latest",
     "gulp-sourcemaps": "latest",
+    "gulp-svg2png": "latest",
     "gulp-typescript": "latest",
     "gulp-watch": "latest",
     "karma": "latest",
@@ -43,7 +44,7 @@
     "build": "gulp",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "npx karma start karma.conf.js",
-    "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/lib/ ./lib/ /resources/ ./site/resources/ / ./site/"
+    "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/lib/ ./lib/ /resources/ ./site/resources/ / ./web/site/"
   },
   "repository": {
     "type": "git",

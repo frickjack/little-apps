@@ -8,37 +8,37 @@
   "scope":"/jwt/",
   "icons": [
     {
-      "src": "/resources/img/appIcons/oojwt.57x57.png",
+      "src": "/resources/img/appIcons/57x57/jwt.png",
       "type": "image/png",
       "sizes": "57x57"
     },
     {
-      "src": "/resources/img/appIcons/oojwt.72x72.png",
+      "src": "/resources/img/appIcons/72x72/jwt.png",
       "type": "image/png",
       "sizes": "72x72"
     },
     {
-      "src": "/resources/img/appIcons/oojwt.114x114.png",
+      "src": "/resources/img/appIcons/114x114/jwt.png",
       "type": "image/png",
       "sizes": "114x114"
     },
     {
-      "src": "/resources/img/appIcons/oojwt.144x144.png",
+      "src": "/resources/img/appIcons/144x144/jwt.png",
       "type": "image/png",
       "sizes": "144x144"
     },
     {
-      "src": "/resources/img/appIcons/oojwt.152x152.png",
+      "src": "/resources/img/appIcons/152x152/jwt.png",
       "type": "image/png",
       "sizes": "152x152"
     },
     {
-      "src": "/resources/img/appIcons/oojwt.167x167.png",
+      "src": "/resources/img/appIcons/167x167/jwt.png",
       "type": "image/png",
       "sizes": "167x167"
     },
     {
-      "src": "/resources/img/appIcons/oojwt.180x180.png",
+      "src": "/resources/img/appIcons/180x180/jwt.png",
       "type": "image/png",
       "sizes": "180x180"
     }
