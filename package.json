@@ -27,6 +27,7 @@
     "gulp-svg2png": "latest",
     "gulp-typescript": "latest",
     "gulp-watch": "latest",
+    "jasmine": "latest",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-jasmine": "latest",

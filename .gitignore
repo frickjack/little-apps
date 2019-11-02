@@ -17,6 +17,7 @@ nbproject/private
 node_modules/
 /lib/
 /bin/
+/commonjs/
 /site/
 /maps/
 /web/
