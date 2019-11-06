@@ -81,35 +81,3 @@ gulp.task('stage', gulp.series('little-clean', 'compile', function() {
         gulp.src('node_modules/jasmine-core/lib/jasmine-core/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/jasmine-core/lib/jasmine-core/`))
     );
 }));
-
-/*
-Setup ~/.littleware/aws/accessKeys.properties 
-with AWS access keys:
-
-$ cat ~/.littleware/aws/accessKeys.properties 
-#update form littleware
-#Wed Aug 16 19:48:41 CDT 2017
-accessKey=XXXXXX
-secretKey=XXXXXXX
-*/
-gulp.task('deploy', gulp.series('stage', function(cb) {
-    const pwdPath = process.cwd();
-    const imageName = "frickjack/s3cp:1.0.0";
-    const home = process.env.HOME || process.env.HOMEPATH || '';
-    const commandStr = "yes | docker run --rm --name s3gulp -v " + home + "/.littleware:/root/.littleware -v '" +
-        pwdPath + ":/mnt/workspace' " + imageName + " -copy /mnt/workspace/dist/ s3://apps.frickjack.com/";
-
-    console.log('Running: ' + commandStr);
-
-    return exec( commandStr, 
-        function (err, stdout, stderr) {
-            console.log(stdout);
-            console.log(stderr);
-            if ( err ) {
-                //reject( err );
-            } else {
-                cb();
-            }
-        }
-    );
-}));
