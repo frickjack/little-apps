@@ -18,7 +18,7 @@ if (/apps.frickjack.com/.exec(world.location.href)) {
         m = s.getElementsByTagName(o)[0]; 
         a.async = 1; a.src = g; 
         m.parentNode.insertBefore(a, m);
-    })(world. document, "script", "https://www.google-analytics.com/analytics.js", "ga");
+    })(world, document, "script", "https://www.google-analytics.com/analytics.js", "ga");
 
     ga("create", "UA-15960292-3", "frickjack.com");
     ga("send", "pageview");
