@@ -2,7 +2,7 @@
 // Generated on Sat Jan 07 2017 22:42:18 GMT-0600 (CST)
 
 module.exports = function(config) {
-  config.set({
+  const settings = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -15,14 +15,14 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/@littleware/little-elements/lib/test/karmaAdapter.js',
       { pattern: 'node_modules/@littleware/**/*.js', type: 'module', included: false },
-      { pattern: 'lib/511/**/*.js', type: 'module', included: false },
-      { pattern: 'lib/jwt/**/*.js', type: 'module', included: false },
-      { pattern: 'lib/headerSimple/**/*.js', type: 'module', included: false },
+      { pattern: 'web/lib/511/**/*.js', type: 'module', included: false },
+      { pattern: 'web/lib/jwt/**/*.js', type: 'module', included: false },
+      { pattern: 'web/lib/headerSimple/**/*.js', type: 'module', included: false },
       { pattern: 'node_modules/lit-html/*.js', type: 'module', included: false },
+      { pattern: 'node_modules/lit-html/lib/*.js', type: 'module', included: false },
       { pattern: 'node_modules/font-awesome/**/*', included: false },
-      { pattern: 'lib/testMain.js', type: 'module', included: true }
+      { pattern: 'web/lib/testMain.js', type: 'module', included: true }
     ],
     
     // list of files to exclude
@@ -35,7 +35,7 @@ module.exports = function(config) {
     },
     proxies: {
       '/lit-html': '/base/node_modules/lit-html',
-      '/little-elements': '/base/node_modules/@littleware/little-elements',
+      '/@littleware/little-elements': '/base/node_modules/@littleware/little-elements',
       '/modules/font-awesome': '/base/node_modules/font-awesome'
     },
 
@@ -68,5 +68,11 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  };
+
+  if (process.env['LITTLE_INTERACTIVE'] === 'false') {
+    settings.singleRun = true;
+    settings.browsers = ['ChromeHeadless'];
+  }
+  config.set(settings);
 }
