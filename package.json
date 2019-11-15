@@ -45,7 +45,7 @@
     "build": "gulp",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "stage": "gulp stage",
-    "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/lib/ ./lib/ /resources/ ./site/resources/ / ./web/site/",
+    "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/web/lib/ ./web/lib/ /resources/ ./web/site/resources/ / ./web/site/",
     "test": "npx karma start karma.conf.js"
   },
   "repository": {
