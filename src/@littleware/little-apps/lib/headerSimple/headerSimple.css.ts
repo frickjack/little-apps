@@ -10,11 +10,12 @@ lw-header-simple {
     padding:2px;
     width: 100%;
     background-color:#0BDAF7;
-    font-family: 'Noto Sans'
+    font-family: 'Noto Sans', sans-serif;
+    display: flex;
 }
 
 .lw-header__nav {
-    width: 30%;
+    width: 20%;
     padding: 0px;
 }
 
@@ -28,8 +29,15 @@ lw-header-simple {
 }
 
 .lw-header__title {
-    width: 70%;
+    width: 40%;
     padding: 0px;
+    margin: auto;
+}
+
+.lw-header__authui {
+    width: 40%;
+    padding: 0px;
+    margin: auto;
 }
 </style>
 `;

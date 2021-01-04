@@ -1,34 +1,20 @@
 const gulp = require('gulp');
 const merge = require('merge-stream');
-const exec = require('child_process').exec;
-const mkdirp = require('mkdirp');
-const replace = require('gulp-replace');
 const svg2png = require('gulp-svg2png');
-const gulpHelper = require('@littleware/little-elements/gulpHelper');
-const package = require('./package.json');
+const gulpHelper = require('@littleware/little-devtools/gulpHelper');
 const basePath = "src/@littleware/little-apps";
 
-// TODO - automate version assignment
-gulpHelper.defineTasks(gulp, { basePath, data: { jsroot: `/modules/${package.version}` } });
+const config = { ... gulpHelper.defaultConfig };
+// configure nunjucks pages to load modules via
+// /modules/version instead of /modules
+config.nunjucks.data.jsroot = config.staging.jsroot;
+gulpHelper.defineTasks(gulp, config);
 
-// make the icon folder
-const makeFolder = function (path) {
-    return new Promise( function(resolve, reject) {
-            mkdirp( path, function(err) {
-                    if (err) {
-                        console.log( err );
-                        reject( err );
-                    } else {
-                        resolve( path );
-                    }
-            });
-        });
-};
 
 const icoFolderPath = "web/site/resources/img/appIcons";
     
 gulp.task('makeIcoFolder', function(cb) {
-    makeFolder(icoFolderPath).then(() => {cb();});
+    gulHelper.makeFolder(icoFolderPath).then(() => {cb();});
 });
 
 gulp.task('makeIco', function() {
@@ -55,29 +41,4 @@ gulp.task('default', gulp.series('compile', function(done) {
   //console.log( "Hello, World!" );
   //gulp.src( "src/**/*" ).pipe( gulp.dest( "build/" ) );
   done();
-}));
-
-
-/**
- * Prepare /dist folder for deployment
- */
-gulp.task('stage', gulp.series('little-clean', 'compile', function() {
-    return merge(
-        gulp.src('web/site/**/*.*'
-            ).pipe(gulp.dest('dist/')),
-        gulp.src('node_modules/@littleware/little-elements/web/**/*.*'
-            // hack for now - replace /modules/ path in styleHelper and basicShell
-            ).pipe(replace(`/modules/`, `/modules/${package.version}/`)
-            ).pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/web/`)
-            ),
-        gulp.src('node_modules/@webcomponents/webcomponentsjs/**/*.*'
-            ).pipe(
-                gulp.dest(`dist/modules/${package.version}/@webcomponents/webcomponentsjs/`)
-            ),
-        //gulp.src('node_modules/@littleware/little-elements/maps/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-elements/maps/`)),
-        gulp.src('web/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/@littleware/little-apps/web/`)),
-        gulp.src('node_modules/lit-html/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/lit-html/`)),
-        gulp.src('node_modules/font-awesome/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/font-awesome/`)),
-        gulp.src('node_modules/jasmine-core/lib/jasmine-core/**/*.*').pipe(gulp.dest(`dist/modules/${package.version}/jasmine-core/lib/jasmine-core/`))
-    );
 }));

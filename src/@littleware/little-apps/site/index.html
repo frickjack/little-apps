@@ -12,7 +12,7 @@
         <div class="lw-content pure-u-1">
             <header>
                 <p>
-                    Reuben Pasquini's dev sandbox.
+                    Welcome to Reuben's sandbox.
                 </p>
             </header>
             <section id="apps">
@@ -30,7 +30,9 @@
                         <li class="pure-menu-item"><a class="pure-menu-link" href="/jwt/index.html"><img class="lw-icon__57x57" src="./resources/img/jwt.svg" alt="511 icon" />
                                 <br/>JWT app</a>
                         </li>
-                        
+                        <li class="pure-menu-item"><a class="pure-menu-link" href="/tests/index.html"><img class="lw-icon__57x57" src="./resources/img/tests.svg" alt="511 icon" />
+                            <br/>Test suite</a>
+                        </li>
                     </ul>
                 </div>
             </section>
@@ -45,26 +47,14 @@
                         <li class="pure-menu-item"><a href="https://www.linkedin.com/in/reuben-pasquini-a16b6721" class="pure-menu-link" title="Linked In"><i class="fa fa-linkedin fa-2x"></i></a></li>
                         <li class="pure-menu-item"><a href="http://stackoverflow.com/users/story/1704760?view=Timeline" class="pure-menu-link" title="Stack Overflow"><i class="fa fa-stack-overflow fa-2x"></i></a></li>
                         <li class="pure-menu-item"><a href="https://hub.docker.com/u/frickjack/" class="pure-menu-link" title="Docker Hub">dockerhub</a></li>                        
-                        <li class="pure-menu-item"><a href="https://www.npmjs.com/~frickjack" class="pure-menu-link" title="npmjs.com">npmjs</a></li>                        
-                    </ul>
-                </div>
-            </section>
-            <section id="random">
-                <h2>littleware</h2>
-
-                <div class="pure-menu">
-                    <ul class="pure-menu-list" id="appmenu">
-                        <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-elements/web/lib/test/index.html" class="pure-menu-link" title="test">test support</a></li>
-                        <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-elements/web/lib/arrivalPie/index.html" class="pure-menu-link" title="arrival-pie custom element">lw-arrival-pie custom element</a></li>
-                        <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-apps/web/lib/511/index.html" class="pure-menu-link" title="header-simple custom element">lw-511 custom element</a></li>
-                        <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-apps/web/lib/headerSimple/index.html" class="pure-menu-link" title="header-simple custom element">lw-header-simple custom element</a></li>
-                        <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-apps/web/lib/jwt/index.html" class="pure-menu-link" title="header-simple custom element">lw-jwt custom element</a></li>
-                        <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-elements/web/lib/styleGuide/index.html" class="pure-menu-link" title="littleware style guide">style guide</a></li>
+                        <li class="pure-menu-item"><a href="https://www.npmjs.com/~frickjack" class="pure-menu-link" title="npmjs.com">npmjs</a></li>
+                        <li class="pure-menu-item"><a href="/resume/index.html" class="pure-menu-link" title="resume">resume</a></li>
                     </ul>
                 </div>
             </section>
         </div>
     </div>
 
-    <script src="{{ jsroot }}/@littleware/little-apps/web/lib/indexMain.js" type="module"></script>
+    <lw-app-context main-module="{{ jsroot }}/@littleware/little-apps/web/lib/indexMain.js"></lw-app-context>
+    <script type="module" src="{{ jsroot }}/@littleware/little-elements/web/lib/appContext/appContext.js"></script>
 {% endblock %}
