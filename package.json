@@ -4,7 +4,7 @@
   "description": "littleware web apps",
   "main": "build/server.js",
   "dependencies": {
-    "@littleware/little-elements": "file:../little-elements",
+    "@littleware/little-elements": "1.1.0",
     "bunyan": "^1.8.14",
     "font-awesome": "^4.7.0",
     "i18next": "^19.7.0",
@@ -15,7 +15,7 @@
     "@webcomponents/webcomponentsjs": "latest"
   },
   "devDependencies": {
-    "@littleware/little-devtools": "file:../little-devtools",
+    "@littleware/little-nodedev": "1.0.2",
     "@types/bunyan": "latest",
     "@types/express": "latest",
     "@types/jasmine": "latest",
@@ -36,10 +36,11 @@
   },
   "scripts": {
     "build": "gulp",
-    "jasmine": "jasmine --config=node_modules/@littleware/little-devtools/spec/support/jasmine.json",
-    "lint": "tslint -c node_modules/@littleware/little-devtools/tslint.json 'src/**/*.ts'",
+    "jasmine": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json",
+    "lint": "tslint -c node_modules/@littleware/little-nodedev/tslint.json 'src/**/*.ts'",
+    "stage": "gulp stage",
     "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/web/ ./web/ /resources/ ./web/site/resources/ / ./web/site/",
-    "test": "jasmine --config=node_modules/@littleware/little-devtools/spec/support/jasmine.json && karma start karma.conf.js",
+    "test": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json && karma start karma.conf.js",
     "watch": "gulp little-watch"
   },
   "repository": {

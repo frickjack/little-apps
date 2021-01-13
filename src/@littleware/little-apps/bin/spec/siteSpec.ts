@@ -2,6 +2,7 @@ import { ifInteractive, interactive } from "@littleware/little-elements/commonjs
 
 describe("the apps.frickjack.com site", () => {
     describe("the homepage", () => {
+        // tslint:disable-next-line
         (beforeEach as Function)(
             ... ifInteractive(async () => {
                 const result = await interactive(
@@ -32,9 +33,38 @@ describe("the apps.frickjack.com site", () => {
             expect(result.didPass).toBe(true);
         }, 3600000) as any,
         );
+        it("has an up to date resume", ... ifInteractive(async () => {
+            const result = await interactive(
+                `
+                * Check that the linked resume is up to date.
+                `,
+                );
+            expect(result.didPass).toBe(true);
+        }, 3600000) as any,
+        );
     });
+    it("has an up to date resume", ... ifInteractive(async () => {
+        const result = await interactive(
+            `
+            * Check that the linked resume is up to date.
+            `,
+            );
+        expect(result.didPass).toBe(true);
+    }, 3600000) as any,
+    );
+    it("the tests in the tests app all pass", ... ifInteractive(async () => {
+        const result = await interactive(
+            `
+            * Load the red tests app.
+            * Verify that all the linked test suites pass.
+            `,
+            );
+        expect(result.didPass).toBe(true);
+    }, 3600000) as any,
+    );
 
     describe("the jwt app", () => {
+        // tslint:disable-next-line
         (beforeEach as Function)(
             ... ifInteractive(async () => {
                 const result = await interactive(
@@ -78,6 +108,7 @@ describe("the apps.frickjack.com site", () => {
         );
     });
     describe("the 511 app", () => {
+        // tslint:disable-next-line
         (beforeEach as Function)(
             ... ifInteractive(async () => {
                 const result = await interactive(

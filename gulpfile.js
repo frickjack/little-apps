@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const merge = require('merge-stream');
 const svg2png = require('gulp-svg2png');
-const gulpHelper = require('@littleware/little-devtools/gulpHelper');
+const gulpHelper = require('@littleware/little-nodedev/gulpHelper.js');
 const basePath = "src/@littleware/little-apps";
 
 const config = { ... gulpHelper.defaultConfig };
