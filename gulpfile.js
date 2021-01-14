@@ -42,3 +42,10 @@ gulp.task('default', gulp.series('compile', function(done) {
   //gulp.src( "src/**/*" ).pipe( gulp.dest( "build/" ) );
   done();
 }));
+
+gulp.task('stage', gulp.series('little-stage', 'makeIco', function(done) {
+  return gulp.src(`${icoFolderPath}/**/*.png`
+    ).pipe(
+      gulp.dest(`${icoFolderPath.replace(/^web\/site/, 'dist')}/`)
+    );
+}));
