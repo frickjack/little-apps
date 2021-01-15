@@ -1,9 +1,10 @@
 # Reuben Pasquini
-technology agnostic developer of software systems
+technology agnostic developer of software systems; creator of bugs
 
 Chicago<br/>
 https://github.com/frickjack<br/>
-https://apps.frickjack.com
+https://apps.frickjack.com<br/>
+[markdown format](./resume.md)
 
 ## EXPERIENCE
 

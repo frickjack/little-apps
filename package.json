@@ -15,7 +15,7 @@
     "@webcomponents/webcomponentsjs": "latest"
   },
   "devDependencies": {
-    "@littleware/little-nodedev": "1.0.2",
+    "@littleware/little-nodedev": "latest",
     "@types/bunyan": "latest",
     "@types/express": "latest",
     "@types/jasmine": "latest",
@@ -39,6 +39,7 @@
     "jasmine": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json",
     "lint": "tslint -c node_modules/@littleware/little-nodedev/tslint.json 'src/**/*.ts'",
     "stage": "gulp stage",
+    "stagecheck": "node node_modules/.bin/little-server / ./dist/",
     "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/web/ ./web/ /resources/ ./web/site/resources/ / ./web/site/",
     "test": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json && karma start karma.conf.js",
     "watch": "gulp little-watch"
