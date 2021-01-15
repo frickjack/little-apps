@@ -2,25 +2,19 @@
 
 Code for various standalone apps and content deployed to http://apps.frickjack.com/
 
-# Development
+## TOC
 
-`gulp` manages the build and deploy process
+See [this site](https://documentation.divio.com/introduction/) for an introduction to the different types of documentation (explanation, how-to, tutorial, reference).
 
-* run build
-  ```
-  npx gulp compile
-  ```
-* watch for file changes, and build:
-  ```
-  npx gulp little-watch
-  ```
-* run local dev server
-  ```
-  npm start
-  ```
-, then http://localhost:3000/index.html has links to 
-the component test pages at the bottom.
+### Explanation
 
-# UX components
 
-* 511
+### How-to
+
+* [dev-test](Notes/howto/devTest.md)
+
+### Tutorials
+
+### Reference
+
+* [release notes](Notes/reference/releaseNotes.md)

@@ -1,4 +1,6 @@
 import {singleton as styleHelper} from "../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js";
+import "../../../../../@littleware/little-elements/web/lib/authMgr/authControl.js";
+import "../../../../../@littleware/little-elements/web/lib/authMgr/authUi.js";
 import { html, render } from "../../../../../lit-html/lit-html.js";
 import "./googleAnalytics.js";
 import { css } from "./headerSimple.css.js";
@@ -6,16 +8,18 @@ import { css } from "./headerSimple.css.js";
 function templateFactory(header: SimpleHeader) {
   const titleStr = (header.getAttribute("title") || "Home").replace( /[<>\r\n]+/g, "" );
   return html`
-  <table class="lw-header">
-        <tr>
-            <td class="lw-header__nav">
+  <div class="lw-header">
+      <div class="lw-header__nav">
                 <a href="/" class="pure-menu-link lw-header__link"><i class="fa fa-home fa-2x"></i></a>
-            </td>
-            <td class="lw-header__title">
+      </div>
+      <div class="lw-header__title">
                 ${titleStr}
-            </td>
-        </tr>
-    </table>
+      </div>
+      <div class="lw-header__authui">
+          <lw-auth-ui></lw-auth-ui>
+          <lw-auth-control></lw-auth-control>
+      </div>
+    </div>
   `;
 }
 

@@ -1,0 +1,30 @@
+{% extends "little-elements/web/lib/styleGuide/shell/basicShell.html.njk" %}
+
+{% block head %}
+  <title>resume</title>
+{% endblock %}
+
+{% block content %}
+    <div id="app" class="pure-g">
+        <div class="pure-u-1">
+            <lw-header-simple title="Tests"></lw-header-simple>
+        </div>
+        <div class="pure-u-1">
+          <section id="testsuite">
+            <h2>littleware</h2>
+
+            <div class="pure-menu">
+                <ul class="pure-menu-list" id="appmenu">
+                    <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-apps/web/lib/511/index.html" class="pure-menu-link" title="header-simple custom element">lw-511 custom element</a></li>
+                    <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-apps/web/lib/headerSimple/index.html" class="pure-menu-link" title="header-simple custom element">lw-header-simple custom element</a></li>
+                    <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-apps/web/lib/jwt/index.html" class="pure-menu-link" title="header-simple custom element">lw-jwt custom element</a></li>
+                    <li class="pure-menu-item"><a href="{{ jsroot }}/@littleware/little-elements/web/lib/index.html" class="pure-menu-link" title="little-elements test suite">@littleware/little-elements</a></li>
+                </ul>
+            </div>
+        </section>
+        </div>
+    </div>
+        
+    <lw-app-context main-module="{{ jsroot }}/@littleware/little-apps/web/lib/indexMain.js"></lw-app-context>
+    <script type="module" src="{{ jsroot }}/@littleware/little-elements/web/lib/appContext/appContext.js"></script>
+{% endblock %}

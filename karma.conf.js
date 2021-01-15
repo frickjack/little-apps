@@ -19,9 +19,13 @@ module.exports = function(config) {
       { pattern: 'web/lib/511/**/*.js', type: 'module', included: false },
       { pattern: 'web/lib/jwt/**/*.js', type: 'module', included: false },
       { pattern: 'web/lib/headerSimple/**/*.js', type: 'module', included: false },
+      { pattern: 'node_modules/i18next/*.js', type: 'module', included: false },
+      { pattern: 'node_modules/@littleware/little-elements/web/**/*.js', 
+        type: 'module', included: false },
       { pattern: 'node_modules/lit-html/*.js', type: 'module', included: false },
       { pattern: 'node_modules/lit-html/lib/*.js', type: 'module', included: false },
       { pattern: 'node_modules/font-awesome/**/*', included: false },
+      { pattern: 'node_modules/purecss/build/*', included: false },
       { pattern: 'web/lib/testMain.js', type: 'module', included: true }
     ],
     
@@ -34,9 +38,11 @@ module.exports = function(config) {
     preprocessors: {
     },
     proxies: {
+      '/i18next': '/base/node_modules/i18next',
       '/lit-html': '/base/node_modules/lit-html',
       '/@littleware/little-elements': '/base/node_modules/@littleware/little-elements',
-      '/modules/font-awesome': '/base/node_modules/font-awesome'
+      '/modules/font-awesome': '/base/node_modules/font-awesome',
+      '/modules/purecss': '/base/node_modules/purecss'
     },
 
     // test results reporter to use
