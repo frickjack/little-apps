@@ -39,5 +39,38 @@ lw-header-simple {
     padding: 0px;
     margin: auto;
 }
+
+/* see https://www.smashingmagazine.com/2013/03/tips-and-tricks-for-print-style-sheets/ */
+@media print {
+    lw-header-simple {
+        display: none;
+    }
+
+    body {
+        color: #000;
+        background: #fff;
+    }
+
+	.lw-content-root {
+		padding: 0px;
+	}
+	
+    @page {
+        margin: 2cm;
+    }
+
+    h2, h3 {
+        page-break-after: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    ul, img {
+        page-break-inside: avoid;
+    }
+}
+
 </style>
 `;
