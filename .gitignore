@@ -9,6 +9,7 @@
 *gif
 *ico
 *log
+.gradle/
 3rdParty/
 web/resources/img/glyphicons/
 build/
