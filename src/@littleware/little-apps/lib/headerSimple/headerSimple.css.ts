@@ -54,7 +54,7 @@ lw-header-simple {
 	.lw-content-root {
 		padding: 0px;
 	}
-	
+
     @page {
         margin: 2cm;
     }
