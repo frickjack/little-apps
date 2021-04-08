@@ -1,10 +1,10 @@
 {
   "name": "@littleware/little-apps",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "littleware web apps",
   "main": "build/server.js",
   "dependencies": {
-    "@littleware/little-elements": "1.1.1",
+    "@littleware/little-elements": "1.1.2",
     "bunyan": "^1.8.14",
     "font-awesome": "^4.7.0",
     "i18next": "^19.7.0",
