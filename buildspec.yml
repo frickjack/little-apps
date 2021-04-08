@@ -16,7 +16,8 @@ phases:
       #- apt-get install -y jq
   pre_build:
     commands:
-      - region="$(curl -s http://169.254.169.254/latest/meta-data/placement/region)"
+      # see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-metadata-endpoint-v2.html
+      - region="$(curl -s http://169.254.170.2/v2/metadata/ | jq -e -r .AvailabilityZone | sed 's/.$//')"
       - echo "HOME is $HOME, CODEBUILD_SRC_DIR is $CODEBUILD_SRC_DIR, CODEBUILD_SRC_DIR_HELPERS is $CODEBUILD_SRC_DIR_HELPERS, pwd is $(pwd), region is $region"
       - echo "//registry.npmjs.org/:_authToken=$(echo "$NPM_TOKEN" | jq -e -r .token)" > "$HOME/.npmrc"
       - mkdir -p "$HOME/.aws"; /bin/echo -e "[default]\nregion = ${region}\noutput = json\ncredential_source = Ec2InstanceMetadata\n" | tee "$HOME/.aws/config"
