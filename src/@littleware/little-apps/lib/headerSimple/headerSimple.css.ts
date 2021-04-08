@@ -45,31 +45,6 @@ lw-header-simple {
     lw-header-simple {
         display: none;
     }
-
-    body {
-        color: #000;
-        background: #fff;
-    }
-
-	.lw-content-root {
-		padding: 0px;
-	}
-
-    @page {
-        margin: 2cm;
-    }
-
-    h2, h3 {
-        page-break-after: avoid;
-    }
-
-    img {
-        max-width: 100% !important;
-    }
-
-    ul, img {
-        page-break-inside: avoid;
-    }
 }
 
 </style>
