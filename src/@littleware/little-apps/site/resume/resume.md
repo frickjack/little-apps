@@ -32,8 +32,7 @@ kubernetes
 terraform
 golang
 
-I worked with the plan-X team at CTDS (https://ctds.uchicago.edu) developing the next generation platform for research data commons (see https://medium.com/@rgrossman1/how-data-commons-can-support-open-science-40b0d978d2fb). We generalized and extended the software and automation that drives the Genomic Data Commons (GDC - https://portal.gdc.cancer.gov/), so it can be applied in other research domains and deployed to Kubernetes or similar clusters in both public and private clouds. The technology we worked with varied from Reactjs on the frontend to swagger/openapis defined public facing GraphQL and REST API's driven by python code on the backend to devops 
- and CICD automation with terraform, kubernetes, and jenkins.
+I worked with the plan-X team at CTDS (https://ctds.uchicago.edu) developing the next generation platform for research data commons (see https://medium.com/@rgrossman1/how-data-commons-can-support-open-science-40b0d978d2fb). We generalized and extended the software and automation that drives the Genomic Data Commons (GDC - https://portal.gdc.cancer.gov/), so it can be applied in other research domains and deployed to Kubernetes or similar clusters in both public and private clouds. The technology we worked with varied from Reactjs on the frontend to swagger/openapis defined public facing GraphQL and REST API's driven by python code on the backend to devops and CICD automation with terraform, kubernetes, and jenkins.
 
 
 ### OpenText Corporation
@@ -93,7 +92,7 @@ Sony Pictures Imageworks; Culver City, CA; 1999-2007
 
 java perl python oracle postgresql
 
-I worked on systems for render management, asset tracking, and workflow automation.
+I led the development of systems for render management, asset tracking, and workflow automation.
 
 ## EDUCATION
 
@@ -286,19 +285,10 @@ good things are the norm.
 https://www.livecareer.com/resources/interviews/questions/what-are-your-long-range-career-goals
 
 I intend to continue as an individual contributor
-for as long as possible.
-I enjoy the challenge and comraderie of working with
-a team to design and implement every
-aspect of a system - user experience,
-API, backend architecture, operations model,
-testing and qa - it's all interesting
+for as long as possible.  I enjoy the challenge and comraderie of working with a team to design and implement every aspect of a system - user experience, API, backend architecture, operations model, testing and qa - it's all interesting
 and challenging and constantly changing.
 
-I am not well suited for many
-managerial tasks - evaluating teammates,
-hiring and firing,
-tracking task burndown and schedules, reporting
-and meeting across the organization hierarchy.
+I am not well suited for many managerial tasks - evaluating teammates, hiring and firing, tracking task burndown and schedules, reporting and meeting across the organization hierarchy.
 
 
 ### What are your strengths and weaknesses?
