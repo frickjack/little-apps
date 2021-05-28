@@ -22,6 +22,14 @@
 <link rel="shortcut icon" href="{{ relURL ($.Site.Params.favicon) }}" type="image/x-icon" />
 {{ end }}
 
+{{ if .Page.Description }}
+<meta name="description" content="{{ .Page.Description }}" />
+{{ end }}
+
+{{ if .Params.Manifest }}
+<link rel="manifest" href="{{ .Params.Manifest }}">
+{{ end }}
+
 {{- block "extrahead" . }}{{- end }}
 
 </head>

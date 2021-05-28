@@ -13,7 +13,7 @@
             </main>
             
             {{- block "context" .}}
-                <lw-app-context main-module="{{ $.Site.Params.jsroot }}/@littleware/little-apps/web/lib/indexMain.js" config-href="/config/config-HOSTNAME.json"></lw-app-context>
+                <lw-app-context main-module="{{ $.Site.Params.jsroot }}/{{ .Params.contextModule | default "@littleware/little-apps/web/lib/indexMain.js" }}" config-href="/config/config-HOSTNAME.json"></lw-app-context>
                 <script type="module" src="{{ $.Site.Params.jsroot }}/@littleware/little-elements/web/lib/appContext/appContext.js"></script>
             {{- end }}
 

@@ -9,7 +9,6 @@
   "theme": "hugo-theme-littleware",
   "themesDir": "..",
   "params": {
-    "jsroot": "/modules/1.4.5"
+    "jsroot": "/modules/1.4.6"
   }
 }
-
