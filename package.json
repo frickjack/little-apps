@@ -1,6 +1,6 @@
 {
   "name": "@littleware/little-apps",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "littleware web apps",
   "main": "build/server.js",
   "dependencies": {
@@ -11,7 +11,7 @@
     "jasmine-core": "latest",
     "lit-html": "^1.2.1",
     "node-fetch": "^2.6.1",
-    "purecss": "^2.0.3",
+    "purecss": "^2.0.6",
     "@webcomponents/webcomponentsjs": "latest"
   },
   "devDependencies": {
@@ -35,10 +35,10 @@
     "workbox-build": "latest"
   },
   "scripts": {
-    "build": "gulp",
+    "build": "gulp hugo-build",
     "jasmine": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json",
     "lint": "tslint -c node_modules/@littleware/little-nodedev/tslint.json 'src/**/*.ts'",
-    "stage": "gulp stage",
+    "stage": "gulp hugo-stage",
     "stagecheck": "node node_modules/.bin/little-server / ./dist/",
     "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/web/ ./web/ /resources/ ./web/site/resources/ / ./web/site/",
     "test": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json && karma start karma.conf.js",
