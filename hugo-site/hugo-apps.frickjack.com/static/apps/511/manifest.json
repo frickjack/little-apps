@@ -1,0 +1,47 @@
+{
+  "short_name": "511",
+  "name": "511 Early Labor Contraction Tracker",
+  "background_color": "white",
+  "description": "help track the length of contractions during early labor",
+  "display":"standalone",
+  "lang":"en-US",
+  "scope":"/511/",
+  "icons": [
+    {
+      "src": "/resources/img/appIcons/57x57/511.png",
+      "type": "image/png",
+      "sizes": "57x57"
+    },
+    {
+      "src": "/resources/img/appIcons/72x72/511.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/resources/img/appIcons/114x114/511.png",
+      "type": "image/png",
+      "sizes": "114x114"
+    },
+    {
+      "src": "/resources/img/appIcons/144x144/511.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/resources/img/appIcons/152x152/511.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "/resources/img/appIcons/167x167/511.png",
+      "type": "image/png",
+      "sizes": "167x167"
+    },
+    {
+      "src": "/resources/img/appIcons/180x180/511.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ],
+  "start_url": "index.html"
+}

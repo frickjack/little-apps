@@ -1,0 +1,19 @@
+
+{{ define "extrahead" }}
+<meta name="robots" content="noindex,nofollow" />
+{{ end }}
+
+{{ define "main" }}
+
+{{ .Content }}
+
+<div class="pure-menu">
+    <ul class="pure-menu-list" id="appmenu">
+        <li class="pure-menu-item"><a href="{{ $.Site.Params.jsroot }}/@littleware/little-apps/web/lib/511/index.html" class="pure-menu-link" title="header-simple custom element">lw-511 custom element</a></li>
+        <li class="pure-menu-item"><a href="{{ $.Site.Params.jsroot }}/@littleware/little-apps/web/lib/headerSimple/index.html" class="pure-menu-link" title="header-simple custom element">lw-header-simple custom element</a></li>
+        <li class="pure-menu-item"><a href="{{ $.Site.Params.jsroot }}/@littleware/little-apps/web/lib/jwt/index.html" class="pure-menu-link" title="header-simple custom element">lw-jwt custom element</a></li>
+        <li class="pure-menu-item"><a href="{{ $.Site.Params.jsroot }}/@littleware/little-elements/web/lib/index.html" class="pure-menu-link" title="little-elements test suite">@littleware/little-elements</a></li>
+    </ul>
+</div>
+
+{{ end }}

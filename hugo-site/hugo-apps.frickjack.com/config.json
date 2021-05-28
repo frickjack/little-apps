@@ -1,0 +1,15 @@
+{
+  "baseURL": "http://example.org/",
+  "languageCode": "en-us",
+  "staticDir": [
+    "static",
+    "static-little-apps"
+  ],
+  "title": "frickjack.com",
+  "theme": "hugo-theme-littleware",
+  "themesDir": "..",
+  "params": {
+    "jsroot": "/modules/1.4.5"
+  }
+}
+
