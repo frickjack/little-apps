@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const clean = require('gulp-rimraf');
 const merge = require('merge-stream');
 const svg2png = require('gulp-svg2png');
 const gulpHelper = require('@littleware/little-nodedev/gulpHelper.js');
@@ -12,7 +13,7 @@ gulpHelper.defineTasks(gulp, config);
 
 
 const icoFolderPath = "web/site/resources/img/appIcons";
-    
+const hugoFolder = "hugo-site/hugo-apps.frickjack.com/static-little-apps"
 gulp.task('makeIcoFolder', function(cb) {
     gulHelper.makeFolder(icoFolderPath).then(() => {cb();});
 });
@@ -48,4 +49,39 @@ gulp.task('stage', gulp.series('little-stage', 'makeIco', function(done) {
     ).pipe(
       gulp.dest(`${icoFolderPath.replace(/^web\/site/, 'dist')}/`)
     );
+}));
+
+gulp.task('hugo-clean', gulp.series('little-clean', () => {
+  console.log('Clean all files in web/, commonjs/, and site/ folders');
+  return gulp.src(
+      [hugoFolder],
+      { read: false, allowEmpty: true }
+   ).pipe(clean());
+}));
+
+gulp.task('hugo-stage', gulp.series('hugo-clean', 'stage', function(){
+  return merge.apply(
+    this,
+    ['modules', 'resources'].map(
+      folderName =>
+        gulp.src([`./dist/${folderName}/**/*.*`]
+        ).pipe(
+          gulp.dest(`${hugoFolder}/${folderName}`)
+        )
+      )
+  );
+}));
+
+// shortcut for javascript develpment
+gulp.task('hugo-build', gulp.series('little-compilets-web', function(){
+  return merge.apply(
+    this,
+    ['lib', 'maps'].map(
+      folderName =>
+        gulp.src([`./web/${folderName}/**/*.*`]
+        ).pipe(
+          gulp.dest(`${hugoFolder}${config.staging.jsroot}/${gulpHelper.package.name}/web/${folderName}`)
+        )
+      )
+  );
 }));
