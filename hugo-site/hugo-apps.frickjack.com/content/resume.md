@@ -10,10 +10,12 @@ with a better understanding of the needs driving the market.
 For me the job is most interesting when it works to keep all these forces
 in balance.
 
-Chicago<br/>
-https://github.com/frickjack<br/>
-https://apps.frickjack.com<br/>
-[markdown format](./resume.md)
+Chicago
+
+https://github.com/frickjack
+
+https://apps.frickjack.com
+
 
 ## EXPERIENCE
 

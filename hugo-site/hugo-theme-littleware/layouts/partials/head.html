@@ -16,7 +16,7 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 {{/* NOTE: the Site's title, and if there is a page title, that is set too */}}
-<title>{{ block "title" . }}{{ with .Params.Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
+<title>{{ block "title" . }}{{ with .Params.Title }}{{ . }}{{ end }}{{ end }}</title>
 
 {{ if .Site.Params.favicon }}
 <link rel="shortcut icon" href="{{ relURL ($.Site.Params.favicon) }}" type="image/x-icon" />

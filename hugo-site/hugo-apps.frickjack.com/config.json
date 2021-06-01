@@ -1,5 +1,6 @@
 {
-  "baseURL": "http://example.org/",
+  "baseURL": "https://apps.frickjack.com/",
+  "disableAliases": true,
   "languageCode": "en-us",
   "staticDir": [
     "static",

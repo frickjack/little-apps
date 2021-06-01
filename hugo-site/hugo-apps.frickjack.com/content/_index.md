@@ -1,18 +1,14 @@
 ---
-title: "Home"
+title: "Reuben Pasquini and littleware"
 description: "The last theme you'll ever need. Maybe."
 ---
 
-# Hello, Frickjack!
+# Hello!
 
-Frickjack homepage!
+Welcome to frickjack.com, a developer site for Reuben Pasquini and a sandbox for testing his littleware software stack.
 
-## Littleware
+[Learn about littleware](/littleware/index.html)
 
-## Apps
+[Learn about Reuben](/connect/index.html)
 
-[Little apps](./apps/)
-
-## Reuben
-
-bla
+[Access little web applications](/apps/index.html)
