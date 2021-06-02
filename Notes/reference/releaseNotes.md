@@ -3,6 +3,11 @@
 Some basic information on our tagged releases.
 Note - `git log tag1...tag2` shows the commit log between versions.
 
+## 1.5.0
+
+* transition to [hugo](https://gohugo.io)
+
+
 ## 1.4.5
 
 * bump versions - pickup some fixes
