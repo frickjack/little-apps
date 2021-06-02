@@ -12,6 +12,14 @@ phases:
       nodejs: 14
     commands:
       - echo "Entered the install phase - jq already installed ..."
+      - |
+        (
+          if ! which hugo > /dev/null 2>&1; then
+            cd /tmp
+            wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.deb
+            dpkg --instal hugo.deb
+          fi
+        )
       #- apt-get update -y
       #- apt-get install -y jq
   pre_build:
@@ -26,14 +34,16 @@ phases:
   build:
     commands:
       # stage sets up ./dist folder
-      - npm run stage
+      - npm run hugo-stage
       - npm run lint
       - npm audit --audit-level=high
       - npm run test
+      - (cd hugo-site/hugo-apps.frickjack.com && hugo)
+      - test -d hugo-site/hugo-apps.frickjack.com/public
   post_build:
     commands:
       - echo "CODEBUILD_WEBHOOK_TRIGGER == $CODEBUILD_WEBHOOK_TRIGGER"
       - BUILD_TYPE="$(echo $CODEBUILD_WEBHOOK_TRIGGER | awk -F / '{ print $1 }')"
       - echo "BUILD_TYPE is $BUILD_TYPE"
       # publish on tag events - see https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
-      - if test "$BUILD_TYPE" = "tag"; then bash "$CODEBUILD_SRC_DIR_HELPERS/AWS/little.sh" s3web publish ./dist s3://apps.frickjack.com; fi
+      - if test "$BUILD_TYPE" = "tag"; then bash "$CODEBUILD_SRC_DIR_HELPERS/AWS/little.sh" s3web publish ./hugo-site/hugo-apps.frickjack.com/public s3://apps.frickjack.com; fi
