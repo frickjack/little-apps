@@ -17,7 +17,7 @@ phases:
           if ! which hugo > /dev/null 2>&1; then
             cd /tmp
             wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.deb
-            dpkg --instal hugo.deb
+            dpkg --install hugo.deb
           fi
         )
       #- apt-get update -y
