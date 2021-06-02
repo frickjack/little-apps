@@ -33,6 +33,10 @@ The build process is setup so that commonjs and web modules are layed out for ea
 
 See the [buildspec.yml](../../buildspec.yml) [codebuild](https://aws.amazon.com/codebuild/) configuration.
 
+The little-apps project manages the web resources implementing the https://apps.frickjack.com site.  The repo has two parts - javascript (typescript) code that runs in the browser, and a [hugo](https://gohugo.io) theme and content.  
+
+The javascript library of web components, typescript code, and nodejs imports that we build with `npm` and `gulp`:
+
 ```
 npm run build
 npm test
@@ -42,6 +46,14 @@ npm run stage
 ```
 
 The `npm test` command runs a [jasmine](https://jasmine.github.io/index.html) test suites for web modules (using [karmajs](http://karma-runner.github.io/4.0/index.html)) and commonjs modules (with jasmine's nodejs runner).
+
+The hugo theme and content are under the `hugo-site/` folder.  The `npm hugo-stage` and `npm hugo-build` scripts stage the littleware javascript code under folder `hugo-site/hugo-apps.frickjack.com/static-little-apps/`.  Once that code is in place, then the normal `hugo` commands can be run from within `hugo-site/hugo-apps.frickjack.com/` folder to test and build the `public/` folder for distribution.
+
+```
+npm run hugo-stage
+cd hugo-site/hugo-apps.frickjack.com
+hugo server
+```
 
 ## Linting
 

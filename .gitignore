@@ -22,3 +22,6 @@ node_modules/
 /site/
 /maps/
 /web/
+static-little-apps/
+public/
+

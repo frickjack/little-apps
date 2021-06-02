@@ -8,6 +8,8 @@ See [this site](https://documentation.divio.com/introduction/) for an introducti
 
 ### Explanation
 
+* [Hugo](Notes/howto/hugoSite.md) site management
+
 
 ### How-to
 

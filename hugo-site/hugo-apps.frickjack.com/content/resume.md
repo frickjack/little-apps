@@ -1,19 +1,19 @@
+---
+title: "Reuben Pasquini resume"
+description: "Reuben Pasquini resume"
+---
 # Reuben Pasquini
 
-I am a technology agnostic software developer with over twenty years of experience spanning the full web stack.  I began my career implementing custom networking protocols in C++ for distributed simulation and render farm management, and that evolved to working on three-tier systems for workflow and asset management, then microservice cloud architectures and single-page applications.
+I am a technology agnostic software developer with experience spanning the full web stack.  I have worked with various frontend and backend technologies including java, scala, php, go, and python on the backend, Backbonejs and React on the frontend, and Kubernetes and Terraform for operations.
 
-I enjoy the challenge of building and operating a system that solves a problem for its users, but also recognize that the success of an engineering organization depends not only on the technologies and architecture patterns it employs, but also on the processes it puts in place.  A well-run organization empowers teams to efficiently iterate on a product - to align on goals, design, build, deploy, and ensure the quality of a release, then operate, monitor, measure, and iterate again.  Development processes depend upon a happy team that can evolve over time, as well as recruit, train, retain, reward, and promote the talented individuals that ultimately define the culture of a workplace.  
+I enjoy the challenge of building and operating a system that solves a problem for its users, but also recognize that the success of an engineering organization depends not only on the technologies and architecture patterns it employs, but also on the processes it puts in place.
 
-Finally, the best engineering organization cannot overcome a misunderstanding of what problems a product solves for its users, otherwise the team builds the wrong features, and the product cannot best competitors
-with a better understanding of the needs driving the market.  
+Chicago
 
-For me the job is most interesting when it works to keep all these forces
-in balance.
+https://github.com/frickjack
 
-Chicago<br/>
-https://github.com/frickjack<br/>
-https://apps.frickjack.com<br/>
-[markdown format](./resume.md)
+https://apps.frickjack.com
+
 
 ## EXPERIENCE
 
