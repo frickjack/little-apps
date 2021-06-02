@@ -34,7 +34,7 @@ phases:
   build:
     commands:
       # stage sets up ./dist folder
-      - npm run hugo-stage
+      - npm run stage
       - npm run lint
       - npm audit --audit-level=high
       - npm run test
