@@ -1,3 +1,7 @@
+---
+title: "Reuben Pasquini resume"
+description: "Reuben Pasquini resume"
+---
 # Reuben Pasquini
 
 I am a technology agnostic software developer with experience spanning the full web stack.  I have worked with various frontend and backend technologies including java, scala, php, go, and python on the backend, Backbonejs and React on the frontend, and Kubernetes and Terraform for operations.
