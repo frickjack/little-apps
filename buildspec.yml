@@ -36,7 +36,7 @@ phases:
       # stage sets up ./dist folder
       - npm run stage
       - npm run lint
-      - npm audit --audit-level=high
+      - npm audit --production --audit-level=high
       - npm run test
       - (cd hugo-site/hugo-apps.frickjack.com && hugo)
       - test -d hugo-site/hugo-apps.frickjack.com/public
