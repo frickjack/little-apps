@@ -7,7 +7,7 @@ Note - `git log tag1...tag2` shows the commit log between versions.
 
 * move header out to little-elements with integrated hamburger menu
 * migrate to fontawesome 5+
-* setup topic tiles on hugo homepage
+* setup topic tiles on hugo homepage and tile shortcodes
 * transition to [eslint](https://eslint.org/) and [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint)
 
 ## 1.5.1
