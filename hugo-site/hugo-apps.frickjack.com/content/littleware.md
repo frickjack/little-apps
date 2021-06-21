@@ -9,7 +9,7 @@ Littleware is a suite of tools, API services, and applications developed by Reub
 
 ### automation
 
-The [misc-stuff repository](https://github.com/frickjack/misc-stuff) holds the `little` tools for deploying [cloudformation](https://aws.amazon.com/cloudformation/) stacks and interacting with other cloud and local infrastructure tools.
+The [little-automation repository](https://github.com/frickjack/little-automation) holds the `little` tools for deploying [cloudformation](https://aws.amazon.com/cloudformation/) stacks and interacting with other cloud and local infrastructure tools.
 
 ### little-elements
 

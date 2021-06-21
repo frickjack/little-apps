@@ -1,8 +1,2 @@
-import "../headerSimple/headerSimple.js";
-import "./jwt.js";
-
-const world = globalThis || window;
-
-if ( world.littleShell ) {
-    world.littleShell.clear();
-}
+import '../../../../little-elements/web/lib/littleHeader/headerSimple.js';
+import './jwt.js';

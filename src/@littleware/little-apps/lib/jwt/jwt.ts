@@ -1,35 +1,44 @@
-import {singleton as styleHelper} from "../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js";
-import { html, render } from "../../../../../lit-html/lit-html.js";
-import {css} from "./jwt.css.js";
+import { singleton as styleHelper } from '../../../../../@littleware/little-elements/web/lib/styleGuide/styleGuide.js';
+import { html, render } from '../../../../../lit-html/lit-html.js';
+import { css } from './jwt.css.js';
 
 /**
  * Dumb bucket collecting a token
  * and its parsed components
  */
 export class JwtData {
-    /* tslint:disable */
-    private _token: string = "";
-    private _header = "";
-    private _body = "";
-    private _signature = "";
-    private _isValid = false;
-    private _errorStr = "uninitalized";
-    /* tslint:enable */
+  private _token = '';
 
-    constructor(token, header, body, signature, isValid, errorStr) {
-        this._token = token;
-        this._header = header;
-        this._body = body;
-        this._signature = signature;
-        this._isValid = isValid;
-        this._errorStr = isValid ? "" : errorStr;
-    }
-    get token(): string { return this._token; }
-    get header(): string { return this._header; }
-    get body(): string { return this._body; }
-    get signature(): string { return this._signature; }
-    get isValid(): boolean { return this._isValid; }
-    get errorStr(): string { return this._errorStr; }
+  private _header = '';
+
+  private _body = '';
+
+  private _signature = '';
+
+  private _isValid = false;
+
+  private _errorStr = 'uninitalized';
+
+  constructor(token, header, body, signature, isValid, errorStr) {
+    this._token = token;
+    this._header = header;
+    this._body = body;
+    this._signature = signature;
+    this._isValid = isValid;
+    this._errorStr = isValid ? '' : errorStr;
+  }
+
+  get token(): string { return this._token; }
+
+  get header(): string { return this._header; }
+
+  get body(): string { return this._body; }
+
+  get signature(): string { return this._signature; }
+
+  get isValid(): boolean { return this._isValid; }
+
+  get errorStr(): string { return this._errorStr; }
 }
 
 /**
@@ -37,48 +46,48 @@ export class JwtData {
  * @param token
  */
 export function parseSignedJwt(token: string): JwtData {
-    if (!token) {
-        return new JwtData("", "", "", "", false, "empty token");
-    }
-    const parts = token.split(".").map((str, idx) => idx < 2 ? atob(str.replace("-", "+").replace("_", "/")) : str);
-    if (parts.length !== 3) {
-        return new JwtData(token, "", "", "", false, "invalid format - expect 'header.body.signature'");
-    }
-    try {
-        return new JwtData(
-          token,
-          JSON.stringify(JSON.parse(parts[0]), null, " "),
-          JSON.stringify(JSON.parse(parts[1]), null, " "),
-          parts[2],
-          true,
-          "",
-          );
-    } catch (err) {
-        return new JwtData(
-            token, parts[0], parts[1], parts[2], false, "failed to JSON parse body or header",
-        );
-    }
+  if (!token) {
+    return new JwtData('', '', '', '', false, 'empty token');
+  }
+  const parts = token.split('.').map((str, idx) => (idx < 2 ? atob(str.replace('-', '+').replace('_', '/')) : str));
+  if (parts.length !== 3) {
+    return new JwtData(token, '', '', '', false, "invalid format - expect 'header.body.signature'");
+  }
+  try {
+    return new JwtData(
+      token,
+      JSON.stringify(JSON.parse(parts[0]), null, ' '),
+      JSON.stringify(JSON.parse(parts[1]), null, ' '),
+      parts[2],
+      true,
+      '',
+    );
+  } catch (err) {
+    return new JwtData(
+      token, parts[0], parts[1], parts[2], false, 'failed to JSON parse body or header',
+    );
+  }
 }
 
 export function emptyJwt(): JwtData {
-    return parseSignedJwt("");
+  return parseSignedJwt('');
 }
 
 function templateFactory(data: JwtData) {
-    const template = html`
+  const template = html`
 <div class="lw-jwt-container">
   <div class="lw-jwt-token">
   Paste a token here
   <pre class="lw-jwt-paste-target">
-${data.token.substring(0, 5) + (data.token.length > 10 ? "..." + data.token.slice(-5) : "")}
+${data.token.substring(0, 5) + (data.token.length > 10 ? `...${data.token.slice(-5)}` : '')}
   </pre>
   </div>
   <div class="lw-jwt-header">
   <b>Header</b>
   <pre class="lw-jwt-code">
-${data.isValid ? data.header : ""}
+${data.isValid ? data.header : ''}
   </pre></div>
-  <div class="lw-jwt-${data.isValid ? "body" : "error"}">
+  <div class="lw-jwt-${data.isValid ? 'body' : 'error'}">
   <b>Body</b>
   <pre class="lw-jwt-code">
 ${data.isValid ? data.body : data.errorStr}
@@ -86,105 +95,112 @@ ${data.isValid ? data.body : data.errorStr}
   <div class="lw-jwt-signature">
   <b>Signature</b>
   <div class="lw-jwt-code">
-  ${data.isValid ? data.signature : ""}
+  ${data.isValid ? data.signature : ''}
   </div>
   </div>
 </div>
     `;
-    return template;
+  return template;
 }
 
 /**
  * Interaction manager for the JWT view
  */
 export class Controller {
+  get data() { return this._data; }
 
-    get data() { return this._data; }
-    set data(value: JwtData) {
-        this._data = value;
-        this.view._render();
-    }
-    private view: LittleJwt;
-    // tslint:disable-next-line
-    private _data: JwtData;
-    private isConnected = false;
+  set data(value: JwtData) {
+    this._data = value;
+    this.view._render();
+  }
 
-    constructor(view: LittleJwt, data: JwtData) {
-        this.view = view;
-        this.data = data;
-    }
+  private view: LittleJwt;
 
-    /**
+  // eslint-disable-next-line
+  private _data: JwtData;
+
+  private isConnected = false;
+
+  constructor(view: LittleJwt, data: JwtData) {
+    this.view = view;
+    this.data = data;
+  }
+
+  /**
      * Register event listeners
      */
-    public connect() {
-        if (!this.isConnected) {
-            this.view.addEventListener("paste",
-                this.pasteEventListener,
-            );
-        }
+  public connect() {
+    if (!this.isConnected) {
+      this.view.addEventListener('paste',
+        this.pasteEventListener,
+      );
     }
+  }
 
-    /**
+  /**
      * Disconnect event listeners
      */
-    public disconnect() {
-        if (this.isConnected) {
-            this.view.removeEventListener("paste", this.pasteEventListener);
-            this.isConnected = false;
-        }
+  public disconnect() {
+    if (this.isConnected) {
+      this.view.removeEventListener('paste', this.pasteEventListener);
+      this.isConnected = false;
     }
-    private pasteEventListener = (ev: ClipboardEvent) => {
-        const token = ev.clipboardData.getData("text");
-        ev.preventDefault();
-        this.data = parseSignedJwt(token);
-    }
+  }
+
+  private pasteEventListener = (ev: ClipboardEvent) => {
+    const token = ev.clipboardData.getData('text');
+    ev.preventDefault();
+    this.data = parseSignedJwt(token);
+  };
 }
 
 /**
  * JWT parser custom element
  */
 export class LittleJwt extends HTMLElement {
-    public controller: Controller = null;
-    private isRenderPending = false;
+  public controller: Controller = null;
 
-    // Can define constructor arguments if you wish.
-    constructor() {
-        // If you define a constructor, then always call super() first!
-        // This is specific to CE and required by the spec.
-        super();
-        this.controller = new Controller(this, emptyJwt());
-    }
+  private isRenderPending = false;
 
-    public connectedCallback(): void {
-        this._render();
-        this.controller.connect();
-    }
+  // Can define constructor arguments if you wish.
+  constructor() {
+    // If you define a constructor, then always call super() first!
+    // This is specific to CE and required by the spec.
+    super();
+    this.controller = new Controller(this, emptyJwt());
+  }
 
-    public disconnectedCallback(): void {
-        this.controller.disconnect();
-    }
+  public connectedCallback(): void {
+    this._render();
+    this.controller.connect();
+  }
 
-    get data() { return this.controller.data; }
-    get token() { return this.controller.data.token; }
-    set token(str) { this.controller.data = parseSignedJwt(str); }
+  public disconnectedCallback(): void {
+    this.controller.disconnect();
+  }
 
-    /**
+  get data() { return this.controller.data; }
+
+  get token() { return this.controller.data.token; }
+
+  set token(str) { this.controller.data = parseSignedJwt(str); }
+
+  /**
      * Schedule async render if not already scheduled ...
      */
-    public _render(): void {
-        if (!this.isRenderPending) {
-            this.isRenderPending = true;
-            // TODO - setup external render manager to manage multi-component renders
-            setTimeout(() => {
-                this.isRenderPending = false;
-                render(templateFactory(this.data), this);
-            });
-        }
+  public _render(): void {
+    if (!this.isRenderPending) {
+      this.isRenderPending = true;
+      // TODO - setup external render manager to manage multi-component renders
+      setTimeout(() => {
+        this.isRenderPending = false;
+        render(templateFactory(this.data), this);
+      });
     }
+  }
 }
 
-window.customElements.define("lw-jwt", LittleJwt);
+window.customElements.define('lw-jwt', LittleJwt);
 
 styleHelper.componentCss.push(css);
 styleHelper.render();

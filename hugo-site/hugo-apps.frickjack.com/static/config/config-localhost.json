@@ -1,5 +1,35 @@
 {
     "littleware/little-apps/ga": {
         "uiCode": "UA-BOGUS"
+    },
+    "littleware/lib/lw-header-simple": {
+        "hamburger": {
+            "items": [
+            {
+                "className": "lw-header-simple__hamburger-item",
+                "href": "/littleware/index.html",
+                "labelKey": "Littleware"
+            },
+            {
+                "className": "lw-header-simple__hamburger-item",
+                "href": "/connect/index.html",
+                "labelKey": "Connect"
+            },
+            {
+                "className": "lw-header-simple__hamburger-item",
+                "href": "/apps/index.html",
+                "labelKey": "Apps"
+            }
+            ],
+            "root": {
+            "className": "lw-header-simple__hamburger",
+            "href": "#hamburger",
+            "labelKey": "little-hamburger"
+            }
+        },
+        "logo": {
+            "text": "frickjack",
+            "iconUrl": ""
+        }
     }
 }
