@@ -10,6 +10,6 @@
   "theme": "hugo-theme-littleware",
   "themesDir": "..",
   "params": {
-    "jsroot": "/modules/1.5.1"
+    "jsroot": "/modules/1.6.0"
   }
 }
