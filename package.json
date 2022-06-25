@@ -10,7 +10,7 @@
     "i18next": "^19.7.0",
     "jasmine-core": "latest",
     "lit-html": "^1.4.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "purecss": "^2.0.6",
     "@webcomponents/webcomponentsjs": "latest"
   },
