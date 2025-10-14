@@ -16,7 +16,7 @@ We just completed a project to transition https://apps.frickjack.com to the [hug
 
 The hugo transition allowed us to move the content and theme management for https://apps.frickjack.com from an idiosynchratic templating system to the well documented and community supported process that hugo implements.  Hugo's theme design also pushed us to think about what we want the site to provide to its visitors, and whether the landing page clearly conveys those use cases.  For example, https://www.salesforce.com/ has a straight forward explanation of what the company is, "the #1 CRM ...", and a call to action "sign up for your free account".
 
-The content management process is still developer oriented in that site updates are managed via github pull requests, and a [codebuild](https://aws.amazon.com/codebuild/) CI job updates the site, but the content markdown and theme templates are now managed in their own hugo directory hierarchy.  The site's github repo includes more details at https://github.com/frickjack/little-apps/blob/master/Notes/howto/devTest.md.
+The content management process is still developer oriented in that site updates are managed via github pull requests, and a [codebuild](https://aws.amazon.com/codebuild/) CI job updates the site, but the content markdown and theme templates are now managed in their own hugo directory hierarchy.  The site's github repo includes more details at https://github.com/frickjack/little-apps/blob/main/Notes/Areas/howto/devTest.md.
 
 ## Summary
 

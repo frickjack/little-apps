@@ -26,7 +26,7 @@ src/@module-group/module/
 
 ## Deployment
 
-The build process is setup so that commonjs and web modules are layed out for easy import into other npm packages.  The web content is setup to load code via relative paths when possible, but otherwise assumes javascript modules are deployed under a `/modules/` root.
+The build process is setup so that commonjs and web modules are laid out for easy import into other npm packages.  The web content is setup to load code via relative paths when possible, but otherwise assumes javascript modules are deployed under a `/modules/` root.
 
 
 ## Dev-test
@@ -51,8 +51,7 @@ The hugo theme and content are under the `hugo-site/` folder.  The `npm hugo-sta
 
 ```
 npm run hugo-stage
-cd hugo-site/hugo-apps.frickjack.com
-hugo server
+npm run hugo
 ```
 
 ## Linting
@@ -60,7 +59,7 @@ hugo server
 The `lint` script integrates with [eslint](https://eslint.org/) and [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint).
 
 * https://www.npmjs.com/package/eslint-config-airbnb-typescript
-* https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md
+* https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/getting-started/linting/README.md
 * https://github.com/typescript-eslint/typescript-eslint
 
 ## CICD
@@ -73,11 +72,11 @@ Before publishing a new version - be sure to update both the [package version](.
 
 We do not publish this package to npm.
 
-The codebuild CICD pipeline publishes this package to the S3 bucket backing https://apps.frickjack.com when a new git tag is published to github.
+The codebuild CICD pipeline publishes this package to the S3 bucket backing https://apps.frickjack.com when a new commit merges into github's main branch.
 ```
 (
   version="$(jq -r .version < package.json)"
-  git tag -a "$version" -m "release details in Notes/reference/releaseNotes.md#$version"
+  git tag -a "$version" -m "release details in Notes/Areas/reference/releaseNotes.md#$version"
   git push origin $version
 )
 ```

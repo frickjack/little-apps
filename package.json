@@ -1,18 +1,18 @@
 {
   "name": "@littleware/little-apps",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "littleware web apps",
   "main": "build/server.js",
   "dependencies": {
-    "@littleware/little-elements": "1.2.0",
-    "bunyan": "^1.8.14",
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "@littleware/little-elements": "1.2.0",
+    "@webcomponents/webcomponentsjs": "latest",
+    "bunyan": "^1.8.14",
     "i18next": "^19.7.0",
     "jasmine-core": "latest",
     "lit-html": "^1.4.1",
     "node-fetch": "^2.6.1",
-    "purecss": "^2.0.6",
-    "@webcomponents/webcomponentsjs": "latest"
+    "purecss": "^2.0.6"
   },
   "devDependencies": {
     "@littleware/little-nodedev": "latest",
@@ -22,6 +22,9 @@
     "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
+    "@web/test-runner": "^1.0.0",
+    "@web/test-runner-chrome": "^1.0.0",
+    "@web/test-runner-playwright": "^1.0.0",
     "eslint": "latest",
     "eslint-config-airbnb-typescript": "latest",
     "eslint-plugin-import": "latest",
@@ -32,13 +35,12 @@
     "gulp": "latest",
     "gulp-replace": "latest",
     "gulp-rimraf": "latest",
-    "gulp-svg2png": "latest",
     "jasmine": "latest",
-    "karma": "latest",
-    "karma-chrome-launcher": "latest",
-    "karma-jasmine": "latest",
+    "sharp": "latest",
+    "through2": "latest",
     "ts-custom-elements": "latest",
     "typescript": "latest",
+    "web-test-runner-jasmine": "^0.2.0",
     "workbox-build": "latest"
   },
   "scripts": {
@@ -48,7 +50,8 @@
     "stage": "gulp hugo-stage && (test /modules/$npm_package_version = $(jq -r .params.jsroot < hugo-site/hugo-apps.frickjack.com/config.json) || (echo \"ERROR: version mismatch\"; false))",
     "stagecheck": "node node_modules/.bin/little-server / ./dist/",
     "start": "node node_modules/.bin/little-server /modules/$npm_package_version/ ./node_modules/ /modules/$npm_package_version/@littleware/little-apps/web/ ./web/ /resources/ ./web/site/resources/ / ./web/site/",
-    "test": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json && karma start karma.conf.js",
+    "test": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json",
+    "browser-test": "web-test-runner --config web-test-runner.config.mjs",
     "watch": "gulp little-watch",
     "hugo": "cd hugo-site/hugo-apps.frickjack.com && hugo server"
   },
