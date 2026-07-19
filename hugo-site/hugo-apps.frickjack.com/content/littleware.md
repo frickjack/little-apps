@@ -25,4 +25,4 @@ The [littleware repository](https://github.com/frickjack/littleware) is a mono-r
 
 ### little-apps
 
-The [little-apps repository](https://github.com/frickjack/little-apps) host the [hugo](https://gohugo.io) them and content and the custom web components that define this web site.
+The [little-apps repository](https://github.com/frickjack/little-apps) hosts the [hugo](https://gohugo.io) theme and content and the custom web components that define this web site.

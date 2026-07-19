@@ -3,6 +3,15 @@
 Some basic information on our tagged releases.
 Note - `git log tag1...tag2` shows the commit log between versions.
 
+## 1.6.2
+
+* update resume
+* bump node version
+
+## 1.6.1
+
+* remove unneeded 3rd party files from publication process
+
 ## 1.6.0
 
 * move header out to little-elements with integrated hamburger menu
