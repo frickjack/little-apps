@@ -200,7 +200,7 @@ export class Controller511 {
 
     // update the history table
     const dataBody = this.view.historyTable.querySelector('tbody');
-    while (dataBody.hasChildNodes()) {
+    while (dataBody && dataBody.hasChildNodes()) {
       dataBody.removeChild(dataBody.childNodes[0]);
     }
     oneHourHistory.reverse().forEach(
@@ -403,7 +403,7 @@ export class Little511 extends HTMLElement {
   // eslint-disable-next-line
   public _isRendered = false;
 
-  public controller: Controller511 = null;
+  public controller: Controller511 | null = null;
 
   public connectedCallback(): void {
     this._render();

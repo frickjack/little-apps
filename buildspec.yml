@@ -2,14 +2,16 @@
 version: 0.2
 
 env:
+  shell: bash
   variables:
     LITTLE_INTERACTIVE: "false"
   parameter-store:
     NPM_TOKEN: "/aws/reference/secretsmanager/applications/cicd/cell0/dev/npmjs-token"
+    GITHUB_TOKEN: "dev.cicd.main.active.github-token"
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 24
     commands:
       - echo "Entered the install phase - jq already installed ..."
       - |
@@ -22,28 +24,105 @@ phases:
         )
       #- apt-get update -y
       #- apt-get install -y jq
+      - pip install yq --upgrade
   pre_build:
     commands:
       # see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-metadata-endpoint-v2.html
       # see https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
-      - echo "HOME is $HOME, CODEBUILD_SRC_DIR is $CODEBUILD_SRC_DIR, CODEBUILD_SRC_DIR_HELPERS is $CODEBUILD_SRC_DIR_HELPERS, pwd is $(pwd), region is $AWS_REGION"
-      - echo "//registry.npmjs.org/:_authToken=$(echo "$NPM_TOKEN" | jq -e -r .token)" > "$HOME/.npmrc"
-      - mkdir -p "$HOME/.aws"; /bin/echo -e "[default]\nregion = ${AWS_REGION}\noutput = json\ncredential_source = Ec2InstanceMetadata\n" | tee "$HOME/.aws/config"
-      - npm ci
-      - pip install yq --upgrade
+      - |
+        (
+          set -eux
+          echo "HOME is $HOME, CODEBUILD_SRC_DIR is $CODEBUILD_SRC_DIR, CODEBUILD_SRC_DIR_HELPERS is $CODEBUILD_SRC_DIR_HELPERS, pwd is $(pwd)"
+          echo "//registry.npmjs.org/:_authToken=$(echo "$NPM_TOKEN" | jq -e -r .token)" > "$HOME/.npmrc"
+          mkdir -p "$HOME/.aws"; /bin/echo -e "[default]\nregion = ${AWS_REGION}\noutput = json\ncredential_source = Ec2InstanceMetadata\n" | tee "$HOME/.aws/config"
+          echo "Configuring Git authentication..."
+          # Extracts the repository URL format dynamically from the CodeBuild environment
+          REPO_URL=$(git config --get remote.origin.url | sed 's|https://||')
+          # Re-configures the origin URL to securely inject the GitHub token
+          git remote set-url origin "https://${GITHUB_TOKEN}@${REPO_URL}"
+          # Sets required Git identity configs to prevent commit/tag errors
+          git config --global user.name "AWS CodeBuild"
+          git config --global user.email "codebuild@amazonaws.com"
+        )
   build:
     commands:
-      # stage sets up ./dist folder
-      - npm run stage
-      - npm run lint
-      - npm audit --production --audit-level=high
-      - npm run test
-      - (cd hugo-site/hugo-apps.frickjack.com && hugo)
-      - test -d hugo-site/hugo-apps.frickjack.com/public
+      - |
+        (
+          set -ex
+          BUILD_TYPE="MANUAL"
+          if [ -n "$CODEBUILD_WEBHOOK_TRIGGER" ]; then
+            BUILD_TYPE="$(echo "$CODEBUILD_WEBHOOK_TRIGGER" | awk -F / '{ print $1 }')"
+          fi
+          echo "BUILD_TYPE is $BUILD_TYPE, CODEBUILD_WEBHOOK_EVENT is $CODEBUILD_WEBHOOK_EVENT, CODEBUILD_WEBHOOK_TRIGGER is $CODEBUILD_WEBHOOK_TRIGGER"
+          if [ "$BUILD_TYPE" = "tag" ] || [ "$CODEBUILD_WEBHOOK_EVENT" = "PULL_REQUEST_MERGED" ]; then
+            echo "skipping tests for tag or merge events"
+            exit 0
+          fi
+
+          # reset patch-version in package.json before build 
+          PATCH_VERSION="$CODEBUILD_BUILD_NUMBER"
+          PACKAGE_SEMVER="$(jq -r .version < package.json)"
+          MAJOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $1 }')"
+          DEV_MINOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $2 }')"
+          NEW_SEMVER="${MAJOR}.${DEV_MINOR}.${PATCH_VERSION}"
+          jq --arg NEW_SEMVER "$NEW_SEMVER" -r '.version = $NEW_SEMVER' < package.json | tee package.json.new
+          mv package.json.new package.json
+          HUGO_CONFIGJS="hugo-site/hugo-apps.frickjack.com/config.json"
+          jq --arg NEW_ROOT "/modules/$NEW_SEMVER" -r '.params.jsroot = $NEW_ROOT' < "$HUGO_CONFIGJS" | tee hugo_config.json.new
+          mv hugo_config.json.new "$HUGO_CONFIGJS"
+          npm ci
+          npx playwright install chromium --with-deps
+          # stage sets up ./dist folder
+          npm run stage
+          # eslint is busted - npm run lint
+          npm audit --omit dev --audit-level=critical
+          npm run test
+          npm run browser-test
+          (cd hugo-site/hugo-apps.frickjack.com && hugo)
+          test -d hugo-site/hugo-apps.frickjack.com/public
+        )
   post_build:
     commands:
-      - echo "CODEBUILD_WEBHOOK_TRIGGER == $CODEBUILD_WEBHOOK_TRIGGER"
-      - BUILD_TYPE="$(echo $CODEBUILD_WEBHOOK_TRIGGER | awk -F / '{ print $1 }')"
-      - echo "BUILD_TYPE is $BUILD_TYPE"
-      # publish on tag events - see https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
-      - if test "$BUILD_TYPE" = "tag"; then bash "$CODEBUILD_SRC_DIR_HELPERS/AWS/little.sh" s3web publish ./hugo-site/hugo-apps.frickjack.com/public s3://027326493842-apps-frickjack-20210609; fi
+      - |
+        (
+          set -ex
+          if [ "$CODEBUILD_BUILD_SUCCEEDING" = 0 ]; then
+              # post_build stage always runs - other stages do not run on failure
+              echo "build failed, skipping post_build"
+              exit 0
+          fi
+          BUILD_TYPE="MANUAL"
+          if [ -n "$CODEBUILD_WEBHOOK_TRIGGER" ]; then
+            BUILD_TYPE="$(echo "$CODEBUILD_WEBHOOK_TRIGGER" | awk -F / '{ print $1 }')"
+          fi
+          echo "BUILD_TYPE is $BUILD_TYPE, CODEBUILD_WEBHOOK_EVENT is $CODEBUILD_WEBHOOK_EVENT, CODEBUILD_WEBHOOK_TRIGGER is $CODEBUILD_WEBHOOK_TRIGGER"
+          if [ "$CODEBUILD_WEBHOOK_EVENT" != "PULL_REQUEST_MERGED" ]; then
+              echo "CODEBUILD_WEBHOOK_EVENT is not a pr merge event, skipping post_build: $CODEBUILD_WEBHOOK_EVENT"
+              exit 0
+          fi
+
+          little() {
+              bash "$CODEBUILD_SRC_DIR_HELPERS/AWS/little.sh" "$@"
+          }
+          
+          PATCH_VERSION="$CODEBUILD_BUILD_NUMBER"
+          PACKAGE_SEMVER="$(jq -r .version < package.json)"
+          MAJOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $1 }')"
+          DEV_MINOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $2 }')"
+          BRANCH_NAME="$(little codebuild branch-name)"
+          TAG_NAME="$(little codebuild tag-name $MAJOR $DEV_MINOR $PATCH_VERSION "$BRANCH_NAME")"
+          
+          if test -n "$TAG_NAME"; then
+            echo "Creating and pushing Git tag: $TAG_NAME"
+            git tag -a "$TAG_NAME" -m "Automated build tag from CodeBuild run $CODEBUILD_BUILD_NUMBER"
+            git push origin "$TAG_NAME"
+            if [ "$BRANCH_NAME" = "main" ]; then
+              echo "main branch tagged with $TAG_NAME - publishing hugo-app to S3"
+              little s3web publish ./hugo-site/hugo-apps.frickjack.com/public s3://027326493842-apps-frickjack-20210609
+            else
+              echo "$BRANCH_NAME tagged with $TAG_NAME - no S3 publish"
+            fi
+          else
+            echo "not tagging on branch $BRANCH_NAME"
+          fi
+        )

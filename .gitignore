@@ -9,6 +9,7 @@
 *gif
 *ico
 *log
+*.lock
 .gradle/
 3rdParty/
 web/resources/img/glyphicons/
@@ -24,4 +25,4 @@ node_modules/
 /web/
 static-little-apps/
 public/
-
+.vscode/
