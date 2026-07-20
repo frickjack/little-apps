@@ -65,13 +65,11 @@ phases:
           MAJOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $1 }')"
           DEV_MINOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $2 }')"
           NEW_SEMVER="${MAJOR}.${DEV_MINOR}.${PATCH_VERSION}"
-          jq --arg NEW_SEMVER "$NEW_SEMVER" -r '.version = $NEW_SEMVER' < package.json | tee package.json.new
-          mv package.json.new package.json
+          npm version "$NEW_SEMVER" --no-git-tag-version
           HUGO_CONFIGJS="hugo-site/hugo-apps.frickjack.com/config.json"
           jq --arg NEW_ROOT "/modules/$NEW_SEMVER" -r '.params.jsroot = $NEW_ROOT' < "$HUGO_CONFIGJS" | tee hugo_config.json.new
-          mv hugo_config.json.new "$HUGO_CONFIGJS"
+          mv -f hugo_config.json.new "$HUGO_CONFIGJS"
           npm ci
-          npx playwright install chromium --with-deps
           # stage sets up ./dist folder
           npm run stage
           (cd hugo-site/hugo-apps.frickjack.com && hugo)
@@ -82,6 +80,7 @@ phases:
           fi
           # eslint is busted - npm run lint
           npm audit --omit dev --audit-level=critical
+          npx playwright install chromium --with-deps
           npm run test
           npm run browser-test
         )
