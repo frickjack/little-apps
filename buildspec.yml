@@ -54,8 +54,8 @@ phases:
             BUILD_TYPE="$(echo "$CODEBUILD_WEBHOOK_TRIGGER" | awk -F / '{ print $1 }')"
           fi
           echo "BUILD_TYPE is $BUILD_TYPE, CODEBUILD_WEBHOOK_EVENT is $CODEBUILD_WEBHOOK_EVENT, CODEBUILD_WEBHOOK_TRIGGER is $CODEBUILD_WEBHOOK_TRIGGER"
-          if [ "$BUILD_TYPE" = "tag" ] || [ "$CODEBUILD_WEBHOOK_EVENT" = "PULL_REQUEST_MERGED" ]; then
-            echo "skipping tests for tag or merge events"
+          if [ "$BUILD_TYPE" = "tag"]; then
+            echo "skipping build for tag events"
             exit 0
           fi
 
@@ -74,12 +74,16 @@ phases:
           npx playwright install chromium --with-deps
           # stage sets up ./dist folder
           npm run stage
+          (cd hugo-site/hugo-apps.frickjack.com && hugo)
+          test -d hugo-site/hugo-apps.frickjack.com/public
+          if [ "$BUILD_TYPE" = "tag"] || [ "$CODEBUILD_WEBHOOK_EVENT" = "PULL_REQUEST_MERGED" ]; then
+            echo "skipping tests for tag or merge events"
+            exit 0
+          fi
           # eslint is busted - npm run lint
           npm audit --omit dev --audit-level=critical
           npm run test
           npm run browser-test
-          (cd hugo-site/hugo-apps.frickjack.com && hugo)
-          test -d hugo-site/hugo-apps.frickjack.com/public
         )
   post_build:
     commands:
