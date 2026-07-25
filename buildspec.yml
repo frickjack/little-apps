@@ -112,9 +112,10 @@ phases:
           PATCH_VERSION="$CODEBUILD_BUILD_NUMBER"
           PACKAGE_SEMVER="$(jq -r .version < package.json)"
           MAJOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $1 }')"
-          DEV_MINOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $2 }')"
+          # package.json minor version was bumped in build above
+          DEV_MAJOR="$(echo "$PACKAGE_SEMVER" | awk -F . '{ print $2 }')"
           BRANCH_NAME="$(little codebuild branch-name)"
-          TAG_NAME="$(little codebuild tag-name $MAJOR $DEV_MINOR $PATCH_VERSION "$BRANCH_NAME")"
+          TAG_NAME="$(little codebuild tag-name $MAJOR $((DEV_MAJOR - 1)) $PATCH_VERSION "$BRANCH_NAME")"
           
           if test -n "$TAG_NAME"; then
             echo "Creating and pushing Git tag: $TAG_NAME"
