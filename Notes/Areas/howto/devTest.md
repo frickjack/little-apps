@@ -50,7 +50,7 @@ The `npm test` command runs a [jasmine](https://jasmine.github.io/index.html) te
 The hugo theme and content are under the `hugo-site/` folder.  The `npm hugo-stage` and `npm hugo-build` scripts stage the littleware javascript code under folder `hugo-site/hugo-apps.frickjack.com/static-little-apps/`.  Once that code is in place, then the normal `hugo` commands can be run from within `hugo-site/hugo-apps.frickjack.com/` folder to test and build the `public/` folder for distribution.
 
 ```
-npm run hugo-stage
+npm run stage
 npm run hugo
 ```
 
