@@ -68,15 +68,6 @@ The [buildspec.yml](../../buildspec.yml) file defines a [codebuild](https://aws.
 
 ## publish
 
-Before publishing a new version - be sure to update both the [package version](../../package.json) and the [release notes](../reference/releaseNotes.md).
-
 We do not publish this package to npm.
 
 The codebuild CICD pipeline publishes this package to the S3 bucket backing https://apps.frickjack.com when a new commit merges into github's main branch.
-```
-(
-  version="$(jq -r .version < package.json)"
-  git tag -a "$version" -m "release details in Notes/Areas/reference/releaseNotes.md#$version"
-  git push origin $version
-)
-```
