@@ -7,7 +7,6 @@ const sharp = require('sharp');
 const path = require('path');
 const { finished } = require('stream/promises'); // modern nodejs native streams - no merge2
 
-
 const config = { ... gulpHelper.defaultConfig };
 // configure nunjucks pages to load modules via
 // /modules/version instead of /modules
@@ -26,6 +25,7 @@ gulpHelper.defineTasks(gulp, config);
 
 const icoFolderPath = "web/site/resources/img/appIcons";
 const hugoFolder = "hugo-site/hugo-apps.frickjack.com/static-little-apps"
+const hugoPublicFolder = "hugo-site/hugo-apps.frickjack.com/public"
 gulp.task('makeIcoFolder', function(cb) {
     gulHelper.makeFolder(icoFolderPath).then(() => {cb();});
 });
@@ -60,7 +60,7 @@ gulp.task('makeIco', function() {
                         })
                         .catch(err => cb(err));
                 }))
-                .pipe(gulp.dest(`${icoFolderPath}/${rez}x${rez}`));
+                .pipe(gulp.dest(`${icoFolderPath}/${rez}x${rez}`, { encoding: false }));
         }).map(pipe => finished(pipe))
     );
 });
@@ -80,16 +80,16 @@ gulp.task('default', gulp.series('compile', function(done) {
 }));
 
 gulp.task('stage', gulp.series('little-stage', 'makeIco', function(done) {
-  return gulp.src(`${icoFolderPath}/**/*.png`
+  return gulp.src(`${icoFolderPath}/**/*.png`, { encoding: false }
     ).pipe(
-      gulp.dest(`${icoFolderPath.replace(/^web\/site/, 'dist')}/`)
+      gulp.dest(`${icoFolderPath.replace(/^web\/site/, 'dist')}/`, { encoding: false })
     );
 }));
 
 gulp.task('hugo-clean', gulp.series('little-clean', () => {
   console.log('Clean all files in web/, commonjs/, and site/ folders');
   return gulp.src(
-      [hugoFolder],
+      [hugoFolder, hugoPublicFolder],
       { read: false, allowEmpty: true }
    ).pipe(clean());
 }));
@@ -98,9 +98,9 @@ gulp.task('hugo-stage', gulp.series('hugo-clean', 'stage', function(){
   return Promise.all(
     ['modules', 'resources'].map(
       folderName =>
-        gulp.src([`./dist/${folderName}/**/*.*`]
+        gulp.src([`./dist/${folderName}/**/*.*`], { encoding: false }
         ).pipe(
-          gulp.dest(`${hugoFolder}/${folderName}`)
+          gulp.dest(`${hugoFolder}/${folderName}`, { encoding: false })
         )
       ).map(pipe => finished(pipe))
   );
@@ -111,9 +111,9 @@ gulp.task('hugo-build', gulp.series('little-compilets-web', function(){
   return Promise.all(
     ['lib', 'maps'].map(
       folderName =>
-        gulp.src([`./web/${folderName}/**/*.*`]
+        gulp.src([`./web/${folderName}/**/*.*`], { encoding: false }
         ).pipe(
-          gulp.dest(`${hugoFolder}${config.staging.jsroot}/${gulpHelper.package.name}/web/${folderName}`)
+          gulp.dest(`${hugoFolder}${config.staging.jsroot}/${gulpHelper.package.name}/web/${folderName}`, { encoding: false })
         )
       ).map(pipe => finished(pipe))
   );
