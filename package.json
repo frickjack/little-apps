@@ -45,6 +45,7 @@
   },
   "scripts": {
     "build": "gulp hugo-build",
+    "clean": "gulp hugo-clean",
     "jasmine": "jasmine --config=node_modules/@littleware/little-nodedev/spec/support/jasmine.json",
     "lint": "eslint -c node_modules/@littleware/little-nodedev/.eslintrc.js 'src'",
     "stage": "gulp hugo-stage && (test /modules/$npm_package_version = $(jq -r .params.jsroot < hugo-site/hugo-apps.frickjack.com/config.json) || (echo \"ERROR: version mismatch\"; false))",
